@@ -1,0 +1,5 @@
+{
+    "server_host": ["https://www.baidu.com","https://www.weibo.com"],
+    "wait_time": 0.5,
+    "actioncount": 5
+}

@@ -1,0 +1,116 @@
+{
+    "AdControl": {
+        "interstitial": [
+            {
+                "adID": "814097462057274_814097702057250",
+                "channel": "Facebook1",
+                "weight": 10,
+                "Cover": "false",
+                "interval": 60,
+                "ecpm": 6
+            },
+            {
+                "adID": "814097462057274_858745904259096",
+                "channel": "Facebook",
+                "weight": 10,
+                "Cover": "false",
+                "interval": 60,
+                "ecpm": 2
+            }
+        ],
+        "banner": [
+            {
+                "adID": "814097462057274_838243749642645",
+                "channel": "Facebook",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 2
+            },
+            {
+                "adID": "814097462057274_858746364259050",
+                "channel": "Facebook",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 2
+            },
+            {
+                "adID": "814097462057274_858746407592379",
+                "channel": "Facebook",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 2
+            }
+        ],
+        "native": [
+            {
+                "adID": "814097462057274_853994041400949",
+                "channel": "Facebook",
+                "weight": 10,
+                "interval": 120,
+                "ecpm": 9
+            }
+        ],
+        "rewardvideo": [
+            {
+                "adID": "17JMFLzX1GkJaA0gM7EvLWfhrg5Wg_Ai7T3Mq1vrId8to8T9Go2bIhI8NNf3NqmUIqs6rlx8N409CTJTKL4d2M",
+                "channel": "Applovin",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 4
+            },
+            {
+                "adID": "1462770",
+                "channel": "Unity",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 3
+            },
+            {
+                "adID": "237470269973217_450722011981374",
+                "channel": "Facebook3",
+                "weight": 10,
+                "interval": 60,
+                "ecpm": 2
+            }
+        ]
+    },
+    "ConfigConstant": {
+        "delayToNextCache": "60",
+        "tryCacheTimes": "0",
+        "delayToChangeText": "5",
+        "foregroundAdCD": "120",
+        "openNativeBannerAddition": "1",
+        "interstitialTimeCD": "90",
+        "interstitialCD": "0",
+        "bannerTimeCD": "15",
+        "bannerRefreshTime": "30",
+        "aolBannerRefreshTime": "30",
+        "nativeMenuTimeCD": "180",
+        "discardInterstitial": "1800",
+        "discardBanner": "1800",
+        "discardNative": "1800",
+        "discardMenu": "1800",
+        "discardVideo": "1800",
+        "discardRewardVideo": "1800",
+        "OpenAd": "5",
+        "weightGroup": "default"
+    },
+    "nativeAdTemplate": [
+        {
+            "key": "7",
+            "weight": 10,
+            "isFull": false,
+            "clickArea": 1
+        },
+        {
+            "key": "8",
+            "weight": 10,
+            "isFull": false,
+            "clickArea": 1
+        }
+    ],
+    "config": {
+        "weightGroup": "-1",
+        "condition": null
+    }
+}

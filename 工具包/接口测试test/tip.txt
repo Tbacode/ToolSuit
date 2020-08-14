@@ -1,0 +1,2 @@
+http://ttapi.research.itcast.cn/app/v1_0/authorizations 线上登陆地址
+http://ttapi.research.itcast.cn/app/v1_0/sms/codes/:mobile 验证码获取地址

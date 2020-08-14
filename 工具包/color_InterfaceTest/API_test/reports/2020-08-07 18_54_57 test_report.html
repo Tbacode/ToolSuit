@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>TapColor API Test Report</title>
+
+    <meta name="generator" content="BSTestRunner 0.8.4"/>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+    
+
+<style type="text/css" media="screen">
+
+
+
+/* -- css div popup ------------------------------------------------------------------------ */
+
+.popup_window {
+
+    display: none;
+
+    position: relative;
+
+    left: 0px;
+
+    top: 0px;
+
+    /*border: solid #627173 1px; */
+
+    padding: 10px;
+
+    background-color: #99CCFF;
+
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+
+    text-align: left;
+
+    font-size: 10pt;
+
+    width: 500px;
+
+}
+
+
+
+/* -- report ------------------------------------------------------------------------ */
+
+
+
+#show_detail_line .label {
+
+    font-size: 85%;
+
+    cursor: pointer;
+
+}
+
+
+
+#show_detail_line {
+
+    margin: 2em auto 1em auto;
+
+}
+
+
+
+#total_row  { font-weight: bold; }
+
+.hiddenRow  { display: none; }
+
+.testcase   { margin-left: 2em; }
+
+
+
+</style>
+
+
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+
+  </head>
+
+<body>
+
+<script language="javascript" type="text/javascript"><!--
+
+output_list = Array();
+
+
+
+/* level - 0:Summary; 1:Failed; 2:All */
+
+function showCase(level) {
+
+    trs = document.getElementsByTagName("tr");
+
+    for (var i = 0; i < trs.length; i++) {
+
+        tr = trs[i];
+
+        id = tr.id;
+
+        if (id.substr(0,2) == 'ft') {
+
+            if (level < 1) {
+
+                tr.className = 'hiddenRow';
+
+            }
+
+            else {
+
+                tr.className = '';
+
+            }
+
+        }
+
+        if (id.substr(0,2) == 'pt') {
+
+            if (level > 1) {
+
+                tr.className = '';
+
+            }
+
+            else {
+
+                tr.className = 'hiddenRow';
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+function showClassDetail(cid, count) {
+
+    var id_list = Array(count);
+
+    var toHide = 1;
+
+    for (var i = 0; i < count; i++) {
+
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+
+        tid = 'f' + tid0;
+
+        tr = document.getElementById(tid);
+
+        if (!tr) {
+
+            tid = 'p' + tid0;
+
+            tr = document.getElementById(tid);
+
+        }
+
+        id_list[i] = tid;
+
+        if (tr.className) {
+
+            toHide = 0;
+
+        }
+
+    }
+
+    for (var i = 0; i < count; i++) {
+
+        tid = id_list[i];
+
+        if (toHide) {
+
+            document.getElementById('div_'+tid).style.display = 'none'
+
+            document.getElementById(tid).className = 'hiddenRow';
+
+        }
+
+        else {
+
+            document.getElementById(tid).className = '';
+
+        }
+
+    }
+
+}
+
+
+
+
+
+function showTestDetail(div_id){
+
+    var details_div = document.getElementById(div_id)
+
+    var displayState = details_div.style.display
+
+    // alert(displayState)
+
+    if (displayState != 'block' ) {
+
+        displayState = 'block'
+
+        details_div.style.display = 'block'
+
+    }
+
+    else {
+
+        details_div.style.display = 'none'
+
+    }
+
+}
+
+
+
+
+
+function html_escape(s) {
+
+    s = s.replace(/&/g,'&amp;');
+
+    s = s.replace(/</g,'&lt;');
+
+    s = s.replace(/>/g,'&gt;');
+
+    return s;
+
+}
+
+
+
+/* obsoleted by detail in <div>
+
+function showOutput(id, name) {
+
+    var w = window.open("", //url
+
+                    name,
+
+                    "resizable,scrollbars,status,width=800,height=450");
+
+    d = w.document;
+
+    d.write("<pre>");
+
+    d.write(html_escape(output_list[id]));
+
+    d.write("\n");
+
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+
+    d.write("</pre>\n");
+
+    d.close();
+
+}
+
+*/
+
+--></script>
+
+
+
+<div class="container">
+
+    <div class='heading'>
+
+<h1>TapColor API Test Report</h1>
+
+<p><strong>Start Time:</strong> 2020-08-07 18:54:57</p>
+
+<p><strong>Duration:</strong> 0:01:50.932083</p>
+
+<p><strong>Status:</strong> <span class="text text-success">Pass <strong>109</strong></span></p>
+
+
+
+<p class='description'>TapColor API Test Report</p>
+
+</div>
+
+
+
+
+
+    
+
+<p id='show_detail_line'>
+
+<span class="label label-primary" onclick="showCase(0)">Summary</span>
+
+<span class="label label-danger" onclick="showCase(1)">Failed</span>
+
+<span class="label label-default" onclick="showCase(2)">All</span>
+
+</p>
+
+<table id='result_table' class="table">
+
+    <thead>
+
+        <tr id='header_row'>
+
+            <th>Test Group/Test case</td>
+
+            <th>Count</td>
+
+            <th>Pass</td>
+
+            <th>Fail</td>
+
+            <th>Error</td>
+
+            <th>View</td>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getBannerConfig.GetBannerConfig: GetBannerconfig API测试</td>
+
+    <td>10</td>
+
+    <td>10</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c1',10)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt1.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_dateError: 测试日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_ios_dateError: 测试IOS 日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_ios_listType: 验证IOS bannerList下是否格式正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_ios_success: 测试IOS getBannerConfig接口成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_ios_type: 验证IOS 返回值格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_listType: 验证bannerList下是否格式正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_success: 测试getBannerConfig接口成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getBannerConfig_type: 验证返回值格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getDailyList.GetDailyList: DailyList API测试</td>
+
+    <td>18</td>
+
+    <td>18</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c2',18)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt2.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_dateError: 测试日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_dateNone: 测试参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_enddateError: 测试结束日期大于开始日期</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_dateError: 测试IOS 日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_dateNone: 测试IOS 参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_enddateError: 测试IOS结束日期大于开始日期</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_isAssKeyword: 验证IOS 图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_isPicKeyword: 验证IOS 图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_picList_type: 验证IOS 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_success: 测试IOS daily成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.13' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_isAssKeyword: 验证图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.14' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_isPicKeyword: 验证图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.15' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_picList_type: 验证图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.16' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.17' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_success: 测试daily成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt2.18' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_daily_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getDeeplinkPicConfig.GetDeeplinkPicConfig: GetDeeplinkPicConfig API 测试</td>
+
+    <td>16</td>
+
+    <td>16</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c3',16)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt3.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_dateError: 测试日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_eventNone: 测试参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_event_id: 验证返回活动id是否于请求参数相同</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_dateError: 测试IOS 日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_eventNone: 测试IOS参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_event_id: 验证IOS 返回活动id是否于请求参数相同</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_isAssKeyword: 验证IOS 活动资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_isPicKeyword: 验证IOS 活动数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_picList_type: 验证IOS 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_isAssKeyword: 验证活动资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.13' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_isPicKeyword: 验证活动数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.14' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_picList_type: 验证图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.15' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt3.16' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getDeeplinkPicConfig_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getGalleryList.GetGalleryList: GalleryList API测试</td>
+
+    <td>18</td>
+
+    <td>18</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c4',18)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt4.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_dateError: 测试日期数据错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_dateError: 测试IOS 日期数据错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_isAssKeyword: 验证IOS 图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_isPicKeyword: 验证IOS 图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_picList_type: 验证IOS 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_pictypeError: 测试IOS 图片分类为空</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_pictype_check: 验证IOS 图片类型是否符合请求</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_requestError: 测试IOS request参数异常</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_success: 测试IOS gallery成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_isAssKeyword: 验证图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_isPicKeyword: 验证图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.13' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_picList_type: 验证图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.14' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_pictypeError: 测试图片分类为空</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.15' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_pictype_check: 验证图片类型是否符合请求</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.16' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_requestError: 测试request参数异常</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.17' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_success: 测试gallery成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt4.18' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_gallery_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getGroupConfig.GetGroupConfig: GroupConfig API测试</td>
+
+    <td>9</td>
+
+    <td>9</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c5',9)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt5.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_IdError: 测试ID错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_OsTypeError: 测试os_type错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_dateError: 测试时间格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_ios_IdError: 测试IOS ID错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_ios_dateError: 测试IOS 时间格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_ios_success: 测试IOS Group成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_Group_success: 测试Group成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getGroupConfig_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt5.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getGroupConfig_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getLanguage.GetLanguage: Language API测试</td>
+
+    <td>10</td>
+
+    <td>10</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c6',10)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt6.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_dateError: 测试日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_ios_dateError: 测试IOS 日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_ios_languageNone: 测试IOS 参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_ios_success: 测试IOS Language成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_languageNone: 测试参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_success: 测试Language成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt6.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getLanguage_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getNewsConfig.GetNewsConfig: GetNewsConfig API测试</td>
+
+    <td>12</td>
+
+    <td>12</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c7',12)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt7.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_actDayNone: 测试参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_dateError: 测试日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_actDayNone: 测试IOS 参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_dateError: 测试IOS 日期格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_newsListType: 验证IOS event数据是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_success: 测试IOS getNewsConfig成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_newsListType: 验证event数据是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_success: 测试getNewsConfig成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt7.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr class='text text-success'>
+
+    <td>tapcolor_api_getTargetPicList.GetTargetPicList: GetTargetPicList API 测试</td>
+
+    <td>16</td>
+
+    <td>16</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c8',16)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt8.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_actDayNone: 测试参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_dateError: 测试时间格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_actDayNone: 测试IOS 参数缺失</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_dateError: 测试IOS 时间格式错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_isAssKeyword: 验证IOS 图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_isPicKeyword: 验证IOS 图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_picList_type: 验证IOS 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_requestsError: 测试IOS requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_success: 测试IOS getNewsConfig成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_ios_type: 验证IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_isAssKeyword: 验证图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_isPicKeyword: 验证图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.13' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_picList_type: 验证图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.14' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_requestsError: 测试requests错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.15' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_success: 测试getNewsConfig成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt8.16' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_getNewsConfig_type: 验证返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+    </tbody>
+
+    <tfoot>
+
+        <tr id='total_row'>
+
+            <td>Total</td>
+
+            <td>109</td>
+
+            <td class="text text-success">109</td>
+
+            <td class="text text-danger">0</td>
+
+            <td class="text text-warning">0</td>
+
+            <td>&nbsp;</td>
+
+        </tr>
+
+    </tfoot>
+
+</table>
+
+
+
+    <div id='ending'>&nbsp;</div>
+
+</div>
+
+
+
+</body>
+
+</html>
+

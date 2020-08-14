@@ -1,0 +1,152 @@
+{
+	"GameChoosen":{
+		"popcolor": {
+			"PackageName": "com.relax.coloring.games.color.by.number.colourpop",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/popcolor/android/release",
+				"debug": "share/popcolor/android/debug"
+			}
+		},
+		"tapcolor-zh": {
+			"PackageName": "com.pixel.art.coloring.by.number.zh",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/tapcolor/android/release",
+				"debug": "share/tapcolor/android/debug"
+			}
+		},
+		"tapcolor": {
+			"PackageName": "com.pixel.art.coloring.by.number",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/tapcolor/android/release",
+				"debug": "share/tapcolor/android/debug"
+			}
+		},
+		"doodlecolor": {
+			"PackageName": "com.coloring.games.doodle.paint.number",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefunftp123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/doodlecolor/android/release",
+				"debug": "share/doodlecolor/android/debug"
+			}
+		},
+		"angryballs": {
+			"PackageName": "com.ball.games.shooter.puzzle",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefunftp123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/angryballs/android/release",
+				"debug": "share/angryballs/android/debug"
+			}
+		},
+		"Nonogram": {
+			"PackageName": "com.game.puzzle.nonogram",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/nonogram/android/release",
+				"debug": "share/nonogram/android/debug"
+			}
+		},
+		"MakeBricks": {
+			"PackageName": "com.hulei.arcade.swipe.ball",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/swpiebrick/android/release",
+				"debug": "share/swpiebrick/android/debug"
+			}
+		},
+		"block": {
+			"PackageName": "com.game.hexa.animation.images.picture.jigsaw.block.puzzle",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/swpiebrick/android/release",
+				"debug": "share/swpiebrick/android/debug"
+			}
+		},
+		"bvb": {
+			"PackageName": "com.acoin.ballz.bricks.breaker",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/swpiebrick/android/release",
+				"debug": "share/swpiebrick/android/debug"
+			}
+		},
+		"bbs": {
+			"PackageName": "com.ball.brick.star",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/swpiebrick/android/release",
+				"debug": "share/swpiebrick/android/debug"
+			}
+		},
+		"lite": {
+			"PackageName": "coloring.color.number.happy.paint.art.drawing.puzzle",
+			"FtpAddress": {
+				"ip": "192.168.2.3",
+				"userName": "ftpuser",
+				"Password": "talefun123",
+				"acct": "2001"
+			},
+			"android": {
+				"release": "share/swpiebrick/android/release",
+				"debug": "share/swpiebrick/android/debug"
+			}
+		}
+	},
+	"Data":{
+		"GameIndex":"0",
+		"Build":"0",
+		"PackageName":"TapColor-1.8.9"
+	}
+}

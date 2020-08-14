@@ -1,0 +1,61 @@
+adb shell monkey -p your.package.name -v 500 --throttle 100
+
+'''
+典型的命令行示例，它启动指定的应用程序，并向其发送500个伪随机事件
+
+
+填色游戏命令：
+adb shell monkey -p com.pixel.art.coloring.by.number -v 10000 --pct-trackball 50  --throttle 900 >C:/Users/MrRedBoY/Desktop/money.txt
+
+
+-p 表示对象包 
+-v 表示反馈信息级别 -v -v
+--throttle <毫秒>    指定用户操作（即事件）间的时延  
+
+–-pct-touch 50 点击
+–-pct-motion 50  移动  
+--pct-trackball 轨迹事件：随机的移动组成，有时还伴随有点击
+
+
+Monkey Test执行过程中在下列三种情况下会自动停止：
+
+1、如果限定了Monkey运行在一个或几个特定的包上，那么它会监测试图转到其它包的操作，并对其进行阻止。
+
+2、如果应用程序崩溃或接收到任何失控异常，Monkey将停止并报错。
+
+3、如果应用程序产生了应用程序不响应(application not responding)的错误，Monkey将会停止并报错。
+
+
+--ignore-crashes
+
+通常，当应用程序崩溃或发生任何失控异常时，Monkey将停止运行。如果设置此选项，Monkey将继续向系统发送事件，直到计数完成。
+
+异常情况
+
+Monkey 测试出现错误后，一般的分析步骤
+看Monkey的日志 (注意第一个swith以及异常信息等)
+1. 程序无响应的问题: 在日志中搜索 “ANR”
+2. 崩溃问题：在日志中搜索 “Exception”   (如果出现空指针， NullPointerException)  肯定是有bug
+
+
+
+查看所有包
+adb shell
+#cd data/data
+#ls
+
+下面的命令是将日志信息输出到以“日期 时间”命名的文件中
+    adb logcat > "YourPaty\%date:~0,4%-%date:~5,2%-%date:~8,2% %time:~0,2%时%time:~3,2%分%time:~6,2%.log"
+下面的命令是将打点log输出到cmd中
+    adb logcat | find "打点关键字"  # eg： adb logcat | find "UnityEventSend"
+
+tapcolor 抓包
+    http://cdn-tapcolor.talefun.com/release/datafile/like_count.zip 
+
+aab包安装命令
+    java -jar bundletool-all-0.11.0.jar build-apks --bundle=Ballz_vs_Bricks.aab --output=bbb.apks --ks=ballzbricks --ks-pass=pass:acoingame --ks-key-alias=key0 --key-pass=pass:acoingame
+
+
+    java -jar bundletool-all-0.11.0.jar  install-apks --apks=bbb.apks
+
+    

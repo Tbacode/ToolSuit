@@ -1,0 +1,120 @@
+{
+  "AdControl": {
+    "banner": [
+      {
+        "adID": "814097462057274_838243749642645",
+        "channel": "Facebook",
+        "ecpm": 2,
+        "interval": 60,
+        "weight": 10
+      },
+      {
+        "adID": "814097462057274_858746364259050",
+        "channel": "Facebook",
+        "ecpm": 2,
+        "interval": 60,
+        "weight": 10
+      },
+      {
+        "adID": "814097462057274_858746407592379",
+        "channel": "Facebook",
+        "ecpm": 2,
+        "interval": 60,
+        "weight": 10
+      }
+    ],
+    "interstitial": [
+      {
+        "Cover": "false",
+        "adID": "814097462057274_814097702057250",
+        "channel": "Facebook1",
+        "ecpm": 6,
+        "interval": 60,
+        "weight": 10
+      },
+      {
+        "Cover": "false",
+        "adID": "814097462057274_858745904259096",
+        "channel": "Facebook",
+        "ecpm": 2,
+        "interval": 60,
+        "weight": 10
+      }
+    ],
+    "native": [
+      {
+        "adID": "814097462057274_853994041400949",
+        "channel": "Facebook",
+        "ecpm": 9,
+        "interval": 120,
+        "weight": 10
+      }
+    ],
+    "rewardvideo": [
+      {
+        "adID": "17JMFLzX1GkJaA0gM7EvLWfhrg5Wg_Ai7T3Mq1vrId8to8T9Go2bIhI8NNf3NqmUIqs6rlx8N409CTJTKL4d2M",
+        "channel": "Applovin",
+        "ecpm": 4,
+        "interval": 60,
+        "weight": 10
+      },
+      {
+        "adID": "1462770",
+        "channel": "Unity",
+        "ecpm": 3,
+        "interval": 60,
+        "weight": 10
+      },
+      {
+        "adID": "237470269973217_450722011981374",
+        "channel": "Facebook3",
+        "ecpm": 2,
+        "interval": 60,
+        "weight": 10
+      }
+    ]
+  },
+  "ConfigConstant": {
+    "OpenAd": "5",
+    "aolBannerRefreshTime": "30",
+    "bannerRefreshTime": "30",
+    "bannerTimeCD": "15",
+    "config010": "https://sites.google.com/site/smooteprivacypolicy/",
+    "config011": "13",
+    "config012": "facebook",
+    "config013": "true",
+    "delayToChangeText": "5",
+    "delayToNextCache": "60",
+    "discardBanner": "1800",
+    "discardInterstitial": "1800",
+    "discardMenu": "1800",
+    "discardNative": "1800",
+    "discardRewardVideo": "1800",
+    "discardVideo": "1800",
+    "foregroundAdCD": "120",
+    "interstitialCD": "0",
+    "interstitialTimeCD": "90",
+    "nativeMenuTimeCD": "180",
+    "openNativeBannerAddition": "1",
+    "tryCacheTimes": "0",
+    "weightGroup": "default"
+  },
+  "config": {
+    "condition": null,
+    "weightGroup": "-1"
+  },
+  "nativeAdTemplate": [
+    {
+      "clickArea": 1,
+      "isFull": false,
+      "key": "7",
+      "weight": 10
+    },
+    {
+      "clickArea": 1,
+      "isFull": false,
+      "key": "8",
+      "weight": 10
+    }
+  ]
+}
