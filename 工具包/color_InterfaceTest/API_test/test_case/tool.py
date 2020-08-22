@@ -2,9 +2,11 @@
 @Descripttion: 增加工具类，放入公用方法
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 18:19:39
+LastEditors: Tommy
+LastEditTime: 2020-08-23 01:39:50
 '''
+import base64
+from Crypto.Cipher import AES
 
 
 class Tool(object):
@@ -121,6 +123,22 @@ class Tool(object):
             if pic_Class not in data[item]['picClass']:
                 return False
         return True
+
+    def AES_Decrypt(aes_key, data):
+        # data = data.encode('utf8')
+        # 将加密数据转换位bytes类型数据
+        encodebytes = base64.b64decode(data)
+        vi = encodebytes[:16]
+        test_encodebytes = encodebytes[16:]
+        cipher = AES.new(aes_key.encode("utf-8"), AES.MODE_CBC, vi)
+
+        text_decrypted = cipher.decrypt(test_encodebytes)
+        # 去补位
+        unpad = lambda s: s[0:-s[-1]]
+
+        text_decrypted = unpad(text_decrypted)
+        text_decrypted = text_decrypted.decode('utf8')
+        return text_decrypted
 
 
 if __name__ == '__main__':
