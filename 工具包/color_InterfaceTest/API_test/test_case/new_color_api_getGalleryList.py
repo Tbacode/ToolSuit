@@ -3,7 +3,7 @@ Description: new color GetGalleryAPI测试
 Autor: Tommy
 Date: 2020-08-23 01:24:37
 LastEditors: Tommy
-LastEditTime: 2020-08-23 01:55:04
+LastEditTime: 2020-08-23 13:24:01
 '''
 import unittest
 import requests

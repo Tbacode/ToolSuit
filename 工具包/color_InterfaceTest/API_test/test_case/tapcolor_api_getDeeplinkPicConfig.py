@@ -2,13 +2,14 @@
 @Descripttion: getDeeplinkPicConfig接口APItest脚本
 @Author: Tommy
 @Date: 2020-07-17 11:35:59
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 18:06:06
+LastEditors: Tommy
+LastEditTime: 2020-08-18 10:53:48
 '''
 import unittest
 import requests
 import time
 import json
+import random
 from tool import Tool
 
 
@@ -18,8 +19,10 @@ class GetDeeplinkPicConfig(unittest.TestCase):
     def setUpClass(cls):
         with open("config.json", 'r') as f:
             cls.value_dict = json.load(f)
+        cls.event_list = Tool.get_event_id(cls.value_dict['event_url'])
 
     def setUp(self):
+        event_index = random.randint(0, len(self.__class__.event_list) - 1)
         self.game_date = time.strftime("%Y%m%d", time.localtime())
         self.url = ''.join(
             [self.__class__.value_dict['url'], 'getDeeplinkPicConfig_v1'])
@@ -30,7 +33,8 @@ class GetDeeplinkPicConfig(unittest.TestCase):
             "register_date": self.__class__.value_dict['register_date'],
             "game_date": self.game_date,
             "game_actDay": self.__class__.value_dict['game_actDay'],
-            "event_id": "CLGPUWSbDD"
+            # "event_id": "CLGPUWSbDD",
+            "event_id": self.__class__.event_list[event_index]['event_id']
         }
 
     # def test_getDeeplinkPicConfig_content(self):
@@ -50,7 +54,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['error_code'], 666)
+        self.assertEqual(result['error_code'], 666, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(
             result['error_msg'],
             "path: game_date, error: game_date must have a length between 8 and 8."
@@ -63,7 +67,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['error_code'], 666)
+        self.assertEqual(result['error_code'], 666, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(
             result['error_msg'],
             "path: game_date, error: game_date must have a length between 8 and 8."
@@ -96,7 +100,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['error_code'], 666)
+        self.assertEqual(result['error_code'], 666, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(result['error_msg'],
                          "path: event_id, error: event_id is required.")
 
@@ -107,7 +111,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['error_code'], 666)
+        self.assertEqual(result['error_code'], 666, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(result['error_msg'],
                          "path: event_id, error: event_id is required.")
 
@@ -116,7 +120,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertIsInstance(result, dict)
 
     def test_getDeeplinkPicConfig_ios_type(self):
@@ -125,7 +129,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertIsInstance(result, dict)
 
     def test_getDeeplinkPicConfig_picList_type(self):
@@ -133,7 +137,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_type(result['data']['picList'], dict))
 
     def test_getDeeplinkPicConfig_ios_picList_type(self):
@@ -142,7 +146,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_type(result['data']['picList'], dict))
 
     def test_getDeeplinkPicConfig_isPicKeyword(self):
@@ -151,7 +155,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_isKeyword(result['data']['picList'],
                                              keylist),
                         msg="活动关键字缺失")
@@ -163,7 +167,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_isKeyword(result['data']['picList'],
                                              keylist),
                         msg="活动关键字缺失")
@@ -173,7 +177,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(result['data']['eventId'], self.params['event_id'])
 
     def test_getDeeplinkPicConfig_ios_event_id(self):
@@ -181,7 +185,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertEqual(result['data']['eventId'], self.params['event_id'])
 
     def test_getDeeplinkPicConfig_isAssKeyword(self):
@@ -190,7 +194,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_isKeyword(
             result['data']['picList'][0]['deeplinkPicAsset'], keylist),
                         msg="资源关键字缺失")
@@ -202,7 +206,7 @@ class GetDeeplinkPicConfig(unittest.TestCase):
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
-        self.assertEqual(result['errorCode'], -1)
+        self.assertEqual(result['errorCode'], -1, msg="event_id = {}".format(self.params['event_id']))
         self.assertTrue(Tool.check_isKeyword(
             result['data']['picList'][0]['deeplinkPicAsset'], keylist),
                         msg="资源关键字缺失")

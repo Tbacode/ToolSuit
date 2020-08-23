@@ -2,8 +2,8 @@
 @Descripttion: getTargetPicList接口APItest脚本
 @Author: Tommy
 @Date: 2020-07-17 11:49:37
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 18:05:14
+LastEditors: Tommy
+LastEditTime: 2020-08-21 18:26:08
 '''
 import unittest
 import requests
@@ -24,6 +24,7 @@ class GetTargetPicList(unittest.TestCase):
         self.url = ''.join(
             [self.__class__.value_dict['url'], 'getTargetPicList_v1'])
         # self.url = 'https://tapcolor-lite.weplayer.cc/getBannerConfig?'
+        # pic_list测试数据不能只有一个
         self.params = {
             "game_ver": self.__class__.value_dict['game_ver'],
             "os_type": self.__class__.value_dict['os_type'],
@@ -49,8 +50,9 @@ class GetTargetPicList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertEqual(result['data']['picLength'],
-                         len(self.params['pic_list'].split(',')))
+        self.assertEqual(
+            result['data']['picLength'],
+            len(self.params['pic_list'].split(',')))  # 测试数据不能为一个，否则报错
 
     def test_getNewsConfig_ios_success(self):
         '''测试IOS getNewsConfig成功'''
@@ -167,7 +169,7 @@ class GetTargetPicList(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder"
         ]
         r = requests.get(self.url, params=self.params)
         result = r.json()
@@ -182,7 +184,7 @@ class GetTargetPicList(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder"
         ]
         self.params['os_type'] = "Ios"
         r = requests.get(self.url, params=self.params)

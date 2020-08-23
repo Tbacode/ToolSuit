@@ -2,8 +2,8 @@
 @Descripttion: getGallery接口APItest脚本
 @Author: Tommy
 @Date: 2020-05-27 16:38:30
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 18:14:29
+LastEditors: Tommy
+LastEditTime: 2020-08-13 10:57:31
 '''
 import unittest
 import requests
@@ -230,7 +230,7 @@ class GetGalleryList(unittest.TestCase):
             "Places", "Nature", "Message", "Mosaic", "Mandala", "Other"
         ]
         self.params['pic_type'] = pictype_list[random.randint(
-            0, len(pictype_list))]
+            0, len(pictype_list) - 1)]
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言
@@ -246,7 +246,7 @@ class GetGalleryList(unittest.TestCase):
             "Places", "Nature", "Message", "Mosaic", "Mandala", "Other"
         ]
         self.params['pic_type'] = pictype_list[random.randint(
-            0, len(pictype_list))]
+            0, len(pictype_list) - 1)]
         self.params['os_type'] = "Ios"
         r = requests.get(self.url, params=self.params)
         result = r.json()

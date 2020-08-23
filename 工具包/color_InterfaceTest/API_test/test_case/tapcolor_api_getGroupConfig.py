@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-06-12 15:52:55
 LastEditors: Tommy
-LastEditTime: 2020-08-12 18:48:07
+LastEditTime: 2020-08-13 10:58:08
 '''
 import unittest
 import requests
@@ -40,7 +40,7 @@ class GetGroupConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']), 0, msg='groupID = {}'.format(self.params['group_id']))
+        self.assertNotEqual(len(result['data']), 0, msg="GourpID = {}".format(self.params['group_id']))
         self.assertEqual(len(result['errorMsg']), 0)
 
     def test_Group_ios_success(self):
@@ -50,7 +50,7 @@ class GetGroupConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']), 0, msg='groupID = {}'.format(self.params['group_id']))
+        self.assertNotEqual(len(result['data']), 0, msg="GourpID = {}".format(self.params['group_id']))
         self.assertEqual(len(result['errorMsg']), 0)
 
     def test_Group_IdError(self):

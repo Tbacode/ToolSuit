@@ -2,8 +2,8 @@
 @Descripttion: getNewsConfig接口APItest脚本
 @Author: Tommy
 @Date: 2020-07-16 16:46:09
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 17:09:51
+LastEditors: Tommy
+LastEditTime: 2020-08-13 11:01:46
 '''
 import unittest
 import requests
@@ -48,7 +48,7 @@ class GetNewsConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['newsList']), 0)
+        self.assertNotEqual(len(result['data']['newsList']), 0, msg="newslist数据为空")
 
     def test_getNewsConfig_ios_success(self):
         '''测试IOS getNewsConfig成功'''
@@ -56,7 +56,7 @@ class GetNewsConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['newsList']), 0)
+        self.assertNotEqual(len(result['data']['newsList']), 0, msg="newslist数据为空")
 
     def test_getNewsConfig_requestsError(self):
         '''测试requests错误'''

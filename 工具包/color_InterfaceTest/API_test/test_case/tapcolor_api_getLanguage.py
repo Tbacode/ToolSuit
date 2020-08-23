@@ -2,8 +2,8 @@
 @Descripttion: getLanguage接口APItest脚本
 @Author: Tommy
 @Date: 2020-06-02 16:01:55
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 18:01:24
+LastEditors: Tommy
+LastEditTime: 2020-08-13 11:01:05
 '''
 import unittest
 import requests
@@ -50,7 +50,7 @@ class GetLanguage(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['language']), 0)
+        self.assertNotEqual(len(result['data']['language']), 0, msg="language数据为空")
 
     def test_getLanguage_ios_success(self):
         '''测试IOS Language成功'''
@@ -59,7 +59,7 @@ class GetLanguage(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['language']), 0)
+        self.assertNotEqual(len(result['data']['language']), 0, msg="language数据为空")
 
     def test_getLanguage_languageNone(self):
         '''测试参数缺失'''
@@ -136,7 +136,7 @@ class GetLanguage(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['language']), 0)
+        self.assertNotEqual(len(result['data']['language']), 0, msg="language数据为空")
         self.assertIsInstance(result['data']['language'], dict)
 
     def test_getLanguage_ios_type(self):
@@ -146,7 +146,7 @@ class GetLanguage(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['language']), 0)
+        self.assertNotEqual(len(result['data']['language']), 0, msg="language数据为空")
         self.assertIsInstance(result['data']['language'], dict)
 
 

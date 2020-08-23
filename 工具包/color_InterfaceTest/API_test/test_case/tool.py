@@ -3,8 +3,14 @@
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
 LastEditors: Tommy
-LastEditTime: 2020-08-23 01:39:50
+LastEditTime: 2020-08-23 13:25:13
 '''
+import json
+import requests
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+from email.header import Header
+import smtplib
 import base64
 from Crypto.Cipher import AES
 
@@ -124,13 +130,78 @@ class Tool(object):
                 return False
         return True
 
-    def AES_Decrypt(aes_key, data):
-        # data = data.encode('utf8')
+    # async def get_media_id(report_dir):
+    #    report_dir = './reports/2020-08-11 15_54_13 test_report.txt'
+    #    url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/upload_media?key=5aae35f3-110c-4729-b776-8ad6413127db&type=file'
+    #    media_id = ""
+    #    async with aiohttp.ClientSession() as session:
+    #        data = aiohttp.FormData()
+    #        data.add_field('file_1', open(report_dir, 'rb'), filename='testReport.txt',content_type='multipart/form-data')
+    #        async with session.post(url, data=data) as resp:
+    #            print(await resp.text())
+    #            mytext = asyncio.run(self.send_request())
+    #            media_id = json.loads(mytext)['media_id']
+    #            return media_id
+
+    # async def send_request():
+    #    async with aiohttp.ClientSession() as session:
+    #        data = aiohttp.FormData()
+    #        data.add_field('file_1', open(report_dir, 'rb'), filename='testReport.txt',
+    #                       content_type='multipart/form-data')
+    #        async with session.post(url, data=data) as resp:
+    #            print(await resp.text())
+    #            return await resp.text()
+
+    # 企业微信发送
+    def call_wechat_media(url, media_id):
+        data_report = {"msgtype": "file", "file": {"media_id": media_id}}
+        data_json = json.dumps(data_report)  # dumps：将python对象解码为json数据
+        requests.post(url, data_json)
+
+    def call_wechat_txt(url, txt_data):
+        data_report = {"msgtype": "text", "text": {"content": txt_data}}
+        data_json = json.dumps(data_report)  # dumps：将python对象解码为json数据
+        requests.post(url, data_json)
+
+    # 邮件发送
+    def send_mail(file_new, receiver_list):
+        user = '875932826'
+        pwd = 'hbuoqldeufbxbbhj'
+        sender = '875932826@qq.com'
+        receiver_list = ['xt875932826@126.com']
+        '''定义发送邮件'''
+        f = open(file_new, 'rb')
+        mail_body = f.read()
+        f.close()
+        sendfile = open(file_new, 'rb').read()
+
+        att = MIMEText(sendfile, 'base64', 'utf-8')
+        att["Content-Type"] = 'application/octet-stream'
+        att["Content-Disposition"] = 'attachment; filename="report.html"'
+
+        msgRoot = MIMEMultipart()
+        msgRoot.attach(MIMEText(mail_body, 'html', 'utf-8'))
+        msgRoot['Subject'] = Header("自动化测试报告", 'utf-8')
+        msgRoot.attach(att)
+
+        smtp = smtplib.SMTP_SSL('smtp.qq.com', 465)
+        smtp.login(user, pwd)
+        for x in receiver_list:
+            smtp.sendmail(sender, x, msgRoot.as_string())
+        print('email has send out')
+
+    def get_event_id(url: str) -> dict:
+        r = requests.get(url=url)
+        result = r.json()
+        return result
+
+    def AES_Decrypt(key, data):
+        data = data.encode('utf8')
         # 将加密数据转换位bytes类型数据
         encodebytes = base64.b64decode(data)
         vi = encodebytes[:16]
         test_encodebytes = encodebytes[16:]
-        cipher = AES.new(aes_key.encode("utf-8"), AES.MODE_CBC, vi)
+        cipher = AES.new(key.encode('utf8'), AES.MODE_CBC, vi)
 
         text_decrypted = cipher.decrypt(test_encodebytes)
         # 去补位
@@ -142,33 +213,7 @@ class Tool(object):
 
 
 if __name__ == '__main__':
-    dict1 = {
-        "picAssets": {
-            "picNpic": {
-                "md5":
-                "ys87Fm2OoawCXrgH65BsWA==",
-                "url":
-                "lite/1.0/pics/pic_uLc4i7AfX/pic_uLc4i7AfX.npic?ver=ys87Fm2OoawCXrgH65BsWA=="
-            },
-            "picThumbnail": {
-                "md5":
-                "LnsHZH6hMDg34Tv6aUelTw==",
-                "url":
-                "lite/1.0/pics/pic_uLc4i7AfX/pic_uLc4i7AfX_thumbnail.png?ver=LnsHZH6hMDg34Tv6aUelTw=="
-            },
-            "picColorImg": {
-                "md5":
-                "9+jRyDsFqq4I5iK2JssKqQ==",
-                "url":
-                "lite/1.0/pics/pic_uLc4i7AfX/pic_uLc4i7AfX_color.png?ver=9+jRyDsFqq4I5iK2JssKqQ=="
-            },
-            "picFrameImg": {
-                "md5":
-                "iWCtztQC+KSxDvFaAlqM0A==",
-                "url":
-                "lite/1.0/pics/pic_uLc4i7AfX/pic_uLc4i7AfX_frame.png?ver=iWCtztQC+KSxDvFaAlqM0A=="
-            }
-        }
-    }
-    keylist = ["picNpic", "picThumbnail", "picColorImg", "picFrameImg"]
-    Tool.check_isKeyword(dict1['picAssets'], keylist)
+    with open("config.json", 'r') as f:
+        a = json.load(f)
+    p = Tool.get_event_id(a['event_url'])
+    print(p)
