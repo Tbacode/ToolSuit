@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
 LastEditors: Tommy
-LastEditTime: 2020-08-23 13:25:13
+LastEditTime: 2020-08-24 14:33:18
 '''
 import json
 import requests
@@ -83,12 +83,14 @@ class Tool(object):
                     if key in keylist:
                         continue
                     else:
+                        print(key)
                         return False
         elif isinstance(data, dict):
             for key in data:
                 if key in keylist:
                     continue
                 else:
+                    print(key)
                     return False
         return True
 
@@ -210,6 +212,12 @@ class Tool(object):
         text_decrypted = unpad(text_decrypted)
         text_decrypted = text_decrypted.decode('utf8')
         return text_decrypted
+
+    def request_get_result(url, parm):
+        r = requests.get(url, params=parm)
+        aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
+        result = json.loads(aes_result)
+        return result
 
 
 if __name__ == '__main__':
