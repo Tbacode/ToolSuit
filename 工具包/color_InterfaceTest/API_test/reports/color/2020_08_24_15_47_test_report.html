@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>TapColor API Test Report</title>
+
+    <meta name="generator" content="BSTestRunner 0.8.4"/>
+
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css">
+
+    
+
+<style type="text/css" media="screen">
+
+
+
+/* -- css div popup ------------------------------------------------------------------------ */
+
+.popup_window {
+
+    display: none;
+
+    position: relative;
+
+    left: 0px;
+
+    top: 0px;
+
+    /*border: solid #627173 1px; */
+
+    padding: 10px;
+
+    background-color: #99CCFF;
+
+    font-family: "Lucida Console", "Courier New", Courier, monospace;
+
+    text-align: left;
+
+    font-size: 10pt;
+
+    width: 500px;
+
+}
+
+
+
+/* -- report ------------------------------------------------------------------------ */
+
+
+
+#show_detail_line .label {
+
+    font-size: 85%;
+
+    cursor: pointer;
+
+}
+
+
+
+#show_detail_line {
+
+    margin: 2em auto 1em auto;
+
+}
+
+
+
+#total_row  { font-weight: bold; }
+
+.hiddenRow  { display: none; }
+
+.testcase   { margin-left: 2em; }
+
+
+
+</style>
+
+
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+
+  </head>
+
+<body>
+
+<script language="javascript" type="text/javascript"><!--
+
+output_list = Array();
+
+
+
+/* level - 0:Summary; 1:Failed; 2:All */
+
+function showCase(level) {
+
+    trs = document.getElementsByTagName("tr");
+
+    for (var i = 0; i < trs.length; i++) {
+
+        tr = trs[i];
+
+        id = tr.id;
+
+        if (id.substr(0,2) == 'ft') {
+
+            if (level < 1) {
+
+                tr.className = 'hiddenRow';
+
+            }
+
+            else {
+
+                tr.className = '';
+
+            }
+
+        }
+
+        if (id.substr(0,2) == 'pt') {
+
+            if (level > 1) {
+
+                tr.className = '';
+
+            }
+
+            else {
+
+                tr.className = 'hiddenRow';
+
+            }
+
+        }
+
+    }
+
+}
+
+
+
+
+
+function showClassDetail(cid, count) {
+
+    var id_list = Array(count);
+
+    var toHide = 1;
+
+    for (var i = 0; i < count; i++) {
+
+        tid0 = 't' + cid.substr(1) + '.' + (i+1);
+
+        tid = 'f' + tid0;
+
+        tr = document.getElementById(tid);
+
+        if (!tr) {
+
+            tid = 'p' + tid0;
+
+            tr = document.getElementById(tid);
+
+        }
+
+        id_list[i] = tid;
+
+        if (tr.className) {
+
+            toHide = 0;
+
+        }
+
+    }
+
+    for (var i = 0; i < count; i++) {
+
+        tid = id_list[i];
+
+        if (toHide) {
+
+            document.getElementById('div_'+tid).style.display = 'none'
+
+            document.getElementById(tid).className = 'hiddenRow';
+
+        }
+
+        else {
+
+            document.getElementById(tid).className = '';
+
+        }
+
+    }
+
+}
+
+
+
+
+
+function showTestDetail(div_id){
+
+    var details_div = document.getElementById(div_id)
+
+    var displayState = details_div.style.display
+
+    // alert(displayState)
+
+    if (displayState != 'block' ) {
+
+        displayState = 'block'
+
+        details_div.style.display = 'block'
+
+    }
+
+    else {
+
+        details_div.style.display = 'none'
+
+    }
+
+}
+
+
+
+
+
+function html_escape(s) {
+
+    s = s.replace(/&/g,'&amp;');
+
+    s = s.replace(/</g,'&lt;');
+
+    s = s.replace(/>/g,'&gt;');
+
+    return s;
+
+}
+
+
+
+/* obsoleted by detail in <div>
+
+function showOutput(id, name) {
+
+    var w = window.open("", //url
+
+                    name,
+
+                    "resizable,scrollbars,status,width=800,height=450");
+
+    d = w.document;
+
+    d.write("<pre>");
+
+    d.write(html_escape(output_list[id]));
+
+    d.write("\n");
+
+    d.write("<a href='javascript:window.close()'>close</a>\n");
+
+    d.write("</pre>\n");
+
+    d.close();
+
+}
+
+*/
+
+--></script>
+
+
+
+<div class="container">
+
+    <div class='heading'>
+
+<h1>TapColor API Test Report</h1>
+
+<p><strong>Start Time:</strong> 2020-08-24 15:50:08</p>
+
+<p><strong>Duration:</strong> 0:00:32.607152</p>
+
+<p><strong>Status:</strong> <span class="text text-success">Pass <strong>18</strong></span></p>
+
+
+
+<p class='description'>TapColor API Test Report</p>
+
+</div>
+
+
+
+
+
+    
+
+<p id='show_detail_line'>
+
+<span class="label label-primary" onclick="showCase(0)">Summary</span>
+
+<span class="label label-danger" onclick="showCase(1)">Failed</span>
+
+<span class="label label-default" onclick="showCase(2)">All</span>
+
+</p>
+
+<table id='result_table' class="table">
+
+    <thead>
+
+        <tr id='header_row'>
+
+            <th>Test Group/Test case</td>
+
+            <th>Count</td>
+
+            <th>Pass</td>
+
+            <th>Fail</td>
+
+            <th>Error</td>
+
+            <th>View</td>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+        
+
+<tr class='text text-success'>
+
+    <td>new_color_api_getGalleryList.GetGalleryList: GalleryList API测试</td>
+
+    <td>18</td>
+
+    <td>18</td>
+
+    <td>0</td>
+
+    <td>0</td>
+
+    <td><a class="btn btn-xs btn-primary"href="javascript:showClassDetail('c1',18)">Detail</a></td>
+
+</tr>
+
+
+
+<tr id='pt1.1' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_dateError: 测试新color 日期数据错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.2' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_dateError: 测试新color IOS 日期数据错误</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.3' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_isAssKeyword: 验证新color IOS 图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.4' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_isPicKeyword: 验证新color IOS 图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.5' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_picList_type: 验证新color IOS 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.6' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_pictypeError: 测试新color IOS 图片分类为空</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.7' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_pictype_check: 验证新colorIOS 图片类型是否符合请求</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.8' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_requestError: 测试新color IOS request参数异常</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.9' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_success: 测试新color iOS gallery成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.10' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_ios_type: 验证新color IOS 返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.11' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_isAssKeyword: 验证新color图片资源关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.12' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_isPicKeyword: 验证新color图片数据关键字是否齐全</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.13' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_picList_type: 验证新color 图片返回数据格式是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.14' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_pictypeError: 测试新color图片分类为空</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.15' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_pictype_check: 验证新color图片类型是否符合请求</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.16' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_requestError: 测试新color request参数异常</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.17' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_success: 测试新color gallery成功</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+<tr id='pt1.18' class='hiddenRow'>
+
+    <td class='text text-success'><div class='testcase'>test_new_gallery_type: 验证新color返回值是否正确</div></td>
+
+    <td colspan='5' align='center'>pass</td>
+
+</tr>
+
+
+
+    </tbody>
+
+    <tfoot>
+
+        <tr id='total_row'>
+
+            <td>Total</td>
+
+            <td>18</td>
+
+            <td class="text text-success">18</td>
+
+            <td class="text text-danger">0</td>
+
+            <td class="text text-warning">0</td>
+
+            <td>&nbsp;</td>
+
+        </tr>
+
+    </tfoot>
+
+</table>
+
+
+
+    <div id='ending'>&nbsp;</div>
+
+</div>
+
+
+
+</body>
+
+</html>
+
