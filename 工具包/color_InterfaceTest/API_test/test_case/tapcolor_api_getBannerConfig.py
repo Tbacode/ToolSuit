@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-06-01 15:47:25
 LastEditors: Tommy
-LastEditTime: 2020-08-13 10:50:19
+LastEditTime: 2020-08-27 11:31:51
 '''
 import unittest
 import requests
@@ -38,7 +38,9 @@ class GetBannerConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['bannerList']), 0, msg="bannerlist数据为空")
+        self.assertNotEqual(len(result['data']['bannerList']),
+                            0,
+                            msg="bannerlist数据为空")
 
     def test_getBannerConfig_ios_success(self):
         '''测试IOS getBannerConfig接口成功'''
@@ -47,7 +49,9 @@ class GetBannerConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertNotEqual(len(result['data']['bannerList']), 0, msg="bannerlist数据为空")
+        self.assertNotEqual(len(result['data']['bannerList']),
+                            0,
+                            msg="bannerlist数据为空")
 
     def test_getBannerConfig_requestsError(self):
         '''测试requests错误'''

@@ -14,7 +14,7 @@ import random
 # from urllib import parse
 
 
-class GetGalleryList(unittest.TestCase):
+class GetGalleryList_new(unittest.TestCase):
     '''GalleryList API测试'''
     @classmethod
     def setUpClass(cls):

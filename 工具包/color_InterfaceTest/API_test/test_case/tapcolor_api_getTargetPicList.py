@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-07-17 11:49:37
 LastEditors: Tommy
-LastEditTime: 2020-08-21 18:26:08
+LastEditTime: 2020-08-27 11:07:22
 '''
 import unittest
 import requests
@@ -50,9 +50,8 @@ class GetTargetPicList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertEqual(
-            result['data']['picLength'],
-            len(self.params['pic_list'].split(',')))  # 测试数据不能为一个，否则报错
+        self.assertEqual(result['data']['picLength'],
+                         len(self.params['pic_list'].split(',')))  # 测试数据不能为一个，否则报错
 
     def test_getNewsConfig_ios_success(self):
         '''测试IOS getNewsConfig成功'''
@@ -123,6 +122,7 @@ class GetTargetPicList(unittest.TestCase):
     def test_getNewsConfig_ios_actDayNone(self):
         '''测试IOS 参数缺失'''
         self.params['game_actDay'] = ""
+        self.params['os_type'] = "Ios"
         r = requests.get(self.url, params=self.params)
         result = r.json()
         # 断言

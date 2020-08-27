@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
 LastEditors: Tommy
-LastEditTime: 2020-08-24 14:33:18
+LastEditTime: 2020-08-27 11:33:46
 '''
 import json
 import requests
@@ -83,7 +83,7 @@ class Tool(object):
                     if key in keylist:
                         continue
                     else:
-                        print(key)
+                        # print(key)
                         return False
         elif isinstance(data, dict):
             for key in data:
@@ -213,15 +213,18 @@ class Tool(object):
         text_decrypted = text_decrypted.decode('utf8')
         return text_decrypted
 
-    def request_get_result(url, parm):
+    def request_get_result(url, parm) -> dict:
         r = requests.get(url, params=parm)
+        aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
+        result = json.loads(aes_result)
+        return result
+
+    def request_post_result(url, data) -> dict:
+        r = requests.post(url, data=data)
         aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
         result = json.loads(aes_result)
         return result
 
 
 if __name__ == '__main__':
-    with open("config.json", 'r') as f:
-        a = json.load(f)
-    p = Tool.get_event_id(a['event_url'])
-    print(p)
+    pass

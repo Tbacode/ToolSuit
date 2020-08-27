@@ -119,10 +119,10 @@ if __name__ == '__main__':
 
     print("api_test:run_testCase")
     test_result1 = run_testCase(my_report1, my_discover1)
-    report_data = make_report_data(test_result1)
+    report_data1 = make_report_data(test_result1)
 
     test_result2 = run_testCase(my_report2, my_discover2)
-    report_data = make_report_data(test_result2)
+    report_data2 = make_report_data(test_result2)
 
     # if test_result.failure_count != 0:
     #     if is_test_mode:
