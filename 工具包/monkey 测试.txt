@@ -44,10 +44,14 @@ adb shell
 #cd data/data
 #ls
 
+# adb命令
 下面的命令是将日志信息输出到以“日期 时间”命名的文件中
     adb logcat > "YourPaty\%date:~0,4%-%date:~5,2%-%date:~8,2% %time:~0,2%时%time:~3,2%分%time:~6,2%.log"
 下面的命令是将打点log输出到cmd中
     adb logcat | find "打点关键字"  # eg： adb logcat | find "UnityEventSend"
+下面得命令是获取app是否前台
+    adb shell dumpsys activity activities | findstr "mResumedActivity"
+#
 
 tapcolor 抓包
     http://cdn-tapcolor.talefun.com/release/datafile/like_count.zip 
@@ -58,4 +62,11 @@ aab包安装命令
 
     java -jar bundletool-all-0.11.0.jar  install-apks --apks=bbb.apks
 
-    
+
+# py库集合
+    库「Bar Chart Race」，堪称Python界最强的动态可视化包。
+    GitHub地址：
+    https://github.com/dexplo/bar_chart_race
+    文档地址：
+    https://www.dexplo.org/bar_chart_race/
+#
