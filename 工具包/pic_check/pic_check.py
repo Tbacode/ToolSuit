@@ -1,9 +1,9 @@
 '''
- * @Descripttion: 验证正式上线前，pic数据得一致性
- * @Author: Tommy
- * @Date: 2020-11-05 15:24:58
- * @LastEditors: Tommy
- * @LastEditTime: 2020-11-10 17:36:18
+ * @Descripttion : 验证正式上线前，pic数据得一致性
+ * @Author       : Tommy
+ * @Date         : 2020-11-05 15:24:58
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2020-11-11 18:18:48
 '''
 
 # TODO: 引包
@@ -15,16 +15,29 @@ from loguru import logger
 
 
 class PicCheck():
-    '''
-     * @name: Tommy
-     * @msg: 类初始化参数构建
-     * @param {*} self
-     * @param {str} url
-     * @param {str} game_ver
-     * @param {str} os_type
-     * @return {*}
-    '''
     def __init__(self, url: str, game_ver: str, os_type: str):
+        '''
+         * @name: Tommy
+         * @msg: 类初始化参数构建
+         * @param {*} self
+         * @param {str} url
+         * @param {str} game_ver
+         * @param {str} os_type
+         * @return {*}
+        '''
+        self.keyword_list = ["picName",
+                             "picType",
+                             "picClass",
+                             "picUnlockDate",
+                             "picVipUnlockDate",
+                             "picExpireDate",
+                             "picUnlockType",
+                             "picUnlockNumber",
+                             "picJigsawId",
+                             "picOrder",
+                             "picComicId",
+                             "picComicKey"
+                             ]
         self.pic_list_item = []
         self.game_date = time.strftime("%Y%m%d", time.localtime())
         self.start_date = time.strftime("%Y%m%d", time.localtime())
@@ -41,32 +54,30 @@ class PicCheck():
         }
 
     # TODO: 请求数据返回数据
-    '''
-     * @name: Tommy
-     * @msg: 请求数据返回数据
-     * @param {*} self
-     * @return {*}
-    '''
-
     def request_pic_list_item(self) -> dict:
+        '''
+         * @name: Tommy
+         * @msg: 请求数据返回数据
+         * @param {*} self
+         * @return {*}
+        '''
         logger.debug("请求开始，请求日期：" + str(self.params['start_date']))
         pic_item = requests.get(self.url, params=self.params)
         # pic_item = json.dumps(pic_item.json(),
         #                       indent=2,
         #                       sort_keys=False,
         #                       ensure_ascii=False)
-        pic_item = pic_item.json()
-        return pic_item
+        result = pic_item.json()
+        return result
 
     # TODO: 判断是否isEnd
-    '''
-     * @name: Tommy
-     * @msg: 判断是否isEnd
-     * @param {*} self
-     * @return {*}
-    '''
-
     def isEnd_check(self):
+        '''
+         * @name: Tommy
+         * @msg: 判断是否isEnd
+         * @param {*} self
+         * @return {*}
+        '''
         logger.debug("判断是否结束")
         result = self.request_pic_list_item()
         if bool(result['data']['isEnd']):
@@ -79,70 +90,61 @@ class PicCheck():
             return False
 
     # TODO: 构造关键字提取数据
-    '''
-     * @name: Tommy
-     * @msg: 构造关键字提取数据
-     * @param {*} self
-     * @param {list} list_item
-     * @return {*}
-    '''
-
     def get_keyword_json(self, list_item: list) -> dict:
+        '''
+         * @name: Tommy
+         * @msg: 构造关键字提取数据
+         * @param {*} self
+         * @param {list} list_item
+         * @return {*}
+        '''
         logger.debug("构造数据开始")
         for pic_item in list_item:
             dict_item = {}
-            dict_item['picName'] = pic_item['picName']
-            dict_item['picType'] = pic_item['picType']
-            dict_item['picClass'] = pic_item['picClass']
-            dict_item['picUnlockDate'] = pic_item['picUnlockDate']
-            dict_item['picVipUnlockDate'] = pic_item['picVipUnlockDate']
-            dict_item['picExpireDate'] = pic_item['picExpireDate']
-            dict_item['picUnlockType'] = pic_item['picUnlockType']
-            dict_item['picUnlockNumber'] = pic_item['picUnlockNumber']
-            dict_item['picJigsawId'] = pic_item['picJigsawId']
-            dict_item['picOrder'] = pic_item['picOrder']
-            dict_item['picComicId'] = pic_item['picComicId']
-            dict_item['picComicKey'] = pic_item['picComicKey']
-            dict_item = json.dumps(dict_item,
-                                   sort_keys=False,
-                                   indent=2,
-                                   ensure_ascii=False)
+            for keyword_item in self.keyword_list:
+                dict_item[keyword_item] = pic_item[keyword_item]
+            # dict_item = json.dumps(dict_item,
+            #                        sort_keys=False,
+            #                        indent=2,
+            #                        ensure_ascii=False)
             self.pic_list_item.append(dict_item)
         logger.debug("构造数据结束")
 
     # TODO: 数据追加
-    '''
-     * @name: Tommy
-     * @msg: 数据追加
-     * @param {*} self
-     * @param {list} pic_list
-     * @return {*}
-    '''
-
     def add_pic_list(self, pic_list: list) -> list:
+        '''
+         * @name: Tommy
+         * @msg: 数据追加
+         * @param {*} self
+         * @param {list} pic_list
+         * @return {*}
+        '''
         logger.debug("数据追加开始")
         return self.pic_list_item.append(pic_list)
 
     # TODO: 文件保存
-    '''
-     * @name: Tommy
-     * @msg: 文件保存
-     * @param {*} self
-     * @return {*}
-    '''
-
-    def save_json(self):
-        pass
+    def save_json(self, flag: str):
+        '''
+         * @name: Tommy
+         * @msg: 文件保存
+         * @param {*} self
+         * @param {str} flag ，标记new or old
+         * @return {*}
+        '''
+        logger.debug("保存pic数据到json开始")
+        with open("工具包/pic_check/" + flag + ".json", 'w+',
+                  encoding='utf-8') as f:
+            json.dump(self.pic_list_item, f, ensure_ascii=False, indent=2)
+        logger.debug("保存pic数据到json结束")
 
     # TODO: 时间转换
-    '''
-     * @name: Tommy
-     * @msg: 时间转换
-     * @param {*} self
-     * @return {*}
-    '''
-
     def time_change(self):
+        '''
+         * @name: Tommy
+         * @msg: 时间转换，减一天更新新的请求start_date
+         * @param {*} self
+         * @return {*}
+        '''
         timeArray = time.strptime(str(self.params['start_date']), "%Y%m%d")
         now = int(time.mktime(timeArray))
         now = datetime.datetime.fromtimestamp(now)
@@ -152,27 +154,25 @@ class PicCheck():
         logger.debug("日期减一：" + str(self.params['start_date']))
 
     # TODO: pic_unlock时间节点提取，更换self.start_date
-    '''
-     * @name: Tommy
-     * @msg: 更新start_date
-     * @param {*} self
-     * @param {list} pic_list
-     * @return {*}
-    '''
-
     def update_start_date(self, pic_list: list):
+        '''
+         * @name: Tommy
+         * @msg: 更新start_date
+         * @param {*} self
+         * @param {*} pic_list
+         * @return {*}
+        '''
         self.params['start_date'] = pic_list[-1]['picUnlockDate']
         logger.debug("数据返回更新后得时间：" + str(self.params['start_date']))
 
     # TODO: 主循环
-    '''
-     * @name: Tommy
-     * @msg: 主循环
-     * @param {*} self
-     * @return {*}
-    '''
-
     def main_function(self):
+        '''
+         * @name: Tommy
+         * @msg: 主循环
+         * @param {*} self
+         * @return {*}
+        '''
         if not self.isEnd_check():
             # TODO: 日期格式调整，使请求日期格式正确，功能正常
             self.time_change()
@@ -180,17 +180,48 @@ class PicCheck():
             logger.debug("开始新一轮递归")
             self.main_function()
 
+    # TODO: json格式对比验证
+    def json_file_check(self, old_json_item: dict, new_json_item: dict) -> bool:
+        '''
+         * @name: Tommy
+         * @msg: json格式对比验证
+         * @param {*} self
+         * @param {dict} old_json_item
+         * @param {dict} new_json_item
+         * @return {bool}
+        '''
+        for keyword_item in self.keyword_list:
+            if old_json_item[keyword_item] != new_json_item[keyword_item]:
+                logger.debug("old_json于new_json中关键字：{}的值不相等。{} != {}".format(
+                    keyword_item, old_json_item[keyword_item], new_json_item[keyword_item]))
+                return False
+
+    # TODO: 打开两个新旧json文件，并返回
+    def open_json_file(self):
+        '''
+         * @name: Tommy
+         * @msg: 打开两个新旧json文件，并返回
+         * @param {*} self
+         * @return {str} old_json, new_json
+        '''
+        with open("old.json", "r", encoding="utf-8") as f:
+            old_json = f.read()
+        with open("new.json", "r", encoding="utf-8") as a:
+            new_json = a.read()
+        return old_json, new_json
 
 # TODO: main
 if __name__ == "__main__":
     now_time = datetime.datetime.now()
     logger.debug("程序开始时间：" + str(now_time))
+    # url = "https://tapcolor.weplayer.cc/"
     url = "https://us-central1-tapcolor-new-debug.cloudfunctions.net/normalApi/"
     url = ''.join([url, 'normalApi/v1/getGalleryList'])
     game_ver = "4.7.0"
     os_type = "Android"
     pic_check = PicCheck(url, game_ver, os_type)
     pic_check.main_function()
+    pic_check.save_json("old")
     end_time = datetime.datetime.now()
     ss = (end_time - now_time).seconds
     logger.debug("程序运行总时间：" + str(ss))
