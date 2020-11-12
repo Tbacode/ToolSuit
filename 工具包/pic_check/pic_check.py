@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-11-11 18:18:48
+ * @LastEditTime : 2020-11-12 17:39:00
 '''
 
 # TODO: 引包
@@ -25,6 +25,7 @@ class PicCheck():
          * @param {str} os_type
          * @return {*}
         '''
+        self.flag = 1
         self.keyword_list = ["picName",
                              "picType",
                              "picClass",
@@ -204,11 +205,44 @@ class PicCheck():
          * @param {*} self
          * @return {str} old_json, new_json
         '''
-        with open("old.json", "r", encoding="utf-8") as f:
+        logger.debug("打开相关json文件")
+        with open("工具包/pic_check/old.json", "r", encoding="utf-8") as f:
             old_json = f.read()
-        with open("new.json", "r", encoding="utf-8") as a:
+        with open("工具包/pic_check/new.json", "r", encoding="utf-8") as a:
             new_json = a.read()
-        return old_json, new_json
+        return eval(old_json), eval(new_json)  # 风险转换 eval自动转换结构str->list[dict]
+
+    # TODO: json格式校验
+    def cmp(self, src_data, dst_data, con_key):
+        '''
+        @name: cmp
+        @msg: 对比关键字并输出
+        @param {验证数据，对比数据, 关键字}
+        @return: none
+        '''
+        if isinstance(src_data, dict):
+            for key in dst_data:
+                if key not in src_data:
+                    logger.error("旧文件不存在这个key：" + key)
+            for key in src_data:
+                if key in dst_data:
+                    thiskey = key
+                    self.cmp(src_data[thiskey], dst_data[thiskey], con_key)
+                else:
+                    logger.error("新文件不存在这个key：" + key)
+        elif isinstance(src_data, list):
+
+            if len(src_data) != len(dst_data):
+                logger.error(
+                    "list 长度：旧文件-{} != 新文件-{}".format(len(src_data), len(dst_data)))
+            for src_list, dst_list in zip(
+                    sorted(src_data, key=lambda x: x[con_key]),
+                    sorted(dst_data, key=lambda x: x[con_key])):
+                self.cmp(src_list, dst_list, con_key)
+        else:
+            if str(src_data) != str(dst_data):
+                logger.error("存在不同值：{} 和 {}".format(src_data, dst_data))
+
 
 # TODO: main
 if __name__ == "__main__":
@@ -221,8 +255,9 @@ if __name__ == "__main__":
     os_type = "Android"
     pic_check = PicCheck(url, game_ver, os_type)
     pic_check.main_function()
-    pic_check.save_json("old")
+    pic_check.save_json("new")
     end_time = datetime.datetime.now()
     ss = (end_time - now_time).seconds
-    logger.debug("程序运行总时间：" + str(ss))
-    # print(pic_check.pic_list_item)
+    logger.debug("数据获取运行总时间：" + str(ss))
+    old, new = pic_check.open_json_file()
+    pic_check.cmp(old, new, "picName")
