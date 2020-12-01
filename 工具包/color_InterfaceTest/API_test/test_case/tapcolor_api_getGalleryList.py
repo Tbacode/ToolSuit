@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-05-27 16:38:30
 LastEditors: Tommy
-LastEditTime: 2020-08-13 10:57:31
+LastEditTime: 2020-10-22 18:00:49
 '''
 import unittest
 import requests
@@ -26,7 +26,7 @@ class GetGalleryList(unittest.TestCase):
         self.game_date = time.strftime("%Y%m%d", time.localtime())
         self.start_date = time.strftime("%Y%m%d", time.localtime())
         self.url = ''.join(
-            [self.__class__.value_dict['url'], 'getGalleryList_v1'])
+            [self.__class__.value_dict['url'], 'normalApi/v1/getGalleryList'])
         # self.url = 'https://tapcolor-lite.weplayer.cc/getGalleryList'
         self.params = {
             "game_ver": self.__class__.value_dict['game_ver'],
@@ -174,7 +174,8 @@ class GetGalleryList(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder",
+            "picComicId", "picComicKey"
         ]
         r = requests.get(self.url, params=self.params)
         result = r.json()
@@ -189,7 +190,8 @@ class GetGalleryList(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder",
+            "picComicId", "picComicKey"
         ]
         self.params['os_type'] = "Ios"
         r = requests.get(self.url, params=self.params)
@@ -229,15 +231,24 @@ class GetGalleryList(unittest.TestCase):
             "Jigsaw", "Animated", "Special", "Character", "Animal", "Flower",
             "Places", "Nature", "Message", "Mosaic", "Mandala", "Other"
         ]
-        self.params['pic_type'] = pictype_list[random.randint(
-            0, len(pictype_list) - 1)]
-        r = requests.get(self.url, params=self.params)
-        result = r.json()
-        # 断言
-        self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_pic_type(result['data']['picList'],
-                                            self.params['pic_type']),
-                        msg="{}类型存在异常".format(self.params['pic_type']))
+        for pictype in pictype_list:
+            self.params['pic_type'] = pictype
+            print(self.params['pic_type'])
+            r = requests.get(self.url, params=self.params)
+            result = r.json()
+            self.assertEqual(result['errorCode'], -1)
+            self.assertTrue(Tool.check_pic_type(result['data']['picList'],
+                                                self.params['pic_type']),
+                            msg="{}类型存在异常".format(self.params['pic_type']))
+        # self.params['pic_type'] = pictype_list[random.randint(
+        #     0, len(pictype_list) - 1)]
+        # r = requests.get(self.url, params=self.params)
+        # result = r.json()
+        # # 断言
+        # self.assertEqual(result['errorCode'], -1)
+        # self.assertTrue(Tool.check_pic_type(result['data']['picList'],
+        #                                     self.params['pic_type']),
+        #                 msg="{}类型存在异常".format(self.params['pic_type']))
 
     def test_gallery_ios_pictype_check(self):
         '''验证IOS 图片类型是否符合请求'''
@@ -246,7 +257,8 @@ class GetGalleryList(unittest.TestCase):
             "Places", "Nature", "Message", "Mosaic", "Mandala", "Other"
         ]
         self.params['pic_type'] = pictype_list[random.randint(
-            0, len(pictype_list) - 1)]
+            0,
+            len(pictype_list) - 1)]
         self.params['os_type'] = "Ios"
         r = requests.get(self.url, params=self.params)
         result = r.json()

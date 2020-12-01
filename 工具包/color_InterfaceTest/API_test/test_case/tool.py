@@ -2,8 +2,8 @@
 @Descripttion: 增加工具类，放入公用方法
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
-LastEditors: Tommy
-LastEditTime: 2020-08-27 11:33:46
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2020-11-12 11:25:34
 '''
 import json
 import requests
@@ -18,7 +18,7 @@ from Crypto.Cipher import AES
 class Tool(object):
     flag = 1
 
-    def cmp(src_data, dst_data, con_key):
+    def cmp(self, src_data, dst_data, con_key):
         '''
         @name: cmp
         @msg: 对比关键字并输出
@@ -35,7 +35,7 @@ class Tool(object):
                 if key in dst_data:
                     thiskey = key
                     Tool.flag += 1
-                    Tool.cmp(src_data[thiskey], dst_data[thiskey], con_key)
+                    self.cmp(src_data[thiskey], dst_data[thiskey], con_key)
                 else:
                     print("  " * Tool.flag + "旧接口不存在这个key: " + key)
             Tool.flag -= 1
@@ -48,7 +48,7 @@ class Tool(object):
                     sorted(src_data, key=lambda x: x[con_key]),
                     sorted(dst_data, key=lambda x: x[con_key])):
                 Tool.flag += 1
-                Tool.cmp(src_list, dst_list, con_key)
+                self.cmp(src_list, dst_list, con_key)
             Tool.flag -= 1
         else:
             Tool.flag -= 1
@@ -56,7 +56,7 @@ class Tool(object):
                 print("  " * Tool.flag +
                       "存在不同值: {} 和 {}".format(src_data, dst_data))
 
-    def check_type(data: list, Type: str) -> bool:
+    def check_type(self, data: list, Type: str) -> bool:
         '''
         @name: check_type
         @msg: 检查数据格式
@@ -70,7 +70,7 @@ class Tool(object):
                 return False
         return True
 
-    def check_isKeyword(data, keylist: list) -> bool:
+    def check_isKeyword(self, data, keylist: list) -> bool:
         '''
         @name: check_isKeyword
         @msg: 检查待测数据是否含有验证关键字
@@ -83,7 +83,7 @@ class Tool(object):
                     if key in keylist:
                         continue
                     else:
-                        # print(key)
+                        print(key)
                         return False
         elif isinstance(data, dict):
             for key in data:
@@ -94,7 +94,7 @@ class Tool(object):
                     return False
         return True
 
-    def check_isKeyword_picAssets(data: list, keylist: list) -> bool:
+    def check_isKeyword_picAssets(self, data: list, keylist: list) -> bool:
         '''
         @name: check_isKeyword_picAssets
         @msg: 对传入得每一个picAssets数据验证是否含有验证关键字
@@ -120,17 +120,20 @@ class Tool(object):
                         return False
         return True
 
-    def check_pic_type(data: list, pic_Class: str) -> bool:
+    def check_pic_type(self, data: list, pic_Class: str) -> bool:
         '''
         @name: check_pic_type
         @msg: 验证传入得图片数据,是否类型正确
         @param {待测数据, 验证类型关键字}
         @return: bool
         '''
-        for item in range(0, len(data)):
-            if pic_Class not in data[item]['picClass']:
-                return False
-        return True
+        if len(data) == 0:
+            return False
+        else:
+            for item in range(0, len(data)):
+                if pic_Class not in data[item]['picClass']:
+                    return False
+            return True
 
     # async def get_media_id(report_dir):
     #    report_dir = './reports/2020-08-11 15_54_13 test_report.txt'
@@ -155,18 +158,18 @@ class Tool(object):
     #            return await resp.text()
 
     # 企业微信发送
-    def call_wechat_media(url, media_id):
+    def call_wechat_media(self, url, media_id):
         data_report = {"msgtype": "file", "file": {"media_id": media_id}}
         data_json = json.dumps(data_report)  # dumps：将python对象解码为json数据
         requests.post(url, data_json)
 
-    def call_wechat_txt(url, txt_data):
+    def call_wechat_txt(self, url, txt_data):
         data_report = {"msgtype": "text", "text": {"content": txt_data}}
         data_json = json.dumps(data_report)  # dumps：将python对象解码为json数据
         requests.post(url, data_json)
 
     # 邮件发送
-    def send_mail(file_new, receiver_list):
+    def send_mail(self, file_new, receiver_list):
         user = '875932826'
         pwd = 'hbuoqldeufbxbbhj'
         sender = '875932826@qq.com'
@@ -192,12 +195,12 @@ class Tool(object):
             smtp.sendmail(sender, x, msgRoot.as_string())
         print('email has send out')
 
-    def get_event_id(url: str) -> dict:
+    def get_event_id(self, url: str) -> dict:
         r = requests.get(url=url)
         result = r.json()
         return result
 
-    def AES_Decrypt(key, data):
+    def AES_Decrypt(self, key, data):
         data = data.encode('utf8')
         # 将加密数据转换位bytes类型数据
         encodebytes = base64.b64decode(data)
@@ -207,22 +210,25 @@ class Tool(object):
 
         text_decrypted = cipher.decrypt(test_encodebytes)
         # 去补位
-        unpad = lambda s: s[0:-s[-1]]
+        def unpad(s): return s[0:-s[-1]]
 
         text_decrypted = unpad(text_decrypted)
         text_decrypted = text_decrypted.decode('utf8')
         return text_decrypted
 
-    def request_get_result(url, parm) -> dict:
+    def request_get_result(self, url, parm) -> dict:
         r = requests.get(url, params=parm)
-        aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
-        result = json.loads(aes_result)
+        # aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
+        # result = json.loads(aes_result)
+        result = r.json()
+        print(result)
         return result
 
-    def request_post_result(url, data) -> dict:
+    def request_post_result(self, url, data) -> dict:
         r = requests.post(url, data=data)
-        aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
-        result = json.loads(aes_result)
+        # aes_result = Tool.AES_Decrypt("talefuntapcolor!", r.text)
+        # result = json.loads(aes_result)
+        result = r.json()
         return result
 
 

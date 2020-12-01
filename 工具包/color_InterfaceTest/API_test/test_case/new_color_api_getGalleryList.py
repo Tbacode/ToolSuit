@@ -3,7 +3,7 @@ Description: new color GetGalleryAPI测试
 Autor: Tommy
 Date: 2020-08-23 01:24:37
 LastEditors: Tommy
-LastEditTime: 2020-08-24 14:34:47
+LastEditTime: 2020-10-20 17:30:12
 '''
 import unittest
 import time
@@ -152,7 +152,7 @@ class GetGalleryList_new(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder", "picComicId", "picComicKey"
         ]
         result = Tool.request_get_result(self.url, self.params)
         # 断言
@@ -166,7 +166,7 @@ class GetGalleryList_new(unittest.TestCase):
         keylist = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder"
+            "picUnlockNumber", "picJigsawId", "picAssets", "picOrder", "picComicId", "picComicKey"
         ]
         self.params['os_type'] = "Ios"
         result = Tool.request_get_result(self.url, self.params)

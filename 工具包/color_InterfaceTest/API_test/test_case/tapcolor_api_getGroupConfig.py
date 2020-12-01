@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-06-12 15:52:55
 LastEditors: Tommy
-LastEditTime: 2020-08-13 10:58:08
+LastEditTime: 2020-10-20 18:07:31
 '''
 import unittest
 import requests
@@ -23,7 +23,7 @@ class GetGroupConfig(unittest.TestCase):
     def setUp(self):
         self.game_date = time.strftime("%Y%m%d", time.localtime())
         self.url = ''.join(
-            [self.__class__.value_dict['url'], 'getGroupConfig_v1'])
+            [self.__class__.value_dict['url'], 'normalApi/v1/getGroupConfig'])
         # self.url = 'https://tapcolor-lite.weplayer.cc/getGroupConfig'
         self.params = {
             "game_ver": self.__class__.value_dict['game_ver'],
