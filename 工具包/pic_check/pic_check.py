@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-11-12 17:39:00
+ * @LastEditTime : 2020-12-01 14:35:52
 '''
 
 # TODO: 引包
@@ -49,7 +49,7 @@ class PicCheck():
             "register_date": self.start_date,
             "game_date": self.game_date,
             "game_actDay": 1,
-            "pic_type": "All",
+            "pic_type": "Jigsaw",
             "start_date": self.start_date,
             "group_id": 20
         }
@@ -83,6 +83,8 @@ class PicCheck():
         result = self.request_pic_list_item()
         if bool(result['data']['isEnd']):
             logger.debug("数据结束，返回True")
+            if len(result['data']['picList']) != 0:
+                self.get_keyword_json(result['data']['picList'])
             return True
         else:
             logger.debug("数据未结束，返回False")
@@ -243,13 +245,42 @@ class PicCheck():
             if str(src_data) != str(dst_data):
                 logger.error("存在不同值：{} 和 {}".format(src_data, dst_data))
 
+    # TODO: jigsaw拼图检验
+    def jigsaw_check(self):
+        jigsaw_list = []
+        flag = 1
+        with open("工具包/pic_check/new.json", "r", encoding="utf-8") as a:
+            new_json = a.read()
+        new_json = eval(new_json)  # list强制转化
+        for item in new_json:
+            # logger.debug("开始遍历item == {}".format(item))
+            if flag == 1:
+                picJigsawId = item['picJigsawId']
+                flag = 2
+            if item['picClass'] == '':
+                logger.error("图片{}存在picClass空值".format(item['picName']))
+            if item['picJigsawId'] == picJigsawId:
+                jigsaw_list.append(item['picName'])
+            else:
+                picJigsawId = item['picJigsawId']
+                if len(jigsaw_list) % 2 == 0 and len(jigsaw_list) > 3:
+                    logger.debug("当前jigsaw_list内容：{}".format(jigsaw_list))
+                    jigsaw_list = []
+                else:
+                    logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
+                    jigsaw_list = []
+                jigsaw_list.append(item["picName"])
+        if len(jigsaw_list) != 0:
+            if len(jigsaw_list) % 2 != 0 or len(jigsaw_list) < 4:
+                logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
 
+                
 # TODO: main
 if __name__ == "__main__":
     now_time = datetime.datetime.now()
     logger.debug("程序开始时间：" + str(now_time))
-    # url = "https://tapcolor.weplayer.cc/"
-    url = "https://us-central1-tapcolor-new-debug.cloudfunctions.net/normalApi/"
+    url = "https://tapcolor.weplayer.cc/"
+    # url = "https://us-central1-tapcolor-new-debug.cloudfunctions.net/normalApi/"
     url = ''.join([url, 'normalApi/v1/getGalleryList'])
     game_ver = "4.7.0"
     os_type = "Android"
@@ -259,5 +290,6 @@ if __name__ == "__main__":
     end_time = datetime.datetime.now()
     ss = (end_time - now_time).seconds
     logger.debug("数据获取运行总时间：" + str(ss))
-    old, new = pic_check.open_json_file()
-    pic_check.cmp(old, new, "picName")
+    pic_check.jigsaw_check()
+    # old, new = pic_check.open_json_file()
+    # pic_check.cmp(old, new, "picName")
