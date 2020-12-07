@@ -2,8 +2,8 @@
 @Descripttion: getDaily接口APItest脚本
 @Author: Tommy
 @Date: 2020-05-29 17:53:26
-@LastEditors: Tommy
-@LastEditTime: 2020-07-31 16:52:02
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2020-12-04 15:32:47
 '''
 import unittest
 import requests
@@ -156,7 +156,7 @@ class GetDailyList(unittest.TestCase):
     #         [self.__class__.value_dict['url_new'], 'getDailyList_v1'])
     #     r2 = requests.get(self.url, params=self.params)
     #     result2 = r2.json()
-    #     Tool.cmp(result2, result1, "picName")
+    #     Tool().cmp(result2, result1, "picName")
 
     def test_daily_type(self):
         '''验证返回值是否正确'''
@@ -181,7 +181,7 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_type(result['data']['picList'], dict))
+        self.assertTrue(Tool().check_type(result['data']['picList'], dict))
 
     def test_daily_ios_picList_type(self):
         '''验证IOS 图片返回数据格式是否正确'''
@@ -190,7 +190,7 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_type(result['data']['picList'], dict))
+        self.assertTrue(Tool().check_type(result['data']['picList'], dict))
 
     def test_daily_isPicKeyword(self):
         '''验证图片数据关键字是否齐全'''
@@ -201,8 +201,8 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_isKeyword(result['data']['picList'],
-                                             keylist),
+        self.assertTrue(Tool().check_isKeyword(result['data']['picList'],
+                                               keylist),
                         msg="图片关键字缺失")
 
     def test_daily_ios_isPicKeyword(self):
@@ -215,8 +215,8 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_isKeyword(result['data']['picList'],
-                                             keylist),
+        self.assertTrue(Tool().check_isKeyword(result['data']['picList'],
+                                               keylist),
                         msg="图片关键字缺失")
 
     def test_daily_isAssKeyword(self):
@@ -226,9 +226,9 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_isKeyword_picAssets(
+        self.assertTrue(Tool().check_isKeyword_picAssets(
             result['data']['picList'], keylist),
-                        msg="资源关键字缺失")
+            msg="资源关键字缺失")
 
     def test_daily_ios_isAssKeyword(self):
         '''验证IOS 图片资源关键字是否齐全'''
@@ -238,9 +238,9 @@ class GetDailyList(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_isKeyword_picAssets(
+        self.assertTrue(Tool().check_isKeyword_picAssets(
             result['data']['picList'], keylist),
-                        msg="资源关键字缺失")
+            msg="资源关键字缺失")
 
 
 if __name__ == '__main__':

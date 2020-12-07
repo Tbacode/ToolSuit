@@ -3,7 +3,7 @@ Descripttion: guitest
 Author: Tommy
 Date: 2020-10-26 16:34:19
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-11-25 14:47:10
+ * @LastEditTime : 2020-12-03 17:43:21
 '''
 # from tkinter import Label
 # widget = Label(None, text='hello GUI world!')
@@ -152,20 +152,83 @@ lambda函数将button的command函数映射到另一个由lambda提供的带参�
 # win.mainloop()
 
 
+# 自定义Button类，实现于继承tkinter中的Button类
+# from tkinter import *
+# class ThemeButton(Button):
+#     """
+#     自定义button类
+#     """
+#     # **param 参数在字典里被分配为不匹配的关键字参数
+#     def __init__(self, parent=None, **param):  # 修改参数名为param便于理解，于self.config不同
+#         Button.__init__(self, parent, **param)
+#         self.pack()
+#         self.config(command=self.callback)
+
+#     def callback(self):
+#         print("Goodbye world...")
+#         self.quit()
+
+
+# class MyButton(ThemeButton):
+#     def callback(self):
+#         print("我是子类callback")
+
+
+# if __name__ == "__main__":
+#     # ThemeButton(text="Hello subclass world").mainloop()
+#     MyButton(text="Hello subclass world").mainloop()  # ThemeButton类成为父类，callback重写后，调用子类callback
+
+
+# from tkinter import *
+
+
+# class Hello(Frame):
+#     """
+#     自定义Frame类
+#     """
+
+#     def __init(self, parent=None):
+#         Frame.__init__(self, parent)
+#         self.pack()
+#         self.data = 42
+#         self.make_widgets()
+
+#     def make_widgets(self):
+#         widget = Button(self, text="Hello frame world", command=self.message)
+#         widget.pack(side=LEFT)
+
+#     def message(self):
+#         self.data += 1
+#         print("Hello frame world {}!".format(self.data))
+
+
+# if __name__ == "__main__":
+#     Hello().mainloop()
+
+
 
 
 from tkinter import *
-class ThemeButton(Button):
-    """
-    自定义button类
-    """
+class HelloPackage:
+    def __init__(self, parent=None):
+        self.top = Frame(parent)
+        self.top.pack()
+        self.data = 2
+        self.make_widgets()
 
-    def __init__(self, parent=None, **configs):
-        Button.__init__(self, parent, **configs)
-        self.pack()
-        self.config(fg='red', bg='black', font=(
-            'courier', 12), relief=RAISED, bd=5)
+    def __getattr__(self, name):
+        return getattr(self.top, name)
 
-B1 = ThemeButton(text='spam', command=onSpam)
-B2 = ThemeButton(text='eggs')
-B2.pack(expand=YES, fill=BOTH)
+    def make_widgets(self):
+        # Button(self.top, text="Bye", command=self.top.quit).pack(side=LEFT)
+        Button(self.top, text="Bye", command=self.quit).pack(side=LEFT)
+        Button(self.top, text="Hi~", command=self.message).pack(side=RIGHT)
+
+    def message(self):
+        self.data += 1
+        print("Hello number", self.data)
+
+
+if __name__ == "__main__":
+    # HelloPackage().top.mainloop()
+    HelloPackage().mainloop()  # __getattr__完成并传递到一个实际组件\实际调用对象

@@ -2,8 +2,8 @@
 @Descripttion: getBannerConfig接口APItest脚本
 @Author: Tommy
 @Date: 2020-06-01 15:47:25
-LastEditors: Tommy
-LastEditTime: 2020-08-27 11:31:51
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2020-12-04 15:33:00
 '''
 import unittest
 import requests
@@ -132,7 +132,7 @@ class GetBannerConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_type(result['data']['bannerList'], dict),
+        self.assertTrue(Tool().check_type(result['data']['bannerList'], dict),
                         msg='子项格式错误')
 
     def test_getBannerConfig_ios_listType(self):
@@ -141,7 +141,7 @@ class GetBannerConfig(unittest.TestCase):
         result = r.json()
         # 断言
         self.assertEqual(result['errorCode'], -1)
-        self.assertTrue(Tool.check_type(result['data']['bannerList'], dict),
+        self.assertTrue(Tool().check_type(result['data']['bannerList'], dict),
                         msg='子项格式错误')
 
 
