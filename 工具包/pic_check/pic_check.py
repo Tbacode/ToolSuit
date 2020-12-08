@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-01 14:35:52
+ * @LastEditTime : 2020-12-07 15:44:38
 '''
 
 # TODO: 引包
@@ -274,7 +274,7 @@ class PicCheck():
             if len(jigsaw_list) % 2 != 0 or len(jigsaw_list) < 4:
                 logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
 
-                
+
 # TODO: main
 if __name__ == "__main__":
     now_time = datetime.datetime.now()
