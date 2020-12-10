@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-10 12:00:32
+ * @LastEditTime : 2020-12-11 00:45:28
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -20,19 +20,22 @@ def main(data_base: DataGet):
         main(data_base)
 
 
-def start(env_name: str, obj_name: str):
+def start(env_name: str, obj_name: str, os_type: str):
     # 根据传入环境名称和项目名称来初始化参数
     with open("config.json", "r", encoding="utf-8") as f:
         con_json = f.read()
     con_json = json.loads(con_json)
-    for key in con_json.key():
+    for key in con_json.keys():
         if key == env_name:
             # 匹配环境名以获取项目初始化参数
-            for obj_item in con_json[key].key():
+            for obj_item in con_json[key].keys():
                 if obj_name == obj_item:
                     base_url = con_json[key][obj_item]['base_url']
                     api_name = con_json[key][obj_item]['Api_Name']
-                    url = ''.join([base_url, api_name)
+                    url = ''.join([base_url, api_name])
+                    game_ver = con_json[key][obj_item]['game_ver']
+                    os_type = os_type
+                    print(url)
 
 
 if __name__ == "__main__":
@@ -59,4 +62,4 @@ if __name__ == "__main__":
     #             data_base.pic_list_item[-1]['picName']))
     #     else:
     #         logger.error("存在分类{}数据为空".format(pic_type))
-    start("pre", "Tapcolor")
+    start("pre", "TapColor", "Android")
