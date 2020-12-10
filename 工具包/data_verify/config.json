@@ -1,0 +1,36 @@
+{
+    "release": {
+        "TapColor":{
+            "base_url":"https://tapcolor.weplayer.cc/",
+            "Api_Name":"normalApi/v1/getGalleryList",
+            "game_ver":"5.2.0"
+        },
+        "ColorLite":{
+            "base_url":"https://tapcolor-lite.weplayer.cc/",
+            "Api_Name":"normalApi/v1/getGalleryList",
+            "game_ver":"2.3.0"
+        },
+        "Jigsaw":{
+            "base_url":"https://jigsaw.tapcolor.net",
+            "Api_Name":"normalApi/v1/getGalleryList",
+            "game_ver":"1.1.0"
+        }
+    },
+    "pre":{
+        "TapColor":{
+            "base_url": "https://us-central1-tapcolor-new-debug.cloudfunctions.net/",
+            "Api_Name":"normalApi/normalApi/v1/getGalleryList",
+            "game_ver":"5.2.0"
+        },
+        "ColorLite":{
+            "base_url":"https://tapcolor-lite-dev.weplayer.cc/",
+            "Api_Name":"normalApi/v1/getGalleryList",
+            "game_ver":"2.3.0"
+        },
+        "Jigsaw":{
+            "base_url":"https://jigsaw-debug.tapcolor.net",
+            "Api_Name":"normalApi/v1/getGalleryList",
+            "game_ver":"1.1.0"
+        }
+    }
+}
