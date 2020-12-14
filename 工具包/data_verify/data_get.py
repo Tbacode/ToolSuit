@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 11:23:24
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-08 16:31:10
+ * @LastEditTime : 2020-12-14 15:24:12
 '''
 import requests
 import time
@@ -125,7 +125,11 @@ class DataGet(object):
         for pic_item in list_item:
             dict_item = {}
             for keyword_item in self.keyword_list:
-                dict_item[keyword_item] = pic_item[keyword_item]
+                try:
+                    dict_item[keyword_item] = pic_item[keyword_item]
+                except KeyError:
+                    continue
+                # dict_item[keyword_item] = pic_item[keyword_item]
             # dict_item = json.dumps(dict_item,
             #                        sort_keys=False,
             #                        indent=2,
