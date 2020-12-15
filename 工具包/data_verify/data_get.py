@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 11:23:24
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-14 15:24:12
+ * @LastEditTime : 2020-12-15 20:33:31
 '''
 import requests
 import time
@@ -76,7 +76,7 @@ class DataGet(object):
         '''
         logger.debug("判断是否结束")
         result = self.request_pic_list_item()
-        if bool(result['data']['isEnd']):
+        if bool(result['data']['isEnd']) or result['data']['picLength'] == 0:
             logger.debug("数据结束，返回True")
             if len(result['data']['picList']) != 0:
                 self.get_keyword_json(result['data']['picList'])

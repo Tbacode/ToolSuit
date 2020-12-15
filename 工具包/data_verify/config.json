@@ -11,7 +11,7 @@
             "game_ver":"2.3.0"
         },
         "Jigsaw":{
-            "base_url":"https://jigsaw.tapcolor.net",
+            "base_url":"https://jigsaw.tapcolor.net/",
             "Api_Name":"normalApi/v1/getGalleryList",
             "game_ver":"1.1.0"
         }

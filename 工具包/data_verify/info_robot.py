@@ -3,9 +3,10 @@
  * @Author       : Tommy
  * @Date         : 2020-12-14 14:30:56
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-14 14:51:01
+ * @LastEditTime : 2020-12-15 20:57:21
 '''
 import requests
+from loguru import logger
 
 
 class Robot(object):
@@ -21,4 +22,5 @@ class Robot(object):
                 "content": content
             }
         }
-        requests.post(url=self.url, headers=self.headers, json=self.data)
+        logger.error("错误信息：{}".format(content))
+        # requests.post(url=self.url, headers=self.headers, json=self.data)

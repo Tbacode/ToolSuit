@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-14 15:35:00
+ * @LastEditTime : 2020-12-15 20:50:15
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -34,8 +34,17 @@ def pre_main(url: str, game_ver: str, os_type: str, obj_name: str):
         data_base = DataGet(url, game_ver, os_type, pic_type)
         pic_verify = PicVerify(obj_name)
         result = data_base.request_pic_list_item()
+        # 第一层判断是否存在首次拉去就是空数据的分类
         if pic_verify.is_empty_by_pic_type(result['data']['picList']):
+            # 非空就进入main函数递归获取整个分类下数据
             main(data_base)
+            # 判断如果是拼图项目只需要验证Jigsaw分类
+            if obj_name == "Jigsaw":
+                logger.debug("这里是拼图分类，只做jigsaw分类验证，之后程序跳出")
+                pic_verify.is_error_by_jigsawpic(data_base.pic_list_item)
+                logger.debug("最后的数据：{}".format(
+                    data_base.pic_list_item[-1]['picName']))
+                break
             if pic_type == 'Jigsaw':
                 pic_verify.is_error_by_jigsawpic(data_base.pic_list_item)
             logger.debug("最后的数据：{}".format(
@@ -68,4 +77,4 @@ def start(env_name: str, obj_name: str, os_type: str):
 
 
 if __name__ == "__main__":
-    start("release", "ColorLite", "Android")
+    start("release", "Jigsaw", "Android")
