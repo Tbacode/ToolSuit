@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-15 21:31:48
+ * @LastEditTime : 2020-12-16 14:22:25
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -21,7 +21,7 @@ def main(data_base: DataGet):
         main(data_base)
 
 
-def pre_main(url: str, game_ver: str, os_type: str, obj_name: str):
+def pre_main(url: str, game_ver: str, os_type: str, obj_name: str, env_name: str):
     # 这里验证数据的初始化
     pictype_list = [
         "Jigsaw", "Cartoon", "Fashion", "Food", "Marine", "Festival",
@@ -32,7 +32,7 @@ def pre_main(url: str, game_ver: str, os_type: str, obj_name: str):
     for pic_type in pictype_list:
         logger.debug("请求开始类型：{}".format(pic_type))
         data_base = DataGet(url, game_ver, os_type, pic_type)
-        pic_verify = PicVerify(obj_name)
+        pic_verify = PicVerify(obj_name, env_name)
         result = data_base.request_pic_list_item()
         # 第一层判断是否存在首次拉去就是空数据的分类
         if pic_verify.is_empty_by_pic_type(result['data']['picList']):
@@ -52,7 +52,7 @@ def pre_main(url: str, game_ver: str, os_type: str, obj_name: str):
         else:
             msg_robot = Robot()
             # logger.error("存在分类{}数据为空".format(pic_type))
-            content = "{}项目-存在{}分类数据为空".format(obj_name, pic_type)
+            content = "{}环境{}项目-存在{}分类数据为空".format(env_name, obj_name, pic_type)
             msg_robot.send_message(content)
 
 
@@ -72,7 +72,7 @@ def start(env_name: str, obj_name: str, os_type: str):
                     game_ver = con_json[key][obj_item]['game_ver']
                     os_type = os_type
                     logger.debug("项目参数初始化成功，进入main方法")
-                    pre_main(url, game_ver, os_type, obj_name)
+                    pre_main(url, game_ver, os_type, obj_name, env_name)
                     break
 
 

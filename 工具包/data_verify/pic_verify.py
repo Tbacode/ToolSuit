@@ -3,14 +3,15 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 11:50:13
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-14 15:32:16
+ * @LastEditTime : 2020-12-16 14:22:09
 '''
 from loguru import logger
 from info_robot import Robot
 
 
 class PicVerify(object):
-    def __init__(self, project_name):
+    def __init__(self, project_name, env_name):
+        self.env_name = env_name
         self.project_name = project_name
         self.msg_robot = Robot()
 
@@ -42,8 +43,8 @@ class PicVerify(object):
             if pic_type not in item['picClass']:
                 # logger.error("图片:{}不是{}分类".format(
                 #     item['picName'], item['picClass']))
-                content = "{}项目-图片:{}不是{}分类".format(
-                    self.project_name, item['picName'], item['picClass'])
+                content = "{}环境{}项目-图片:{}不是{}分类".format(
+                    self.env_name, self.project_name, item['picName'], item['picClass'])
                 self.msg_robot.send_message(content)
 
     # TODO: 判断拼图数据是否异常
@@ -68,8 +69,8 @@ class PicVerify(object):
                 flag = 2
             if item['picClass'] == '':
                 # logger.error("图片{}存在picClass空值".format(item['picName']))
-                content = "{}项目-图片{}存在picClass空值".format(
-                    self.project_name, item['picName'])
+                content = "{}环境{}项目-图片{}存在picClass空值".format(
+                    self.env_name, self.project_name, item['picName'])
                 self.msg_robot.send_message(content)
             if item['picJigsawId'] == picJigsawId:
                 jigsaw_list.append(item['picName'])
@@ -80,14 +81,14 @@ class PicVerify(object):
                     jigsaw_list = []
                 else:
                     # logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
-                    content = "{}项目-存在拼图数量小于4的情况：{}".format(
-                        self.project_name, jigsaw_list)
+                    content = "{}环境{}项目-存在拼图数量小于4的情况：{}".format(
+                        self.env_name, self.project_name, jigsaw_list)
                     self.msg_robot.send_message(content)
                     jigsaw_list = []
                 jigsaw_list.append(item["picName"])
         if len(jigsaw_list) != 0:
             if len(jigsaw_list) % 2 != 0 or len(jigsaw_list) < 4:
                 # logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
-                content = "{}项目-存在拼图数量小于4的情况：{}".format(
-                    self.project_name, jigsaw_list)
+                content = "{}环境{}项目-存在拼图数量小于4的情况：{}".format(
+                    self.env_name, self.project_name, jigsaw_list)
                 self.msg_robot.send_message(content)
