@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-15 20:50:15
+ * @LastEditTime : 2020-12-15 21:31:48
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -77,4 +77,4 @@ def start(env_name: str, obj_name: str, os_type: str):
 
 
 if __name__ == "__main__":
-    start("release", "Jigsaw", "Android")
+    start("release", "TapColor", "Android")

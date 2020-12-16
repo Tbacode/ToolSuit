@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-03 18:11:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-15 18:39:03
+ * @LastEditTime : 2020-12-16 11:32:56
 '''
 # 配置组件外观
 
@@ -146,10 +146,11 @@
 '''
 创建一个简单的按钮栏，弹出对话框演示，引用dialogTable.py
 '''
+
+
 from tkinter import *
 from dialogTable import demos
 from quitter import Quitter
-
 class Demo(Frame):
     def __init__(self, parent=None, **options):
         Frame.__init__(self, parent, **options)
