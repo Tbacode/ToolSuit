@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-16 14:22:25
+ * @LastEditTime : 2020-12-16 14:42:07
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -56,7 +56,7 @@ def pre_main(url: str, game_ver: str, os_type: str, obj_name: str, env_name: str
             msg_robot.send_message(content)
 
 
-def start(env_name: str, obj_name: str, os_type: str):
+def start(env_name: str, obj_name: str, os_type: str = "Android"):
     # 根据传入环境名称和项目名称来初始化参数
     with open("config.json", "r", encoding="utf-8") as f:
         con_json = f.read()
@@ -77,4 +77,4 @@ def start(env_name: str, obj_name: str, os_type: str):
 
 
 if __name__ == "__main__":
-    start("release", "TapColor", "Android")
+    start("release", "TapColor")
