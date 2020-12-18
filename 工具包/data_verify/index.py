@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 15:45:54
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-16 14:42:07
+ * @LastEditTime : 2020-12-18 12:07:14
 '''
 from data_get import DataGet
 from pic_verify import PicVerify
@@ -52,7 +52,8 @@ def pre_main(url: str, game_ver: str, os_type: str, obj_name: str, env_name: str
         else:
             msg_robot = Robot()
             # logger.error("存在分类{}数据为空".format(pic_type))
-            content = "{}环境{}项目-存在{}分类数据为空".format(env_name, obj_name, pic_type)
+            content = "{}环境{}项目-存在{}分类数据为空".format(
+                env_name, obj_name, pic_type)
             msg_robot.send_message(content)
 
 
@@ -77,4 +78,4 @@ def start(env_name: str, obj_name: str, os_type: str = "Android"):
 
 
 if __name__ == "__main__":
-    start("release", "TapColor")
+    start("pre", "TapColor")

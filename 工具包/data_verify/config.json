@@ -19,7 +19,7 @@
     "pre":{
         "TapColor":{
             "base_url": "https://tapcolor-new-pre.weplayer.cc/",
-            "Api_Name":"normalApi/normalApi/v1/getGalleryList",
+            "Api_Name":"normalApi/v1/getGalleryList",
             "game_ver":"5.2.0"
         },
         "ColorLite":{
