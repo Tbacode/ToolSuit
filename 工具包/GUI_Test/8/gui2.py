@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-03 18:11:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-16 11:32:56
+ * @LastEditTime : 2020-12-21 12:19:29
 '''
 # 配置组件外观
 
@@ -156,9 +156,14 @@ class Demo(Frame):
         Frame.__init__(self, parent, **options)
         self.pack()
         Label(self, text="Basic demos").pack()
-        for (key, value) in demos.items():
-            Button(self, text=key, command=value).pack(side=TOP, fill=BOTH)
+        # for (key, value) in demos.items():
+        for key in demos:
+            func = (lambda key=key: self.printit(key))
+            Button(self, text=key, command=func).pack(side=TOP, fill=BOTH)
         Quitter(self).pack(side=TOP, fill=BOTH)
+    
+    def printit(self, name):
+        print(name, 'returens =>', demos[name]())
 
 
 if __name__ == "__main__":
