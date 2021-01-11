@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-03 18:11:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-21 12:19:29
+ * @LastEditTime : 2020-12-21 15:04:54
 '''
 # 配置组件外观
 
@@ -148,23 +148,78 @@
 '''
 
 
+# from tkinter import *
+# from dialogTable import demos
+# from quitter import Quitter
+# class Demo(Frame):
+#     def __init__(self, parent=None, **options):
+#         Frame.__init__(self, parent, **options)
+#         self.pack()
+#         Label(self, text="Basic demos").pack()
+#         # for (key, value) in demos.items():
+#         for key in demos:
+#             func = (lambda key=key: self.printit(key))
+#             Button(self, text=key, command=func).pack(side=TOP, fill=BOTH)
+#         Quitter(self).pack(side=TOP, fill=BOTH)
+
+#     def printit(self, name):
+#         print(name, 'returens =>', demos[name]())
+
+
+# if __name__ == "__main__":
+#     Demo().mainloop()
+
+# 旧得dialog模块
+'''
+由于编程所需的额外复杂性，选择使用dialogTable联合的标准对话框使用
+'''
+
+# from tkinter import *
+# from tkinter.dialog import Dialog
+# class OldDialogDemo(Frame):
+#     def __init__(self, master=None):
+#         Frame.__init__(self, master)
+#         Pack.config(self)
+#         Button(self, text='Pop1', command=self.dialog1).pack()
+#         Button(self, text='Pop2', command=self.dialog2).pack()
+
+#     def dialog1(self):
+#         ans = Dialog(self,
+#                      title='Popup Fun!',
+#                      text='An example of a popup-dialog',
+#                      bitmap='questhead',
+#                      default=0, strings=('Yes', 'No', 'Cancel'))
+#         if ans.num == 0:
+#             self.dialog2()
+
+#     def dialog2(self):
+#         Dialog(self, title='HAL-9999',
+#                text="I'm afraid I can't let you do that, Dave...",
+#                bitmap='hourglass',
+#                default=0, strings=('spam', 'SPAM')
+#                )
+
+
+# if __name__ == "__main__":
+#     OldDialogDemo().mainloop()
+
+# 自定义对话框
+
+import sys
 from tkinter import *
-from dialogTable import demos
-from quitter import Quitter
-class Demo(Frame):
-    def __init__(self, parent=None, **options):
-        Frame.__init__(self, parent, **options)
-        self.pack()
-        Label(self, text="Basic demos").pack()
-        # for (key, value) in demos.items():
-        for key in demos:
-            func = (lambda key=key: self.printit(key))
-            Button(self, text=key, command=func).pack(side=TOP, fill=BOTH)
-        Quitter(self).pack(side=TOP, fill=BOTH)
-    
-    def printit(self, name):
-        print(name, 'returens =>', demos[name]())
 
+makemodal = (len(sys.argv) > 1)
+def dialog():
+    win = Toplevel()
+    Label(win, text='Hard drive reformatted!').pack()
+    Button(win, text='OK', command=win.destroy).pack()
+    if makemodal:
+        win.focus_set()
+        win.grab_set()
+        win.wait_window()
+    print('dialog exit')
 
-if __name__ == "__main__":
-    Demo().mainloop()
+root = Tk()
+Button(root, text='popup', command=dialog).pack()
+root.mainloop()
+
