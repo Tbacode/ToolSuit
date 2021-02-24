@@ -101,10 +101,10 @@ def run_test(times):
     for i in range(times):
         cold_time.append(get_cold_boot_time(
             'coloring.color.number.happy.paint.art.drawing.puzzle',
-            '.UnityPlayerActivity'))
+            'com.unity3d.player.UnityPlayerActivity'))
         hot_time.append(get_hot_boot_time(
             'coloring.color.number.happy.paint.art.drawing.puzzle',
-            '.UnityPlayerActivity'))
+            'com.unity3d.player.UnityPlayerActivity'))
     res_cold_time = 0
     res_hot_time = 0
     print("cold_time = " + str(cold_time))

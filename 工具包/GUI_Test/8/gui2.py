@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-03 18:11:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-21 15:04:54
+ * @LastEditTime : 2021-02-22 15:02:41
 '''
 # 配置组件外观
 
@@ -148,26 +148,26 @@
 '''
 
 
-# from tkinter import *
-# from dialogTable import demos
-# from quitter import Quitter
-# class Demo(Frame):
-#     def __init__(self, parent=None, **options):
-#         Frame.__init__(self, parent, **options)
-#         self.pack()
-#         Label(self, text="Basic demos").pack()
-#         # for (key, value) in demos.items():
-#         for key in demos:
-#             func = (lambda key=key: self.printit(key))
-#             Button(self, text=key, command=func).pack(side=TOP, fill=BOTH)
-#         Quitter(self).pack(side=TOP, fill=BOTH)
+from tkinter import *
+from dialogTable import demos
+from quitter import Quitter
+class Demo(Frame):
+    def __init__(self, parent=None, **options):
+        Frame.__init__(self, parent, **options)
+        self.pack()
+        Label(self, text="Basic demos").pack()
+        # for (key, value) in demos.items():
+        for key in demos:
+            func = (lambda key=key: self.printit(key))
+            Button(self, text=key, command=func).pack(side=TOP, fill=BOTH)
+        Quitter(self).pack(side=TOP, fill=BOTH)
 
-#     def printit(self, name):
-#         print(name, 'returens =>', demos[name]())
+    def printit(self, name):
+        print(name, 'returens =>', demos[name]())
 
 
-# if __name__ == "__main__":
-#     Demo().mainloop()
+if __name__ == "__main__":
+    Demo().mainloop()
 
 # 旧得dialog模块
 '''
@@ -205,21 +205,21 @@
 
 # 自定义对话框
 
-import sys
-from tkinter import *
+# import sys
+# from tkinter import *
 
-makemodal = (len(sys.argv) > 1)
-def dialog():
-    win = Toplevel()
-    Label(win, text='Hard drive reformatted!').pack()
-    Button(win, text='OK', command=win.destroy).pack()
-    if makemodal:
-        win.focus_set()
-        win.grab_set()
-        win.wait_window()
-    print('dialog exit')
+# makemodal = (len(sys.argv) > 1)
+# def dialog():
+#     win = Toplevel()
+#     Label(win, text='Hard drive reformatted!').pack()
+#     Button(win, text='OK', command=win.destroy).pack()
+#     if makemodal:
+#         win.focus_set()
+#         win.grab_set()
+#         win.wait_window()
+#     print('dialog exit')
 
-root = Tk()
-Button(root, text='popup', command=dialog).pack()
-root.mainloop()
+# root = Tk()
+# Button(root, text='popup', command=dialog).pack()
+# root.mainloop()
 
