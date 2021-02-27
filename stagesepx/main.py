@@ -3,7 +3,7 @@
  * @Autor        : Tommy
  * @Date         : 2021-02-21 17:17:07
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-02-27 17:37:51
+ * @LastEditTime : 2021-02-27 19:00:50
 '''
 from stagesepx.cutter import VideoCutter
 from stagesepx.video import VideoObject
@@ -23,7 +23,7 @@ cutter = VideoCutter()
 res = cutter.cut(video, block=6)
 
 # 计算出判断A帧到B帧之间是稳定还是不稳定
-stable, unstable = res.get_range(threshold=0.97, offset=2)
+stable, unstable = res.get_range(threshold=0.96, offset=3)
 
 # 把分类号的稳定阶段图片保存本地
 res.pick_and_save(stable, 20, to_dir='./stable_frame', meaningful_name=True)
