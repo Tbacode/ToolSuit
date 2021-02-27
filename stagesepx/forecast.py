@@ -3,7 +3,7 @@
  * @Autor        : Tommy
  * @Date         : 2021-02-21 19:07:26
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-02-22 15:48:52
+ * @LastEditTime : 2021-02-27 16:27:54
 '''
 from stagesepx.classifier.keras import KerasClassifier
 from stagesepx.cutter import VideoCutter
@@ -15,7 +15,7 @@ cl = KerasClassifier()
 cl.load_model('./model.h5')
 
 # 将视频切分成帧
-file_name = './video/long.mp4'
+file_name = './video/TapColor_new.mp4'
 video = VideoObject(file_name)
 
 # 新建帧，计算视频总共多少帧，每帧多少ms

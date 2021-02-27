@@ -3,7 +3,7 @@
  * @Autor        : Tommy
  * @Date         : 2021-02-21 18:51:11
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-02-22 15:47:46
+ * @LastEditTime : 2021-02-26 14:46:49
 '''
 from stagesepx.classifier.keras import KerasClassifier
 
@@ -16,4 +16,3 @@ cl = KerasClassifier(
 
 cl.train('./stable_frame')
 cl.save_model('./model.h5', overwrite=True)
-
