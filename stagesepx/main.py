@@ -3,7 +3,7 @@
  * @Autor        : Tommy
  * @Date         : 2021-02-21 17:17:07
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-02-27 19:00:50
+ * @LastEditTime : 2021-03-12 12:03:42
 '''
 from stagesepx.cutter import VideoCutter
 from stagesepx.video import VideoObject
@@ -11,6 +11,7 @@ from stagesepx.video import VideoObject
 
 # 将视频切分成帧
 file_name = './video/TapColor_new.mp4'
+# 初始化视频时，锁帧60
 video = VideoObject(file_name, pre_load=True, fps=60)
 
 # 新建帧，计算视频总共有多少帧，每帧多少ms
@@ -23,7 +24,7 @@ cutter = VideoCutter()
 res = cutter.cut(video, block=6)
 
 # 计算出判断A帧到B帧之间是稳定还是不稳定
-stable, unstable = res.get_range(threshold=0.96, offset=3)
+stable, unstable = res.get_range(threshold=0.96, offset=1)
 
 # 把分类号的稳定阶段图片保存本地
 res.pick_and_save(stable, 20, to_dir='./stable_frame', meaningful_name=True)
