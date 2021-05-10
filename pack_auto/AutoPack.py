@@ -17,14 +17,14 @@ HTTP_REMOTE_URL = 'http://192.168.2.54/'
 TILE_PROJECT_ROOT_PATH = '/Users/talefun/Documents/TileProject'
 TILE_PROJECT_NAME = 'TileMatchFun'
 # TILE_WECHAT_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=22e68ae6-9e35-4464-83f6-faee481e2e27" #张齐项目测试群007
-TILE_WECHAT_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=a7074ccb-fb2f-45c9-9f23-d67fc0200fdc" #弹球tile自动打包通知群
+TILE_WECHAT_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=a7074ccb-fb2f-45c9-9f23-d67fc0200fdc"  #弹球tile自动打包通知群
 # TILE_WECHAT_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=2b6597b9-3351-443e-ac94-06922240357f" #tile马龙群008
 TILE_XXTEA_KEY = "f1fe6599-0918-48"
 TILE_ANDROID_PACKAGE_NAME = "com.tile.match.master.puzzle"
 
 BF_PROJECT_ROOT_PATH = '/Users/talefun/Documents/BvBClient3/BvBClient3'
 BF_PROJECT_NAME = 'BreakerFun'
-BF_WECHAR_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=a7074ccb-fb2f-45c9-9f23-d67fc0200fdc' #弹球tile自动打包通知群
+BF_WECHAR_URL = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=a7074ccb-fb2f-45c9-9f23-d67fc0200fdc'  #弹球tile自动打包通知群
 # BF_WECHAR_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=2b6597b9-3351-443e-ac94-06922240357f" #tile马龙群008
 
 BF_ANDROID_XXTEA_KEY = '5e768ec6-e117-4b'
@@ -41,7 +41,8 @@ COCOS_CREATOR_PATH = '/Applications/CocosCreator/Creator/{0}/CocosCreator.app/Co
 
 
 class AutoPack:
-    def __init__(self, project, platform, debug, version, unmerge, assignBranch, message, engine, compress):
+    def __init__(self, project, platform, debug, version, unmerge,
+                 assignBranch, message, engine, compress):
         self.m_project = project
         self.m_platform = platform
         self.m_debug = debug
@@ -51,11 +52,11 @@ class AutoPack:
         self.m_message = message
         self.m_engine = engine
         self.m_compress = compress
-    
+
     def package(self):
         enginePath = COCOS_CREATOR_PATH.format(self.m_engine)
         if not os.path.exists(enginePath):
-            return 'not support engine version ' + self.m_engine 
+            return 'not support engine version ' + self.m_engine
         projectName = ''
         projectPath = ''
         if self.m_project == 'tile':
@@ -66,7 +67,9 @@ class AutoPack:
             projectPath = BF_PROJECT_ROOT_PATH
         else:
             return 'not support project ' + self.m_project
-        gitManager = GitManager.GitManager(self.m_project, self.m_platform, self.m_version, self.m_unmerge, self.m_assignBranch)
+        gitManager = GitManager.GitManager(self.m_project, self.m_platform,
+                                           self.m_version, self.m_unmerge,
+                                           self.m_assignBranch)
         ret = gitManager.switchToAutoBranch()
         if ret != None:
             return ret
@@ -77,20 +80,24 @@ class AutoPack:
 
         localGitPath = gitManager.getLocalGitPath()
         if self.m_platform == 'android':
-            self.packageAndroid(projectName, projectPath, localGitPath, enginePath)
+            self.packageAndroid(projectName, projectPath, localGitPath,
+                                enginePath)
         elif self.m_platform == 'ios':
             self.packageIOS(projectName, projectPath, localGitPath, enginePath)
         elif self.m_platform == 'web':
-            self.packageWeb(projectName, projectPath, localGitPath, gitManager.getCurrentBranchName(), enginePath)
+            self.packageWeb(projectName, projectPath, localGitPath,
+                            gitManager.getCurrentBranchName(), enginePath)
         else:
             return 'none platform ' + self.m_platform
         #删除gitlog文件
         os.system('rm -rf {0}/gitLog.gitlog'.format(localGitPath))
-        self.sendFixedMessageToWechat('build complete, from client message:' + self.m_message)
+        self.sendFixedMessageToWechat('build complete, from client message:' +
+                                      self.m_message)
         return 'OK'
 
     #构建
-    def packageAndroid(self, projectName, projectPath, gitLocalPath, enginePath):
+    def packageAndroid(self, projectName, projectPath, gitLocalPath,
+                       enginePath):
         print('android')
         #Construct
         xxteaKey = ''
@@ -104,7 +111,7 @@ class AutoPack:
         encryptJs = 'false'
         if self.m_debug == None:
             isDebug = 'true'
-        
+
         #临时处理一下bf压图问题 打包机默认不压图 不然打包会等很久
         if self.m_compress == None and self.m_project == 'bf':
             toolsRoot = path.realpath("{0}/tools".format(projectPath))
@@ -112,15 +119,22 @@ class AutoPack:
             os.system('node setETC.js ../assets/textures 0')
             os.system('node setETC.js ../assets/resources/textures 0')
             os.system('node setETC.js ../assets/resources/spines/game 0')
-            os.system('node setETC.js ../assets/resources/spines/game/rescue/texture/ 0')
-        
+            os.system(
+                'node setETC.js ../assets/resources/spines/game/rescue/texture/ 0'
+            )
+
         buildParam = ' --build "platform=android;appABIs=[\'armeabi-v7a\',\'arm64-v8a\'];zipCompressJs=false;md5Cache=false;encryptJs=' + encryptJs + ';xxteaKey=' + xxteaKey + ';apiLevel=android-30;template=link;package=' + buildPackage + '"'
-        print('===================cocos creator build start====================')
+        print(
+            '===================cocos creator build start====================')
         ret = os.system(enginePath + ' --path ' + projectPath + buildParam)
         print(ret)
-        print('===================cocos creator build complete====================')
+        print(
+            '===================cocos creator build complete===================='
+        )
         # Android工程所在目录
-        androidRootPath = path.realpath("{0}/build/jsb-link/frameworks/runtime-src/proj.android-studio/".format(projectPath))
+        androidRootPath = path.realpath(
+            "{0}/build/jsb-link/frameworks/runtime-src/proj.android-studio/".
+            format(projectPath))
         print('===================adb build start====================')
         print("{0}".format(androidRootPath))
         os.chdir(androidRootPath)
@@ -152,14 +166,16 @@ class AutoPack:
         isDebug = 'debug'
         if self.m_debug == None:
             isDebug = 'release'
-        apkName = projectName + "-v{0}-{1}-{2}.apk".format(versionName, isDebug, strTime)
+        apkName = projectName + "-v{0}-{1}-{2}.apk".format(
+            versionName, isDebug, strTime)
         httpRootPath = HTTP_ROOT_PATH + self.m_project + '/' + self.m_platform
         oriPath = androidRootPath + "/app/build/outputs/apk/release/"
         if not os.path.exists(oriPath):
             oriPath = androidRootPath + "/app/release/"
         self.copyFile(oriPath, 'apk', httpRootPath, apkName)
         self.sendMessageToWechat(apkName)
-        gitLogTxtName = projectName + "-v{0}-{1}-{2}.txt".format(versionName, isDebug, strTime)
+        gitLogTxtName = projectName + "-v{0}-{1}-{2}.txt".format(
+            versionName, isDebug, strTime)
         self.copyFile(gitLocalPath, 'gitlog', httpRootPath, gitLogTxtName)
         self.sendMessageToWechat(gitLogTxtName)
 
@@ -172,63 +188,81 @@ class AutoPack:
         if self.m_project == 'tile':
             xxteaKey = TILE_XXTEA_KEY
             buildPackage = ''
-            print('===================tile has no ios project====================')
+            print(
+                '===================tile has no ios project===================='
+            )
             return
         elif self.m_project == 'bf':
             xxteaKey = BF_IOS_XXTEA_KEY
             buildPackage = BF_IOS_PACKAGE_NAME
             targetName = BF_IOS_TARGET_NAME
             workspaceName = '{0}.xcodeproj'.format(BF_IOS_WORKSPACE_NAME)
-            
+
         buildParam = ' --build "platform=ios;zipCompressJs=false;md5Cache=false;encryptJs=true;xxteaKey=' + xxteaKey + ';template=link;package=' + buildPackage + '"'
-        print('===================cocos creator build start====================')
+        print(
+            '===================cocos creator build start====================')
         ret = os.system(enginePath + ' --path ' + projectPath + buildParam)
         print(ret)
-        print('===================cocos creator build complete====================')
-        iosRootPath = path.realpath("{0}/build/jsb-link/frameworks/runtime-src/proj.ios_mac/".format(projectPath))
+        print(
+            '===================cocos creator build complete===================='
+        )
+        iosRootPath = path.realpath(
+            "{0}/build/jsb-link/frameworks/runtime-src/proj.ios_mac/".format(
+                projectPath))
         os.chdir(iosRootPath)
         print('===================clean product====================')
         ret = os.system('xcodebuild clean -configuration release -alltargets')
         print('===================clean product complete====================')
         print('===================start archive====================')
-        tempIOSPath = path.realpath("{0}/build/jsb-link/frameworks/runtime-src/proj.ios_mac/temp-ios".format(projectPath))
+        tempIOSPath = path.realpath(
+            "{0}/build/jsb-link/frameworks/runtime-src/proj.ios_mac/temp-ios".
+            format(projectPath))
         os.system('rm -rf {0}'.format(tempIOSPath))
         os.system('mkdir {0}'.format(tempIOSPath))
         strTime = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
         isDebug = 'debug'
         if self.m_debug == None:
             isDebug = 'release'
-        archivePath = "{0}/{1}-{2}-{3}.xcarchive".format(tempIOSPath, BF_IOS_WORKSPACE_NAME, strTime, isDebug)
-        ret = os.system('xcodebuild archive -project {0} -scheme "{1}" -configuration release -archivePath {2}'.format(workspaceName, targetName, archivePath))
+        archivePath = "{0}/{1}-{2}-{3}.xcarchive".format(
+            tempIOSPath, BF_IOS_WORKSPACE_NAME, strTime, isDebug)
+        ret = os.system(
+            'xcodebuild archive -project {0} -scheme "{1}" -configuration release -archivePath {2}'
+            .format(workspaceName, targetName, archivePath))
         print('===================archive complete====================')
         os.system('cp ios/Info.plist temp-ios/')
         exportPath = '/Library/WebServer/Documents/bf/ios/' + strTime
         os.system('mkdir {0}'.format(exportPath))
         exportPlistPath = '{0}/Info.plist'.format(tempIOSPath)
-        os.system('xcodebuild -exportArchive -archivePath {0} -exportOptionsPlist {1} -exportPath "{2}"'.format(archivePath, exportPlistPath, exportPath))
+        os.system(
+            'xcodebuild -exportArchive -archivePath {0} -exportOptionsPlist {1} -exportPath "{2}"'
+            .format(archivePath, exportPlistPath, exportPath))
         print('===================exportArchive complete====================')
         ipaName = strTime + '/' + BF_IOS_TARGET_NAME + '.ipa'
         self.sendMessageToWechat(ipaName)
         httpRootPath = HTTP_ROOT_PATH + self.m_project + '/' + self.m_platform
-        gitLogTxtName = projectName + "-v{0}-{1}-{2}.txt".format(self.m_version, isDebug, strTime)
+        gitLogTxtName = projectName + "-v{0}-{1}-{2}.txt".format(
+            self.m_version, isDebug, strTime)
         self.copyFile(gitLocalPath, 'gitlog', httpRootPath, gitLogTxtName)
         self.sendMessageToWechat(gitLogTxtName)
         #打包完成过后删除临时文件夹
         os.system('rm -rf {0}'.format(tempIOSPath))
 
-    def packageWeb(self, projectName, projectPath, gitLocalPath, branchName, enginePath):
+    def packageWeb(self, projectName, projectPath, gitLocalPath, branchName,
+                   enginePath):
         print('web')
         buildParam = ' --build "platform=web-desktop;previewWidth=416;previewHeight=750' + '"'
         ret = os.system(enginePath + ' --path ' + projectPath + buildParam)
         print(ret)
-        print('===================cocos creator build complete====================')
+        print(
+            '===================cocos creator build complete===================='
+        )
         httpRootPath = HTTP_ROOT_PATH + self.m_project + '/' + self.m_platform
         strTime = time.strftime('%Y%m%d%H%M%S', time.localtime(time.time()))
         webName = projectName + "-{0}-{1}".format(branchName, strTime)
         oriPath = path.realpath("{0}/build/web-desktop".format(projectPath))
         self.copyFolder(oriPath, httpRootPath + '/' + webName)
         self.sendMessageToWechat(webName)
-        gitLogTxtName =  webName + '.txt'
+        gitLogTxtName = webName + '.txt'
         self.copyFile(gitLocalPath, 'gitlog', httpRootPath, gitLogTxtName)
         self.sendMessageToWechat(gitLogTxtName)
 
@@ -246,7 +280,8 @@ class AutoPack:
             tarCode = 'talefun.DEBUG = true;'
         with open(gameInitPath, mode='r') as fr, open(temp, mode='w') as fw:
             for line in fr:
-                re_sub_list = re.sub(oriCode, tarCode, line) # 这里用re.sub进行替换后放入 re_sub_list中
+                re_sub_list = re.sub(oriCode, tarCode,
+                                     line)  # 这里用re.sub进行替换后放入 re_sub_list中
                 fw.writelines(re_sub_list)
             os.remove(gameInitPath)
             os.rename(temp, gameInitPath)
@@ -271,12 +306,7 @@ class AutoPack:
         elif self.m_project == 'bf':
             url = BF_WECHAR_URL
         headers = {"Content-Type": "text/plain"}
-        data = {
-            "msgtype": "text",
-            "text": {
-                "content": remoteUrl
-            }
-        }
+        data = {"msgtype": "text", "text": {"content": remoteUrl}}
         res = requests.post(url, json=data, headers=headers)
         print(res.text)
 
@@ -288,11 +318,6 @@ class AutoPack:
             url = BF_WECHAR_URL
 
         headers = {"Content-Type": "text/plain"}
-        data = {
-            "msgtype": "text",
-            "text": {
-                "content": message
-            }
-        }
+        data = {"msgtype": "text", "text": {"content": message}}
         res = requests.post(url, json=data, headers=headers)
         print(res.text)

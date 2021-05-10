@@ -1,25 +1,48 @@
-from git import Repo
-import fileinput
-import os
-from subprocess import check_output
-import re
-import os.path as path
+'''
+ * @Descripttion : 
+ * @Author       : Tommy
+ * @Date         : 2021-04-22 10:44:57
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-05-06 10:28:11
+'''
+from flask import Flask
+from flask import request
+import json
 
-BF_PROJECT_ROOT_PATH = '/Users/talefun/Documents/BvBClient3/BvBClient3'
-androidRootPath = path.realpath("{0}/build/jsb-link/frameworks/runtime-src/proj.android-studio/".format(BF_PROJECT_ROOT_PATH))
-outputFile1 = androidRootPath + "/app/build/outputs/apk/release/output.json"
-outputFile2 = androidRootPath + "/app/release/output.json"
-outputFile = ''
-if not os.path.exists(outputFile1):
-    outputFile = outputFile2
-elif not os.path.exists(outputFile2):
-    outputFile = outputFile1
-else:
-    mtime1 = os.stat(outputFile1).st_mtime
-    mtime2 = os.stat(outputFile2).st_mtime
-    if mtime1 > mtime2:
-        outputFile = outputFile1
-    else:
-        outputFile = outputFile2
-print('===================adb build start====================')
-print("{0}".format(outputFile))
+app = Flask(__name__)
+
+
+@app.route('/')
+def Home():
+    data = json.dumps({"username": "Tommy", "password": "1123444"})
+    return data
+
+
+@app.route('/login', methods=['GET'])
+def Login():
+    username = request.args.get("username")
+    password = request.args.get("password")
+    data = json.dumps({"username": username, "password": password})
+    return data
+
+
+@app.route('/getGalleyList', methods=['GET'])
+def get_GalleyList():
+    '''
+    getGalleyList 路由
+    '''
+    data = json.dumps({
+        "data": {
+            "errorcode": 100,
+            "picList": [{
+                "picName": "111111"
+            }, {
+                "picName": "222222"
+            }]
+        }
+    })
+    return data
+
+
+if __name__ == "__main__":
+    app.run()

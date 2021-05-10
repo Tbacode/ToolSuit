@@ -3,7 +3,7 @@
  * @Autor        : Tommy
  * @Date         : 2021-02-21 19:07:26
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-03-14 22:31:47
+ * @LastEditTime : 2021-03-15 12:15:48
 '''
 from stagesepx.classifier.keras import KerasClassifier
 from stagesepx.cutter import VideoCutter
@@ -12,10 +12,10 @@ from stagesepx.reporter import Reporter
 
 # 使用Keras方法进行预测
 cl = KerasClassifier()
-cl.load_model('./model.h5')
+cl.load_model('./Color_finally.h5')
 
 # 将视频切分成帧
-file_name = './video/TapColorLite_2.mp4'
+file_name = './video/TapColor_5.mp4'
 video = VideoObject(file_name)
 
 # 新建帧，计算视频总共多少帧，每帧多少ms

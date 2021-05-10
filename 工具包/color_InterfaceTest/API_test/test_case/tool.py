@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-11-12 11:25:34
+ * @LastEditTime : 2021-04-14 16:42:57
 '''
 import json
 import requests
@@ -12,7 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import smtplib
 import base64
-from Crypto.Cipher import AES
+# from Crypto.Cipher import AES
 
 
 class Tool(object):
