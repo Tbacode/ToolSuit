@@ -2,8 +2,8 @@
 Description: new color GetGalleryAPI测试
 Autor: Tommy
 Date: 2020-08-23 01:24:37
-LastEditors: Tommy
-LastEditTime: 2020-10-20 17:30:12
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-04-14 16:41:11
 '''
 import unittest
 import time

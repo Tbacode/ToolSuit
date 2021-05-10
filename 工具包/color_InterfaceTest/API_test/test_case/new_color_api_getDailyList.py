@@ -2,8 +2,8 @@
 @Descripttion: 新color getDaily接口APItest脚本
 @Author: Tommy
 @Date: 2020-05-29 17:53:26
-LastEditors: Tommy
-LastEditTime: 2020-08-24 17:34:06
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-04-21 16:03:42
 '''
 import unittest
 import time
@@ -40,7 +40,7 @@ class GetDailyList_new(unittest.TestCase):
 
     def test_new_daily_success(self):
         '''测试新color daily成功'''
-        result = Tool.request_get_result(self.url, self.params)
+        result = Tool().request_get_result(self.url, self.params)
         # 断言
         self.assertEqual(result['data']['picLength'], 1)
         self.assertEqual(result['errorCode'], -1)
