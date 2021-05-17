@@ -268,9 +268,9 @@ class AutoPack:
 
     def modifyGameInitFile(self, gameInitPath):
         temp = gameInitPath + '.temp'
-        #源代码
+        # 源代码
         oriCode = ''
-        #目标代码
+        # 目标代码
         tarCode = ''
         if self.m_debug == None:
             oriCode = 'talefun.DEBUG = true;'
