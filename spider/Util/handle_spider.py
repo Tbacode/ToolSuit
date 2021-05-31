@@ -3,13 +3,14 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-05-20 15:26:24
+ * @LastEditTime : 2021-05-31 18:33:20
 '''
 from fake_useragent import UserAgent
 from threading import Thread, Lock
 from queue import Queue
 from lxml import etree
 import requests
+from bs4 import BeautifulSoup
 
 
 class HandleSpider(object):
@@ -56,3 +57,9 @@ class HandleSpider(object):
         element_value = element.xpath(xpath)
         return element_value
 
+    def get_element_by_bs4_cssselector(self, url, css_selector):
+        html = requests.get(url).text
+        print(html)
+        soup = BeautifulSoup(html, "lxml")
+        info = soup.select(css_selector)
+        print(info)
