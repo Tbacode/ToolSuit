@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-01 14:21:05
+ * @LastEditTime : 2021-06-04 10:57:45
 '''
 from fake_useragent import UserAgent
 from threading import Thread, Lock
@@ -36,7 +36,7 @@ class HandleSpider(object):
          * @param {*}
          * @return {*}
         '''
-        logger.debug("get_html请求开始")
+        logger.debug("get_html请求开始:" + url)
         time.sleep(random.randint(1, 10))
         logger.debug("延迟请求结束")
         html = requests.get(url=url, headers=self.headers).text
@@ -66,7 +66,7 @@ class HandleSpider(object):
     def get_element_by_bs4_cssselector(self, url, css_selector):
         # 设置请求间隔
         logger.debug("get_element_by_bs4_cssselector请求开始")
-        time.sleep(random.randint(1, 10))
+        time.sleep(random.randint(1, 10) * 2)
         logger.debug("延迟请求结束")
         html = requests.get(url, headers=self.headers).text
         soup = BeautifulSoup(html, "lxml")

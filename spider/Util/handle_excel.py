@@ -3,10 +3,10 @@
  * @Author       : Tommy
  * @Date         : 2021-01-07 17:15:33
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-05-12 17:32:09
+ * @LastEditTime : 2021-06-03 11:33:20
 '''
 import openpyxl
-from xlutils.copy import copy
+from openpyxl.styles import Alignment
 
 
 class HandleExcel(object):
@@ -18,6 +18,12 @@ class HandleExcel(object):
          * @return {}
         '''
         self.filename = filename
+        self.excel_style = Alignment(horizontal='general',
+                                     vertical='bottom',
+                                     text_rotation=0,
+                                     wrap_text=True,
+                                     shrink_to_fit=False,
+                                     indent=0)
 
     def excel_open(self):
         '''
@@ -105,11 +111,10 @@ class HandleExcel(object):
         '''
         # 打开表格
         excel_object = self.excel_open()
-        # 将xlrd对象转换成xlwt对象
-        xlwt_object = copy(excel_object)
-        # 获取写入对象表
-        table_object = xlwt_object.get_sheet(sheet_name)
-        # 追加内容到单元格
-        table_object.write(row, col, content)
-        # 保存并覆盖
-        xlwt_object.save(self.filename)
+        # 创建一个新得sheet
+        sheet = excel_object[sheet_name]
+        # 写入数据
+        sheet.cell(row=row, column=col,
+                   value=content).alignment = self.excel_style
+        # 保存
+        excel_object.save(self.filename)

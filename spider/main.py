@@ -3,9 +3,9 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:16:44
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-01 16:48:30
+ * @LastEditTime : 2021-06-04 11:25:46
 '''
-# from Util.handle_excel import HandleExcel
+from Util.handle_excel import HandleExcel
 from Util.handle_spider import HandleSpider
 import operator
 from functools import reduce
@@ -39,6 +39,19 @@ def url_combination(homeUrl, linkUrl_list):
     for link_item in linkUrl_list:
         url_list_return.append(homeUrl + link_item)
     return url_list_return
+
+
+def get_devices_info(html, handleobject, xpath):
+    '''
+     * @name: Tommy
+     * @msg: 根据xpath获取设备详情信息返回str
+     * @param {html:页面对象, handleobject:spider实例对象, xpath:xpath路径}
+     * @return {*}
+    '''
+    info_elements = handleobject.get_elements_by_xpath(html, xpath)
+    info = handleobject.get_element_value_by_xpath(info_elements[0],
+                                                   xpath + '/text()')
+    return info[0].strip()
 
 
 def reduce_list(double_dimensional_url_list):
@@ -85,7 +98,7 @@ def main(url):
         # 此时进入分页循环遍历
         for page_item_url in devices_page_full_url_list:
             devices_info_child_url_list = url_in_list(
-                devices_url, m_handleSpider,
+                page_item_url, m_handleSpider,
                 '//*[@id="review-body"]/div[1]/ul/li',
                 '//*[@id="review-body"]/div[1]/ul/li[{}]/a/@href')
             devices_info_full_url_list = url_combination(
@@ -93,43 +106,34 @@ def main(url):
             double_dimensional_url_list.append(devices_info_full_url_list)
         # 最后将所有设备分页遍历后，获得的二维设备详情url转换为一维
         devices_detail_full_url_list = reduce_list(double_dimensional_url_list)
-        # detail_list = []
         # 此时正式进入信息爬取页面的循环遍历
         for detail_item in devices_detail_full_url_list:
-            m_handleSpider.get_element_by_bs4_cssselector(
-                detail_item,
-                '#specs-list table:nth-child(6) tbody tr:nth-child(3) td.nfo')
-            # html = m_handleSpider.get_html(detail_item)
-            # devices_name_elements = m_handleSpider.get_elements_by_xpath(
-            #     html, '//*[@id="body"]/div/div[1]/div/div[1]/h1')
-            # devices_name = m_handleSpider.get_element_value_by_xpath(
-            #     devices_name_elements[0],
-            #     '//*[@id="body"]/div/div[1]/div/div[1]/h1/text()')
-            # resolution_elements = m_handleSpider.get_elements_by_xpath(
-            #     html, '//*[@id="specs-list"]/table[4]/tbody/tr[3]/td[2]')
-            # resolution = m_handleSpider.get_element_value_by_xpath(
-            #     resolution_elements[0],
-            #     '//*[@id="specs-list"]/table[4]/tbody/tr[3]/td[2]/test()')
-            # os_elements = m_handleSpider.get_elements_by_xpath(
-            #     html, '//*[@id="specs-list"]/table[5]/tbody/tr[1]/td[2]')
-            # os = m_handleSpider.get_element_value_by_xpath(
-            #     os_elements[0],
-            #     '//*[@id="specs-list"]/table[5]/tbody/tr[1]/td[2]/test()')
-            # CPU_elements = m_handleSpider.get_elements_by_xpath(
-            #     html, '//*[@id="specs-list"]/table[5]/tbody/tr[3]/td[2]')
-            # CPU = m_handleSpider.get_element_value_by_xpath(
-            #     CPU_elements[0],
-            #     '//*[@id="specs-list"]/table[5]/tbody/tr[3]/td[2]/text()')
-            # memory_elements = m_handleSpider.get_elements_by_xpath(
-            #     html, '//*[@id="specs-list"]/table[6]/tbody/tr[2]/td[2]')
-            # memory = m_handleSpider.get_element_value_by_xpath(
-            #     memory_elements[0],
-            #     '//*[@id="specs-list"]/table[6]/tbody/tr[2]/td[2]/text()')
-            # detail_list.append(devices_name)
-            # detail_list.append(resolution)
-            # detail_list.append(os)
-            # detail_list.append(CPU)
-            # detail_list.append(memory)
+            list_info = []
+            html = m_handleSpider.get_html(detail_item)
+            devices_name = get_devices_info(
+                html, m_handleSpider,
+                '//*[@id="body"]/div/div[1]/div/div[1]/h1')
+            resolution = get_devices_info(
+                html, m_handleSpider,
+                '//*[@id="specs-list"]/table[4]/tr[3]/td[2]')
+            os = get_devices_info(
+                html, m_handleSpider,
+                '//*[@id="specs-list"]/table[5]/tr[1]/td[2]')
+            CPU = get_devices_info(
+                html, m_handleSpider,
+                '//*[@id="specs-list"]/table[5]/tr[3]/td[2]')
+            memory = get_devices_info(
+                html, m_handleSpider,
+                '//*[@id="specs-list"]/table[6]/tr[2]/td[2]')
+            m_handleExcel = HandleExcel(
+                r"C:\Users\xt875\Documents\ToolSuit\spider\DevicesInfo.xlsx")
+            list_info.append(devices_name)
+            list_info.append(resolution)
+            list_info.append(os)
+            list_info.append(CPU)
+            list_info.append(memory)
+            for index, item in enumerate(list_info):
+                m_handleExcel.excel_celldata_add(1, index + 1, '三星', item)
             # print(detail_list)
         # print("#####################")
         # print(len(devices_detail_full_url_list))
