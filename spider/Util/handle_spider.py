@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-04 10:57:45
+ * @LastEditTime : 2021-06-06 14:57:37
 '''
 from fake_useragent import UserAgent
 from threading import Thread, Lock
@@ -39,7 +39,11 @@ class HandleSpider(object):
         logger.debug("get_html请求开始:" + url)
         time.sleep(random.randint(1, 10))
         logger.debug("延迟请求结束")
-        html = requests.get(url=url, headers=self.headers).text
+        try:
+            html = requests.get(url=url, headers=self.headers, timeout=20).text
+        except Exception:
+            logger.debug("超时链接：" + url)
+            html = None
         return html
 
     def get_elements_by_xpath(self, html, xpath):
@@ -54,7 +58,7 @@ class HandleSpider(object):
         return element_list
 
     def get_element_value_by_xpath(self, element, xpath):
-        '''
+        ''' 
          * @name: Tommy
          * @msg: 通过xpath获取元素对象的属性值
          * @param {元素item，xpath变量}

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:16:44
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-04 13:18:42
+ * @LastEditTime : 2021-06-06 23:23:15
 '''
 from Util.handle_excel import HandleExcel
 from Util.handle_spider import HandleSpider
@@ -99,7 +99,8 @@ def main(url):
     # 此时进入分页循环遍历
     for index, page_item_url in enumerate(devices_page_full_url_list):
         devices_info_child_url_list = url_in_list(
-            page_item_url, m_handleSpider, '//*[@id="review-body"]/div[1]/ul/li',
+            page_item_url, m_handleSpider,
+            '//*[@id="review-body"]/div[1]/ul/li',
             '//*[@id="review-body"]/div[1]/ul/li[{}]/a/@href')
         devices_info_full_url_list = url_combination(
             url, devices_info_child_url_list)
@@ -108,11 +109,19 @@ def main(url):
     # 最后将所有设备分页遍历后，获得的二维设备详情url转换为一维
     devices_detail_full_url_list = reduce_list(double_dimensional_url_list)
     print(devices_detail_full_url_list)
+    m_handleExcel = HandleExcel(
+        r"D:\工程\tool_suit\spider\DevecesInfo_home.xlsx")
     # 此时正式进入信息爬取页面的循环遍历
     for detail_index, detail_item in enumerate(devices_detail_full_url_list):
         list_info = []
         logger.debug("detail_item:" + detail_item)
         html = m_handleSpider.get_html(detail_item)
+        if html is None:
+            logger.error("html is None")
+            m_handleExcel.excel_celldata_add(detail_index + 1,
+                                             1, '摩托罗拉',
+                                             detail_item)
+            continue
         devices_name = get_devices_info(
             html, m_handleSpider, '//*[@id="body"]/div/div[1]/div/div[1]/h1')
         resolution = get_devices_info(
@@ -123,8 +132,6 @@ def main(url):
                                '//*[@id="specs-list"]/table[5]/tr[3]/td[2]')
         memory = get_devices_info(
             html, m_handleSpider, '//*[@id="specs-list"]/table[6]/tr[2]/td[2]')
-        m_handleExcel = HandleExcel(
-            r"C:\Users\xt875\Documents\ToolSuit\spider\DevicesInfo.xlsx")
         list_info.append(devices_name)
         list_info.append(resolution)
         list_info.append(os)
@@ -133,13 +140,13 @@ def main(url):
         for index, item in enumerate(list_info):
             if item is not None:
                 m_handleExcel.excel_celldata_add(detail_index + 1, index + 1,
-                                                 '三星', item)
+                                                 '摩托罗拉', item)
             else:
                 logger.debug("存在为None选项")
                 m_handleExcel.excel_celldata_add(detail_index + 1, index + 1,
-                                                 '三星', detail_item)
+                                                 '摩托罗拉', detail_item)
 
 
 if __name__ == "__main__":
-    url = "https://www.gsmarena.com/samsung-phones-9.php"
+    url = "https://www.gsmarena.com/motorola-phones-4.php"
     main(url)
