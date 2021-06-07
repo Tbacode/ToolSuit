@@ -1,9 +1,9 @@
 '''
- * @Descripttion : 
+ * @Descripttion : 封装对于excel的操作
  * @Author       : Tommy
  * @Date         : 2021-01-07 17:15:33
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-03 11:33:20
+ * @LastEditTime : 2021-06-07 14:47:11
 '''
 import openpyxl
 from openpyxl.styles import Alignment
