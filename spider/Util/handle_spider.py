@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 17:51:01
+ * @LastEditTime : 2021-06-07 19:04:50
 '''
 from fake_useragent import UserAgent
 # from threading import Thread, Lock
@@ -24,7 +24,7 @@ class HandleSpider(object):
          * @param {初始化url,headers}
          * @return {*}
         '''
-        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'}
+        self.headers = {'User-Agent': UserAgent().random}
         logger.debug("User-Agent：" + str(self.headers))
         # 创建url队列、线程锁
         # self.url_queue = Queue()
