@@ -3,11 +3,11 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 17:10:20
+ * @LastEditTime : 2021-06-07 17:51:01
 '''
 from fake_useragent import UserAgent
-from threading import Thread, Lock
-from queue import Queue
+# from threading import Thread, Lock
+# from queue import Queue
 from lxml import etree
 import requests
 from bs4 import BeautifulSoup
@@ -24,11 +24,11 @@ class HandleSpider(object):
          * @param {初始化url,headers}
          * @return {*}
         '''
-        self.headers = {'User-Agent': UserAgent().random}
+        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.77 Safari/537.36'}
         logger.debug("User-Agent：" + str(self.headers))
         # 创建url队列、线程锁
-        self.url_queue = Queue()
-        self.lock = Lock()
+        # self.url_queue = Queue()
+        # self.lock = Lock()
 
     def get_html(self, url):
         '''
@@ -44,7 +44,7 @@ class HandleSpider(object):
         while i < 3:
             try:
                 html = requests.get(url=url, headers=self.headers,
-                                    timeout=20).text
+                                    timeout=15).text
             except Exception:
                 logger.error("重试--超时链接：" + url)
                 i += 1

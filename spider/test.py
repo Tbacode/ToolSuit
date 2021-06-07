@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:16:44
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 17:06:45
+ * @LastEditTime : 2021-06-07 17:24:43
 '''
 from Util.handle_excel import HandleExcel
 from Util.handle_spider import HandleSpider
@@ -20,6 +20,9 @@ def url_in_list(url, handleobj, xpath, hrefxpath):
      * @return {url子链接集合}
     '''
     html = handleobj.get_html(url)
+    if html is None:
+        logger.error("链接超时，无法获取html文本对象")
+        return None
     html_list = handleobj.get_elements_by_xpath(html, xpath)
     list_return = []
     for index, item in enumerate(html_list):
@@ -86,6 +89,9 @@ def main(url):
     devices_page_child_url_list = url_in_list(
         devices_url, m_handleSpider, '//*[@id="body"]/div/div[3]/div[1]/a',
         '//*[@id="body"]/div/div[3]/div[1]/a[{}]/@href')
+    if devices_page_child_url_list is None:
+        logger.error("起始品牌链接超时或定位失效")
+        return None
     devices_page_full_url_list = url_combination(url,
                                                  devices_page_child_url_list)
     print(devices_page_full_url_list)
@@ -93,6 +99,9 @@ def main(url):
     devices_info_child_url_list = url_in_list(
         devices_url, m_handleSpider, '//*[@id="review-body"]/div[1]/ul/li',
         '//*[@id="review-body"]/div[1]/ul/li[{}]/a/@href')
+    if devices_info_child_url_list is None:
+        logger.error("首页设备链接超时或定位失效")
+        return None
     devices_info_full_url_list = url_combination(url,
                                                  devices_info_child_url_list)
     double_dimensional_url_list.append(devices_info_full_url_list)
@@ -102,6 +111,9 @@ def main(url):
             page_item_url, m_handleSpider,
             '//*[@id="review-body"]/div[1]/ul/li',
             '//*[@id="review-body"]/div[1]/ul/li[{}]/a/@href')
+        if devices_info_child_url_list is None:
+            logger.error("分页设备链接超时或定位失效")
+            return None
         devices_info_full_url_list = url_combination(
             url, devices_info_child_url_list)
         double_dimensional_url_list.append(devices_info_full_url_list)
