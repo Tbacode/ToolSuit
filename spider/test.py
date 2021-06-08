@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:16:44
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 17:24:43
+ * @LastEditTime : 2021-06-07 22:28:38
 '''
 from Util.handle_excel import HandleExcel
 from Util.handle_spider import HandleSpider
@@ -122,7 +122,7 @@ def main(url):
     devices_detail_full_url_list = reduce_list(double_dimensional_url_list)
     print(devices_detail_full_url_list)
     m_handleExcel = HandleExcel(
-        r"C:\Users\xt875\Documents\ToolSuit\spider\DevicesInfo.xlsx")
+        r"D:\工程\tool_suit\spider\DevicesInfo.xlsx")
     # 此时正式进入信息爬取页面的循环遍历
     for detail_index, detail_item in enumerate(devices_detail_full_url_list):
         list_info = []
