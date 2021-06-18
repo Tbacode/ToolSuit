@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-17 18:12:25
+ * @LastEditTime : 2021-06-18 10:52:55
 '''
 from Util.handle_excel import excel
 from Base.base_request import request
@@ -28,7 +28,9 @@ class RunMain(object):
 
                 res = request.run_main(data[Method_index], data[Url_index],
                                        eval(data[Data_index]), 'colorhost')
+                print("-" * 20)
                 print(res)
+                print("-" * 20)
 
 
 if __name__ == "__main__":
