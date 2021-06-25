@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:16:44
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 22:28:38
+ * @LastEditTime : 2021-06-15 16:09:16
 '''
 from Util.handle_excel import HandleExcel
 from Util.handle_spider import HandleSpider
@@ -122,7 +122,8 @@ def main(url):
     devices_detail_full_url_list = reduce_list(double_dimensional_url_list)
     print(devices_detail_full_url_list)
     m_handleExcel = HandleExcel(
-        r"D:\工程\tool_suit\spider\DevicesInfo.xlsx")
+        r"C:\Users\xt875\Documents\ToolSuit\spider\DevicesInfo.xlsx")
+
     # 此时正式进入信息爬取页面的循环遍历
     for detail_index, detail_item in enumerate(devices_detail_full_url_list):
         list_info = []
@@ -130,8 +131,7 @@ def main(url):
         html = m_handleSpider.get_html(detail_item)
         if html is None:
             logger.error("html is None")
-            m_handleExcel.excel_celldata_add(detail_index + 1,
-                                             1, 'realme',
+            m_handleExcel.excel_celldata_add(detail_index + 1, 1, 'test',
                                              detail_item)
             continue
         devices_name = get_devices_info(
@@ -152,13 +152,14 @@ def main(url):
         for index, item in enumerate(list_info):
             if item is not None:
                 m_handleExcel.excel_celldata_add(detail_index + 1, index + 1,
-                                                 'realme', item)
+                                                 'test', item)
             else:
                 logger.debug("存在为None选项")
                 m_handleExcel.excel_celldata_add(detail_index + 1, index + 1,
-                                                 'realme', detail_item)
+                                                 'test', detail_item)
 
 
 if __name__ == "__main__":
-    url = "https://www.gsmarena.com/realme-phones-118.php"
+    url = "https://www.gsmarena.com/plum-phones-72.php"
     main(url)
+

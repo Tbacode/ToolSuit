@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-01-07 17:15:33
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-07 14:47:11
+ * @LastEditTime : 2021-06-17 14:37:50
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -30,7 +30,7 @@ class HandleExcel(object):
          * @name: Tommy
          * @msg: 打开excel文件
          * @param {}
-         * @return {返回excel object对象}
+         * @return {返回excel对象}
         '''
         excel_object = openpyxl.load_workbook(self.filename)
         return excel_object
@@ -111,7 +111,7 @@ class HandleExcel(object):
         '''
         # 打开表格
         excel_object = self.excel_open()
-        # 创建一个新得sheet
+        # 获取sheet对象
         sheet = excel_object[sheet_name]
         # 写入数据
         sheet.cell(row=row, column=col,

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-17 14:56:23
+ * @LastEditTime : 2021-06-23 17:08:34
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -53,7 +53,7 @@ class HandleExcel(object):
         '''
          * @name: Tommy
          * @msg: excel单元格数据返回
-         * @param {int: 行数, int: 列数, int:表索引号}
+         * @param {int: 行数, int: 列数, int: 表索引号}
          * @return {str：返回单元格数据}
         '''
         data = self.get_table_by_index(index).cell(row=row, column=col).value
