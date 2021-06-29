@@ -3,10 +3,10 @@
  * @Author       : Tommy
  * @Date         : 2021-06-16 16:48:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-22 14:17:24
+ * @LastEditTime : 2021-06-29 17:26:15
 '''
-# from Base.base_request import request
-# import json
+from Base.base_request import request
+import json
 
 # url = '/content/'
 # data = {
@@ -48,7 +48,7 @@
 # with open('test.json', 'w', encoding='utf-8') as f:
 #     res = json.dumps(res)
 #     f.write(res)
-string = '{"os_type":"Android","game_ver":"6.7.5","register_ver":"6.7.5","register_date":"20210617","game_date": {1},"game_actDay":1,"group_id":63}'
-string = eval(string)
-string['game_date'] = "111111111"
-print(string)
+# string = '{"os_type":"Android","game_ver":"6.7.5","register_ver":"6.7.5","register_date":"20210617","game_date": {1},"game_actDay":1,"group_id":63}'
+# string = eval(string)
+# string['game_date'] = "111111111"
+# print(string)
