@@ -1,0 +1,94 @@
+{
+    "errorCode": -1,
+    "errorMsg": {},
+    "utcTime": "1624958825",
+    "apiName": "getNewsConfig",
+    "data": {
+        "newsList": [
+            {
+                "eventId": 287494,
+                "picId": "200818-_TezoxdED.png",
+                "filePath": "color/1.0/banners/200818/200818-_TezoxdED.png",
+                "fileMd5": "12bgUkzReLhoPkrHZk/HYg==",
+                "title": "Join us on Facebook",
+                "desc": "Get exclusive images for FREE",
+                "buttonText": "Go",
+                "unlockDate": 20210628,
+                "expireDate": 20210818,
+                "deepLink": "746561469481131|tapcolor|https://www.facebook.com/329700151167267/posts/746561469481131/"
+            },
+            {
+                "eventId": 287894,
+                "picId": "210628-qyr_0KmCc.png",
+                "filePath": "color/1.0/banners/210628/210628-qyr_0KmCc.png",
+                "fileMd5": "ccX6/PPhJmoQRDmK1gA0/g==",
+                "title": "Image Of The Week",
+                "desc": "Get the BONUS for FREE!",
+                "buttonText": "Go",
+                "unlockDate": 20210628,
+                "expireDate": 20220628,
+                "deepLink": "989236978546911|tapcolor|https://www.facebook.com/329700151167267/posts/989236978546911/"
+            },
+            {
+                "eventId": 287893,
+                "picId": "210625-CU3wURQlU.png",
+                "filePath": "color/1.0/banners/210625/210625-CU3wURQlU.png",
+                "fileMd5": "c1m4A0W8kDmC23NmGrSsBA==",
+                "title": "Let's celebrate!",
+                "desc": "Get the BONUS for FREE!",
+                "buttonText": "Go",
+                "unlockDate": 20210626,
+                "expireDate": 20220625,
+                "deepLink": "987338545403421|tapcolor|https://www.facebook.com/329700151167267/posts/987338545403421/"
+            },
+            {
+                "eventId": 287892,
+                "picId": "210625-G_nd8oCnG.jpg",
+                "filePath": "color/1.0/banners/210625/210625-G_nd8oCnG.jpg",
+                "fileMd5": "iPAvLJKmEdYTfJEYyDjJ3Q==",
+                "title": "Vote For The Best",
+                "desc": "Which one is the winner for you?",
+                "buttonText": "Go",
+                "unlockDate": 20210626,
+                "expireDate": 20220625,
+                "deepLink": "352863272922064|tapcolor|https://www.facebook.com/329700151167267/posts/352863272922064/"
+            },
+            {
+                "eventId": 287891,
+                "picId": "210625-zgjlpn39J.png",
+                "filePath": "color/1.0/banners/210625/210625-zgjlpn39J.png",
+                "fileMd5": "6xeyugg1ETB9fmvtLq070A==",
+                "title": "Count And Share",
+                "desc": "Do you know the answer?",
+                "buttonText": "Go",
+                "unlockDate": 20210625,
+                "expireDate": 20220625,
+                "deepLink": "4781544051860809|tapcolor|https://www.facebook.com/329700151167267/posts/4781544051860809/"
+            },
+            {
+                "eventId": 287890,
+                "picId": "210624-wi6BHP2Yl.png",
+                "filePath": "color/1.0/banners/210624/210624-wi6BHP2Yl.png",
+                "fileMd5": "Wa3xuF0iA3VDsqAIGfwpzw==",
+                "title": "Puzzle Game",
+                "desc": "Do you know the answer?",
+                "buttonText": "Go",
+                "unlockDate": 20210624,
+                "expireDate": 20220624,
+                "deepLink": "986839128786696|tapcolor|https://www.facebook.com/329700151167267/posts/986839128786696/"
+            },
+            {
+                "eventId": 287889,
+                "picId": "210623-xZcTWGslH.png",
+                "filePath": "color/1.0/banners/210623/210623-xZcTWGslH.png",
+                "fileMd5": "bkfKhnUn8KQxER8mKXB7zQ==",
+                "title": "It's Time to SHARE!",
+                "desc": "Get the BONUS for FREE!",
+                "buttonText": "Go",
+                "unlockDate": 20210623,
+                "expireDate": 20220623,
+                "deepLink": "986207878849821|tapcolor|https://www.facebook.com/329700151167267/posts/986207878849821/"
+            }
+        ]
+    }
+}

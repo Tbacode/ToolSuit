@@ -2,8 +2,8 @@
 @Descripttion: 新color getDeeplinkPicConfig接口APItest脚本
 @Author: Tommy
 @Date: 2020-07-17 11:35:59
-LastEditors: Tommy
-LastEditTime: 2020-08-24 18:54:54
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-06-17 11:05:11
 '''
 import unittest
 import time

@@ -1,0 +1,5 @@
+fake_useragent
+lxml
+bs4
+loguru
+openpyxl

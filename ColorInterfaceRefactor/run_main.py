@@ -3,18 +3,25 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-29 19:23:20
+ * @LastEditTime : 2021-06-30 15:12:28
 '''
 # import json
 from Util.handle_excel import excel
 from Base.base_request import request
 from Util.handle_ini import handle_ini
-from Util.handle_result import handle_result
+from Util.handle_result import handle_result, handle_result_json
 import time
+from loguru import logger
 
 
 class RunMain(object):
     def init_excel_index(self):
+        '''
+         * @name: Tommy
+         * @msg: 打开ini文件获取case索引值
+         * @param {*}
+         * @return {返回各列索引值}
+        '''
         Is_Run_index = int(handle_ini.get_ini_value("Is_Run"))
         Precondition_index = int(handle_ini.get_ini_value("Precondition"))
         Url_index = int(handle_ini.get_ini_value("Url"))
@@ -24,11 +31,23 @@ class RunMain(object):
             handle_ini.get_ini_value("Expected_Method"))
         Expected_Result_index = int(
             handle_ini.get_ini_value("Expected_Result"))
-        return Is_Run_index, Precondition_index, Url_index, Method_index, Data_index, Expected_Method_index, Expected_Result_index
+        return Is_Run_index, \
+            Precondition_index, \
+            Url_index, \
+            Method_index, \
+            Data_index, \
+            Expected_Method_index, \
+            Expected_Result_index
 
     def run_case(self):
         rows = excel.get_rows()
-        Is_Run_index, Precondition_index, Url_index, Method_index, Data_index, Expected_Method_index, Expected_Result_index = self.init_excel_index(
+        Is_Run_index, \
+            Precondition_index, \
+            Url_index, \
+            Method_index, \
+            Data_index, \
+            Expected_Method_index, \
+            Expected_Result_index = self.init_excel_index(
         )
         for i in range(rows):
             data = excel.get_rows_value(i + 2)
@@ -49,25 +68,42 @@ class RunMain(object):
                     result_msg = res['errorMsg']
                 except KeyError:
                     result_msg = res['error_msg']
-                message = handle_result(data[Url_index],
-                                        'Config/check_config.json',
-                                        result_code)
-                if type(message) is not list:
-                    if message == str(result_msg):
-                        print("测试通过---")
+                # 判断预期结果验证方式
+                if data[Expected_Method_index] == "errorMsg":
+                    # 判断文件内errorMsg和返回值errorMsg是否一致
+                    message = handle_result(data[Url_index],
+                                            'Config/check_config.json',
+                                            result_code)
+                    if type(message) is not list:
+                        if message == str(result_msg):
+                            logger.debug("测试通过---")
+                        else:
+                            logger.debug("测试失败---")
                     else:
-                        print("测试失败---")
+                        for i_result_msg in message:
+                            if i_result_msg == result_msg:
+                                result = "测试通过---"
+                                break
+                            else:
+                                result = "测试失败---"
+                        logger.debug(result)
+                elif data[Expected_Method_index] == "errorCode":
+                    # 判断errorCode返回值和预期结果返回值是否一致
+                    print(type(data[Expected_Result_index]))
+                    if data[Expected_Result_index] == str(result_code):
+                        logger.debug("测试通过---")
+                    else:
+                        logger.debug("测试失败---")
                 else:
-                    for i_result_msg in message:
-                        if i_result_msg == result_msg:
-                            print("测试通过---")
-                    print("测试失败---")
+                    # 判断返回值是否json格式
+                    handle_result_json()
+
                 # with open('code_config.json', 'w', encoding='utf-8') as f:
                 #     res = json.dumps(res)
                 #     f.write(res)
-                print("-" * 100)
-                print(res)
-                print("-" * 100)
+                logger.debug("-" * 100)
+                logger.debug(res)
+                logger.debug("-" * 100)
 
 
 if __name__ == "__main__":

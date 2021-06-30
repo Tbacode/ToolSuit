@@ -1,0 +1,17 @@
+{
+    "/normalApi/v1/getBannerConfig/": [
+        {
+            "-1": "{}"
+        },
+        {
+            "666": [
+                "path: game_ver, error: game_ver must have a length between 3 and 9.",
+                "path: os_type, error: os_type must be either Android, Ios, Mac or Windows.",
+                "path: register_date, error: register_date must have a length between 8 and 8.",
+                "path: game_date, error: game_date must have a length between 8 and 8.",
+                "path: game_actDay, error: game_actDay is required.",
+                "path: group_id, error: group_id must have a length between 1 and 3."
+            ]
+        }
+    ]
+}

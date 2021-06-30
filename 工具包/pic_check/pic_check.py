@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-07 15:44:38
+ * @LastEditTime : 2021-06-03 10:49:38
 '''
 
 # TODO: 引包
@@ -26,19 +26,12 @@ class PicCheck():
          * @return {*}
         '''
         self.flag = 1
-        self.keyword_list = ["picName",
-                             "picType",
-                             "picClass",
-                             "picUnlockDate",
-                             "picVipUnlockDate",
-                             "picExpireDate",
-                             "picUnlockType",
-                             "picUnlockNumber",
-                             "picJigsawId",
-                             "picOrder",
-                             "picComicId",
-                             "picComicKey"
-                             ]
+        self.keyword_list = [
+            "picName", "picType", "picClass", "picUnlockDate",
+            "picVipUnlockDate", "picExpireDate", "picUnlockType",
+            "picUnlockNumber", "picJigsawId", "picOrder", "picComicId",
+            "picComicKey"
+        ]
         self.pic_list_item = []
         self.game_date = time.strftime("%Y%m%d", time.localtime())
         self.start_date = time.strftime("%Y%m%d", time.localtime())
@@ -187,16 +180,15 @@ class PicCheck():
     def json_file_check(self, old_json_item: dict, new_json_item: dict) -> bool:
         '''
          * @name: Tommy
-         * @msg: json格式对比验证
-         * @param {*} self
-         * @param {dict} old_json_item
-         * @param {dict} new_json_item
-         * @return {bool}
+         * @msg:sdf
+         * @param {*}
+         * @return {*}
         '''
         for keyword_item in self.keyword_list:
             if old_json_item[keyword_item] != new_json_item[keyword_item]:
                 logger.debug("old_json于new_json中关键字：{}的值不相等。{} != {}".format(
-                    keyword_item, old_json_item[keyword_item], new_json_item[keyword_item]))
+                    keyword_item, old_json_item[keyword_item],
+                    new_json_item[keyword_item]))
                 return False
 
     # TODO: 打开两个新旧json文件，并返回
@@ -235,8 +227,8 @@ class PicCheck():
         elif isinstance(src_data, list):
 
             if len(src_data) != len(dst_data):
-                logger.error(
-                    "list 长度：旧文件-{} != 新文件-{}".format(len(src_data), len(dst_data)))
+                logger.error("list 长度：旧文件-{} != 新文件-{}".format(
+                    len(src_data), len(dst_data)))
             for src_list, dst_list in zip(
                     sorted(src_data, key=lambda x: x[con_key]),
                     sorted(dst_data, key=lambda x: x[con_key])):
