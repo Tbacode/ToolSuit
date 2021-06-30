@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-30 15:12:28
+ * @LastEditTime : 2021-06-30 18:52:13
 '''
 # import json
 from Util.handle_excel import excel
@@ -31,13 +31,17 @@ class RunMain(object):
             handle_ini.get_ini_value("Expected_Method"))
         Expected_Result_index = int(
             handle_ini.get_ini_value("Expected_Result"))
+        Execute_Result_index = int(handle_ini.get_ini_value("ExecuteResult"))
+        ResponseResult_index = int(handle_ini.get_ini_value("ResponseResult"))
         return Is_Run_index, \
             Precondition_index, \
             Url_index, \
             Method_index, \
             Data_index, \
             Expected_Method_index, \
-            Expected_Result_index
+            Expected_Result_index, \
+            Execute_Result_index, \
+            ResponseResult_index
 
     def run_case(self):
         rows = excel.get_rows()
@@ -47,8 +51,9 @@ class RunMain(object):
             Method_index, \
             Data_index, \
             Expected_Method_index, \
-            Expected_Result_index = self.init_excel_index(
-        )
+            Expected_Result_index, \
+            Execute_Result_index, \
+            ResponseResult_index = self.init_excel_index()
         for i in range(rows):
             data = excel.get_rows_value(i + 2)
             is_run = data[Is_Run_index]
@@ -77,23 +82,32 @@ class RunMain(object):
                     if type(message) is not list:
                         if message == str(result_msg):
                             logger.debug("测试通过---")
+                            excel.excel_write_data(i + 2, Execute_Result_index + 1, "通过")
+                            excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
                         else:
                             logger.debug("测试失败---")
+                            excel.excel_write_data(i + 2, Execute_Result_index + 1, "失败")
+                            excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
                     else:
                         for i_result_msg in message:
                             if i_result_msg == result_msg:
-                                result = "测试通过---"
+                                result = "通过"
                                 break
                             else:
-                                result = "测试失败---"
+                                result = "失败"
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1, result)
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
                         logger.debug(result)
                 elif data[Expected_Method_index] == "errorCode":
                     # 判断errorCode返回值和预期结果返回值是否一致
-                    print(type(data[Expected_Result_index]))
                     if data[Expected_Result_index] == str(result_code):
                         logger.debug("测试通过---")
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1, "通过")
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
                     else:
                         logger.debug("测试失败---")
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1, "失败")
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
                 else:
                     # 判断返回值是否json格式
                     handle_result_json()

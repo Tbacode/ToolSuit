@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-23 17:08:34
+ * @LastEditTime : 2021-06-30 18:28:05
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -81,9 +81,20 @@ class HandleExcel(object):
             row_list.append(i.value)
         return row_list
 
+    def excel_write_data(self, row, cols, value):
+        '''
+         * @name: Tommy
+         * @msg: 写入数据到excel
+         * @param {row:写入行,cols:写入列,value:写入数据}
+         * @return {}
+        '''
+        wb = self.excel_open()
+        wr = wb.active
+        wr.cell(row, cols, value)
+        wb.save(self.filename)
 
-excel = HandleExcel(
-    r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
+
+excel = HandleExcel(r"Case/Case.xlsx")
 
 if __name__ == "__main__":
     handle = HandleExcel(

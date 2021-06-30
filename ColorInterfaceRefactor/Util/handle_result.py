@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-29 17:13:29
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-30 15:02:10
+ * @LastEditTime : 2021-06-30 18:18:18
 '''
 from Util.handle_json import get_value
 from deepdiff import DeepDiff
@@ -32,11 +32,13 @@ def handle_result_json(dict1, dict2):
      * @param {dict1:验证dict参数1,dict2:验证dict参数2}
      * @return {bool}
     '''
-    cmp_dict = DeepDiff(dict1, dict2, ignore_order=True).to_dict()
-    if cmp_dict.get("dictionary_item_added"):
-        return False
-    else:
-        return True
+    if isinstance(dict1, dict) and isinstance(dict2, dict):
+        cmp_dict = DeepDiff(dict1, dict2, ignore_order=True).to_dict()
+        if cmp_dict.get("dictionary_item_added"):
+            return False
+        else:
+            return True
+    return False
 
 
 if __name__ == '__main__':
