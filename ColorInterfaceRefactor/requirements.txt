@@ -2,3 +2,4 @@ requests
 openpyxl
 configparser
 deepdiff
+jsonpath_rw

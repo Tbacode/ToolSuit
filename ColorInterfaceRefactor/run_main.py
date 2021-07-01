@@ -3,13 +3,14 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-30 18:52:13
+ * @LastEditTime : 2021-07-01 17:18:14
 '''
 # import json
 from Util.handle_excel import excel
 from Base.base_request import request
 from Util.handle_ini import handle_ini
 from Util.handle_result import handle_result, handle_result_json
+from Util.precondition_data import depend_data, get_depend_data
 import time
 from loguru import logger
 
@@ -54,17 +55,31 @@ class RunMain(object):
             Expected_Result_index, \
             Execute_Result_index, \
             ResponseResult_index = self.init_excel_index()
+        print(ResponseResult_index)
         for i in range(rows):
             data = excel.get_rows_value(i + 2)
             is_run = data[Is_Run_index]
+            # 判断是否需要执行case
             if is_run == 'yes':
-                # TODO: 继续执行后续
 
+                # 判断是否有前置条件
+                if data[Precondition_index]:
+                    # 如果存在前置条件，及获取依赖字段的值
+                    cell_data, rule_data = depend_data(
+                        data[Precondition_index], 'A', ResponseResult_index)
+                    print(cell_data)
+                    print(type(cell_data))
+                    print(rule_data)
+                    dependData = get_depend_data(cell_data, rule_data)
+                    logger.debug("依赖数据：", dependData)
+                
+                # 执行请求，获得返回结果
                 res = request.run_main(
                     data[Method_index], data[Url_index],
                     eval(data[Data_index].format(
                         time.strftime("%Y%m%d", time.localtime()))),
                     'colorhost')
+                # 获取errorcode和errorMsg，存在两种字段，既需要分开处理
                 try:
                     result_code = res['errorCode']
                 except KeyError:
@@ -82,12 +97,20 @@ class RunMain(object):
                     if type(message) is not list:
                         if message == str(result_msg):
                             logger.debug("测试通过---")
-                            excel.excel_write_data(i + 2, Execute_Result_index + 1, "通过")
-                            excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
+                            excel.excel_write_data(i + 2,
+                                                   Execute_Result_index + 1,
+                                                   "通过")
+                            excel.excel_write_data(i + 2,
+                                                   ResponseResult_index + 1,
+                                                   str(res))
                         else:
                             logger.debug("测试失败---")
-                            excel.excel_write_data(i + 2, Execute_Result_index + 1, "失败")
-                            excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
+                            excel.excel_write_data(i + 2,
+                                                   Execute_Result_index + 1,
+                                                   "失败")
+                            excel.excel_write_data(i + 2,
+                                                   ResponseResult_index + 1,
+                                                   str(res))
                     else:
                         for i_result_msg in message:
                             if i_result_msg == result_msg:
@@ -95,19 +118,25 @@ class RunMain(object):
                                 break
                             else:
                                 result = "失败"
-                        excel.excel_write_data(i + 2, Execute_Result_index + 1, result)
-                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1,
+                                               result)
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1,
+                                               str(res))
                         logger.debug(result)
                 elif data[Expected_Method_index] == "errorCode":
                     # 判断errorCode返回值和预期结果返回值是否一致
                     if data[Expected_Result_index] == str(result_code):
                         logger.debug("测试通过---")
-                        excel.excel_write_data(i + 2, Execute_Result_index + 1, "通过")
-                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1,
+                                               "通过")
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1,
+                                               str(res))
                     else:
                         logger.debug("测试失败---")
-                        excel.excel_write_data(i + 2, Execute_Result_index + 1, "失败")
-                        excel.excel_write_data(i + 2, ResponseResult_index + 1, str(res))
+                        excel.excel_write_data(i + 2, Execute_Result_index + 1,
+                                               "失败")
+                        excel.excel_write_data(i + 2, ResponseResult_index + 1,
+                                               str(res))
                 else:
                     # 判断返回值是否json格式
                     handle_result_json()

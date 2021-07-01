@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-30 18:28:05
+ * @LastEditTime : 2021-07-01 15:47:18
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -93,6 +93,28 @@ class HandleExcel(object):
         wr.cell(row, cols, value)
         wb.save(self.filename)
 
+    def get_columns_values(self, cols, index=None):
+        '''
+         * @name: Tommy
+         * @msg: 获取对应列的全部数据
+         * @param {cols:列索引,index:表索引}
+         * @return {返回数据集合}
+        '''
+        columns_list = []
+        for i in self.get_table_by_index(index)[cols]:
+            columns_list.append(i.value)
+        return columns_list
+
+    def get_row_number(self, data, key, index=None):
+        num = 0
+        cols_data = self.get_columns_values(key, index)
+        for col_data in cols_data:
+            num += 1
+            if data == col_data:
+                return num
+
+        return None
+
 
 excel = HandleExcel(r"Case/Case.xlsx")
 
@@ -100,5 +122,7 @@ if __name__ == "__main__":
     handle = HandleExcel(
         r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx"
     )
-    value = handle.get_cell_value(1, 2)
+    value = handle.get_row_number('color_14', 'A')
+    result = handle.get_cell_value(2, 10)
     print(value)
+    print(result)
