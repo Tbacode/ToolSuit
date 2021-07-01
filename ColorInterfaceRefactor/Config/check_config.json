@@ -1,5 +1,5 @@
 {
-    "/normalApi/v1/getBannerConfig/": [
+    "config": [
         {
             "-1": "{}"
         },

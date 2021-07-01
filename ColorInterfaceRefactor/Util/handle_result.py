@@ -3,20 +3,20 @@
  * @Author       : Tommy
  * @Date         : 2021-06-29 17:13:29
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-30 18:18:18
+ * @LastEditTime : 2021-07-01 19:27:37
 '''
 from Util.handle_json import get_value
 from deepdiff import DeepDiff
 
 
-def handle_result(url, filepath, code):
+def handle_result(filepath, code, config="config"):
     '''
      * @name: Tommy
      * @msg: 获取本地errorMsg的json文件
      * @param {url:请求url,filepath:json路径,code:errorCode值}
      * @return {返回对应的errorMsg或None}
     '''
-    res_list = get_value(url, filepath)
+    res_list = get_value(config, filepath)
     if res_list is not None:
         for item in res_list:
             message = item.get(str(code))

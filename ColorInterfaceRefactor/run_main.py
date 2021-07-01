@@ -3,15 +3,16 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-01 17:18:14
+ * @LastEditTime : 2021-07-01 19:31:02
 '''
 # import json
 from Util.handle_excel import excel
 from Base.base_request import request
 from Util.handle_ini import handle_ini
-from Util.handle_result import handle_result, handle_result_json
+from Util.handle_result import handle_result
 from Util.precondition_data import depend_data, get_depend_data
 import time
+import json
 from loguru import logger
 
 
@@ -55,7 +56,6 @@ class RunMain(object):
             Expected_Result_index, \
             Execute_Result_index, \
             ResponseResult_index = self.init_excel_index()
-        print(ResponseResult_index)
         for i in range(rows):
             data = excel.get_rows_value(i + 2)
             is_run = data[Is_Run_index]
@@ -72,13 +72,19 @@ class RunMain(object):
                     print(rule_data)
                     dependData = get_depend_data(cell_data, rule_data)
                     logger.debug("依赖数据：", dependData)
-                
+                    data = eval(data[Data_index].format("1", dependData))
+
                 # 执行请求，获得返回结果
+                time_str = time.strftime("%Y%m%d", time.localtime())
+                if data[Data_index]:
+                    request_data = json.loads(data[Data_index])
+                    if request_data['game_date'] == "":
+                        request_data['game_date'] = time_str
+
                 res = request.run_main(
-                    data[Method_index], data[Url_index],
-                    eval(data[Data_index].format(
-                        time.strftime("%Y%m%d", time.localtime()))),
-                    'colorhost')
+                    data[Method_index],
+                    data[Url_index],
+                    request_data)
                 # 获取errorcode和errorMsg，存在两种字段，既需要分开处理
                 try:
                     result_code = res['errorCode']
@@ -91,9 +97,9 @@ class RunMain(object):
                 # 判断预期结果验证方式
                 if data[Expected_Method_index] == "errorMsg":
                     # 判断文件内errorMsg和返回值errorMsg是否一致
-                    message = handle_result(data[Url_index],
-                                            'Config/check_config.json',
-                                            result_code)
+                    message = handle_result('Config/check_config.json',
+                                            result_code,
+                                            "config")
                     if type(message) is not list:
                         if message == str(result_msg):
                             logger.debug("测试通过---")
@@ -139,7 +145,8 @@ class RunMain(object):
                                                str(res))
                 else:
                     # 判断返回值是否json格式
-                    handle_result_json()
+                    excel.excel_write_data(i + 2, ResponseResult_index + 1,
+                                           str(res))
 
                 # with open('code_config.json', 'w', encoding='utf-8') as f:
                 #     res = json.dumps(res)
