@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-16 16:48:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-29 17:26:15
+ * @LastEditTime : 2021-07-01 20:09:11
 '''
 from Base.base_request import request
 import json
@@ -52,3 +52,8 @@ import json
 # string = eval(string)
 # string['game_date'] = "111111111"
 # print(string)
+url = "https://us-central1-coloringproject-fe7d3.cloudfunctions.net/testApi/testApi/eventList"
+data = ""
+url1 = "https://www.baidu.com"
+res = request.run_main('get', url, data)
+print(res)

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-01 19:31:02
+ * @LastEditTime : 2021-07-01 19:59:10
 '''
 # import json
 from Util.handle_excel import excel
@@ -80,11 +80,12 @@ class RunMain(object):
                     request_data = json.loads(data[Data_index])
                     if request_data['game_date'] == "":
                         request_data['game_date'] = time_str
+                    data[Data_index] = request_data
 
                 res = request.run_main(
                     data[Method_index],
                     data[Url_index],
-                    request_data)
+                    data[Data_index])
                 # 获取errorcode和errorMsg，存在两种字段，既需要分开处理
                 try:
                     result_code = res['errorCode']
