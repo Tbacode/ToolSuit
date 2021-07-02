@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-01 15:47:18
+ * @LastEditTime : 2021-07-02 14:28:52
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -106,6 +106,12 @@ class HandleExcel(object):
         return columns_list
 
     def get_row_number(self, data, key, index=None):
+        '''
+         * @name: Tommy
+         * @msg: 根据接收数据获取对应行书
+         * @param {data:接收数据, key:列关键字, index:表索引}
+         * @return {返回行号/None}
+        '''
         num = 0
         cols_data = self.get_columns_values(key, index)
         for col_data in cols_data:
@@ -114,6 +120,19 @@ class HandleExcel(object):
                 return num
 
         return None
+
+    def get_excel_data(self, index=None):
+        '''
+         * @name: Tommy
+         * @msg: 返回所有excel数据按行获取
+         * @param {index:表索引}
+         * @return {返回所有数据，按行存为list，返回2维list}
+        '''  
+        data_list = []
+        for i in range(self.get_rows(index)):
+            data_list.append(self.get_rows_value(i + 2, index))
+
+        return data_list
 
 
 excel = HandleExcel(r"Case/Case.xlsx")
