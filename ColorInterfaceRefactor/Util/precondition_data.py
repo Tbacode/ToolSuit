@@ -3,11 +3,11 @@
  * @Author       : Tommy
  * @Date         : 2021-07-01 14:32:09
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-01 19:53:17
+ * @LastEditTime : 2021-07-04 16:08:07
 '''
 from Util.handle_excel import excel
 from jsonpath_rw import parse
-from Cryptodome.Cipher import AES
+# from Cryptodome.Cipher import AES
 import base64
 
 
@@ -48,22 +48,22 @@ def get_depend_data(depend_data, depend_rule):
     return [math.value for math in madle][0]
 
 
-def AES_Decrypt(key, data):
-    def unpad(s):
-        return s[0:-s[-1]]
+# def AES_Decrypt(key, data):
+#     def unpad(s):
+#         return s[0:-s[-1]]
 
-    data = data.encode('utf8')
-    # 将加密数据转换位bytes类型数据
-    encodebytes = base64.b64decode(data)
-    vi = encodebytes[:16]
-    test_encodebytes = encodebytes[16:]
-    cipher = AES.new(key.encode('utf8'), AES.MODE_CBC, vi)
+#     data = data.encode('utf8')
+#     # 将加密数据转换位bytes类型数据
+#     encodebytes = base64.b64decode(data)
+#     vi = encodebytes[:16]
+#     test_encodebytes = encodebytes[16:]
+#     cipher = AES.new(key.encode('utf8'), AES.MODE_CBC, vi)
 
-    text_decrypted = cipher.decrypt(test_encodebytes)
+#     text_decrypted = cipher.decrypt(test_encodebytes)
 
-    text_decrypted = unpad(text_decrypted)
-    text_decrypted = text_decrypted.decode('utf8')
-    return text_decrypted
+#     text_decrypted = unpad(text_decrypted)
+#     text_decrypted = text_decrypted.decode('utf8')
+#     return text_decrypted
 
 if __name__ == "__main__":
 
