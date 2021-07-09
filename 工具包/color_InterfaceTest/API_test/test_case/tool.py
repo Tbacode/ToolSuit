@@ -3,7 +3,7 @@
 @Author: Tommy
 @Date: 2020-07-15 14:32:17
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-17 11:05:57
+ * @LastEditTime : 2021-07-01 18:20:27
 '''
 import json
 import requests
@@ -12,7 +12,7 @@ from email.mime.multipart import MIMEMultipart
 from email.header import Header
 import smtplib
 import base64
-# from Crypto.Cipher import AES
+from Crypto.Cipher import AES
 
 
 class Tool(object):
@@ -200,7 +200,10 @@ class Tool(object):
         result = r.json()
         return result
 
-    def AES_Decrypt(key, data):
+    def AES_Decrypt(self, key, data):
+        def unpad(s):
+            return s[0:-s[-1]]
+
         data = data.encode('utf8')
         # 将加密数据转换位bytes类型数据
         encodebytes = base64.b64decode(data)
@@ -209,8 +212,6 @@ class Tool(object):
         cipher = AES.new(key.encode('utf8'), AES.MODE_CBC, vi)
 
         text_decrypted = cipher.decrypt(test_encodebytes)
-        # 去补位
-        def unpad(s): return s[0:-s[-1]]
 
         text_decrypted = unpad(text_decrypted)
         text_decrypted = text_decrypted.decode('utf8')
@@ -233,4 +234,4 @@ class Tool(object):
 
 
 if __name__ == '__main__':
-    pass
+    AES_Decrypt()

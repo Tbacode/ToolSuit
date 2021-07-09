@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-02 16:24:46
+ * @LastEditTime : 2021-07-05 11:59:00
 '''
 import ddt
 import unittest
@@ -46,7 +46,7 @@ class TestRunCaseDDT(unittest.TestCase):
             if Precondition:
                 # 如果存在前置条件，及获取依赖字段的值
                 cell_data, rule_data = depend_data(Precondition, 'A',
-                                                   ResponseResult)
+                                                   11)
                 print(cell_data)
                 print(type(cell_data))
                 print(rule_data)

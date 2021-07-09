@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 10:52:32
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-02 13:19:20
+ * @LastEditTime : 2021-07-09 14:20:02
 '''
 import requests
 import json
@@ -30,6 +30,8 @@ class BaseRequest(object):
          * @param {url:请求地址,data:请求参数}
          * @return {请求结果}
         '''
+        res = requests.get(url=url, params=data)
+        print(res.url)
         res = requests.get(url=url, params=data).text
         return res
 
