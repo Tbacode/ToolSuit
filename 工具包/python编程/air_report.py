@@ -3,11 +3,12 @@
  * @Author       : Tommy
  * @Date         : 2020-08-14 11:18:16
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-16 15:35:06
+ * @LastEditTime : 2021-07-19 14:41:56
 '''
 import zipfile
 import os
 import requests
+import shutil
 
 
 def report_zip():
@@ -58,17 +59,31 @@ def post_file(id_url, wx_url, file):
     return (result)
 
 
+# 删除log文件资源
+def del_file(path):
+    ls = os.listdir(path)
+    for i in ls:
+        c_path = os.path.join(path, i)
+        if os.path.isdir(c_path):
+            shutil.rmtree(c_path, True)
+        else:
+            os.remove(c_path)
+
+
 if __name__ == "__main__":
     report_zip()
     report_zip_append()
     file1 = r'C:\Users\xt875\Desktop\airtest_file\log'  # 文件路径
     id_url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/upload_media?key=eef716ba-a7e2-423e-9c9a-7cac807e397c&type=file'  # 把机器人的key放入
     wx_url = 'https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=eef716ba-a7e2-423e-9c9a-7cac807e397c'  # 把机器人的key放入
-    post_file(
+    res = post_file(
         id_url,
         wx_url,
         file=
         r"C:\Users\xt875\Desktop\airtest_file\report\BBB_airtest.log\static.zip"
     )
-
-    print('发送完成')
+    if res.status_code == 200:
+        log_path = r"C:\Users\xt875\Desktop\airtest_file\log"
+        report_path = r"C:\Users\xt875\Desktop\airtest_file\report"
+        del_file(log_path)
+        del_file(report_path)

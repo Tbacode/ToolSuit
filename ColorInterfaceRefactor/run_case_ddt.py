@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-05 11:59:00
+ * @LastEditTime : 2021-07-19 16:39:11
 '''
 import ddt
 import unittest
@@ -39,7 +39,7 @@ class TestRunCaseDDT(unittest.TestCase):
 
         # 判断是否需要执行case
         if Is_Run == 'yes':
-            # 获得执行行数
+            # 获得index数据i，既：行号
             i = excel.get_row_number(Case_Id, 'A')
 
             # 判断是否有前置条件
@@ -47,12 +47,14 @@ class TestRunCaseDDT(unittest.TestCase):
                 # 如果存在前置条件，及获取依赖字段的值
                 cell_data, rule_data = depend_data(Precondition, 'A',
                                                    11)
-                print(cell_data)
-                print(type(cell_data))
-                print(rule_data)
                 dependData = get_depend_data(cell_data, rule_data)
-                logger.debug("依赖数据：", dependData)
-                data = eval(Data.format("1", dependData))
+                logger.debug("依赖数据：" + dependData)
+                # 替换掉依赖字段对应的依赖数据
+                Data = eval(Data)
+                # logger.debug("Data类型" + type(Data))
+                Data[Depend_key] = dependData
+                # logger.debug("Data数据" + Data)
+                Data = json.dumps(Data)
 
             # 执行请求，获得返回结果
             time_str = time.strftime("%Y%m%d", time.localtime())

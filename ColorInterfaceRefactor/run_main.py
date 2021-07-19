@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 15:13:38
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-01 19:59:10
+ * @LastEditTime : 2021-07-19 16:23:17
 '''
 # import json
 from Util.handle_excel import excel
@@ -26,6 +26,7 @@ class RunMain(object):
         '''
         Is_Run_index = int(handle_ini.get_ini_value("Is_Run"))
         Precondition_index = int(handle_ini.get_ini_value("Precondition"))
+        Depend_key_index = int(handle_ini.get_ini_value("Dependkey"))
         Url_index = int(handle_ini.get_ini_value("Url"))
         Method_index = int(handle_ini.get_ini_value("Method"))
         Data_index = int(handle_ini.get_ini_value("Data"))
@@ -37,6 +38,7 @@ class RunMain(object):
         ResponseResult_index = int(handle_ini.get_ini_value("ResponseResult"))
         return Is_Run_index, \
             Precondition_index, \
+            Depend_key_index, \
             Url_index, \
             Method_index, \
             Data_index, \
@@ -49,6 +51,7 @@ class RunMain(object):
         rows = excel.get_rows()
         Is_Run_index, \
             Precondition_index, \
+            Depend_key_index, \
             Url_index, \
             Method_index, \
             Data_index, \
@@ -65,14 +68,17 @@ class RunMain(object):
                 # 判断是否有前置条件
                 if data[Precondition_index]:
                     # 如果存在前置条件，及获取依赖字段的值
-                    cell_data, rule_data = depend_data(
-                        data[Precondition_index], 'A', ResponseResult_index)
+                    cell_data, rule_data = depend_data(data[Precondition_index], 'A',
+                                                       11)
                     print(cell_data)
                     print(type(cell_data))
                     print(rule_data)
                     dependData = get_depend_data(cell_data, rule_data)
-                    logger.debug("依赖数据：", dependData)
-                    data = eval(data[Data_index].format("1", dependData))
+                    logger.debug("依赖数据：" + dependData)
+                    # 替换掉依赖字段对应的依赖数据
+                    parm = eval(data[Data_index])
+                    parm[data[Depend_key_index]] = dependData
+                    print(parm)
 
                 # 执行请求，获得返回结果
                 time_str = time.strftime("%Y%m%d", time.localtime())
@@ -82,10 +88,8 @@ class RunMain(object):
                         request_data['game_date'] = time_str
                     data[Data_index] = request_data
 
-                res = request.run_main(
-                    data[Method_index],
-                    data[Url_index],
-                    data[Data_index])
+                res = request.run_main(data[Method_index], data[Url_index],
+                                       data[Data_index])
                 # 获取errorcode和errorMsg，存在两种字段，既需要分开处理
                 try:
                     result_code = res['errorCode']
@@ -99,8 +103,7 @@ class RunMain(object):
                 if data[Expected_Method_index] == "errorMsg":
                     # 判断文件内errorMsg和返回值errorMsg是否一致
                     message = handle_result('Config/check_config.json',
-                                            result_code,
-                                            "config")
+                                            result_code, "config")
                     if type(message) is not list:
                         if message == str(result_msg):
                             logger.debug("测试通过---")
