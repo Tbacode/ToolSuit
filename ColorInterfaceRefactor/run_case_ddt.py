@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-19 18:28:48
+ * @LastEditTime : 2021-07-26 17:21:20
 '''
 import ddt
 import unittest
@@ -12,6 +12,7 @@ from Base.base_request import request
 # from Util.handle_ini import handle_ini
 from Util.handle_result import handle_result
 from Util.precondition_data import depend_data, get_depend_data
+from Util.handle_email import handle_email
 import time
 import json
 from loguru import logger
@@ -45,8 +46,7 @@ class TestRunCaseDDT(unittest.TestCase):
             # 判断是否有前置条件
             if Precondition:
                 # 如果存在前置条件，及获取依赖字段的值
-                cell_data, rule_data = depend_data(Precondition, 'A',
-                                                   11)
+                cell_data, rule_data = depend_data(Precondition, 'A', 11)
                 dependData = get_depend_data(cell_data, rule_data)
                 logger.debug("依赖数据：" + dependData)
                 # 替换掉依赖字段对应的依赖数据
@@ -85,6 +85,7 @@ class TestRunCaseDDT(unittest.TestCase):
                         excel.excel_write_data(i, 11, "PASS")
                         excel.excel_write_data(i, 12, str(res))
                     except Exception as e:
+                        logger.error("接口失败errorMsg:" + str(result_msg))
                         excel.excel_write_data(i, 11, "FAIL")
                         excel.excel_write_data(i, 12, str(res))
                         raise e
@@ -100,6 +101,7 @@ class TestRunCaseDDT(unittest.TestCase):
                         excel.excel_write_data(i, 11, "PASS")
                         excel.excel_write_data(i, 12, str(res))
                     except Exception as e:
+                        logger.error("接口失败errorMsg:" + str(result_msg))
                         excel.excel_write_data(i, 11, "FAIL")
                         excel.excel_write_data(i, 12, str(res))
                         raise e
@@ -110,6 +112,7 @@ class TestRunCaseDDT(unittest.TestCase):
                     excel.excel_write_data(i, 11, "PASS")
                     excel.excel_write_data(i, 12, str(res))
                 except Exception as e:
+                    logger.error("接口失败errorCode:" + str(result_msg))
                     excel.excel_write_data(i, 11, "FAIL")
                     excel.excel_write_data(i, 12, str(res))
                     raise e
@@ -128,4 +131,10 @@ if __name__ == "__main__":
         runner = BSTestRunner(stream=f,
                               title="Color API Test Report",
                               description="Color API Test Report")
-        runner.run(discover)
+        test_result = runner.run(discover)
+    if test_result.failure_count != 0:
+        handle_email.post_file(report_path)
+    elif test_result.error_count != 0:
+        handle_email.post_file(report_path)
+    else:
+        pass
