@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-12-07 11:23:24
  * @LastEditors  : Tommy
- * @LastEditTime : 2020-12-15 20:33:31
+ * @LastEditTime : 2021-08-04 10:32:19
 '''
 import requests
 import time
@@ -113,7 +113,7 @@ class DataGet(object):
         self.params['start_date'] = pic_list[-1]['picUnlockDate']
         logger.debug("数据返回更新后得时间：" + str(self.params['start_date']))
 
-    def get_keyword_json(self, list_item: list) -> dict:
+    def get_keyword_json(self, list_item: list):
         '''
          * @name: Tommy
          * @msg: 构造关键字提取数据
