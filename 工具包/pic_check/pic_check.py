@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-03 10:49:38
+ * @LastEditTime : 2021-08-06 11:23:37
 '''
 
 # TODO: 引包
@@ -25,12 +25,12 @@ class PicCheck():
          * @param {str} os_type
          * @return {*}
         '''
-        self.flag = 1
+        self.picname_list = []
+        self.flag = 0
         self.keyword_list = [
             "picName", "picType", "picClass", "picUnlockDate",
             "picVipUnlockDate", "picExpireDate", "picUnlockType",
-            "picUnlockNumber", "picJigsawId", "picOrder", "picComicId",
-            "picComicKey"
+            "picUnlockNumber", "picJigsawId", "picOrder"
         ]
         self.pic_list_item = []
         self.game_date = time.strftime("%Y%m%d", time.localtime())
@@ -42,13 +42,13 @@ class PicCheck():
             "register_date": self.start_date,
             "game_date": self.game_date,
             "game_actDay": 1,
-            "pic_type": "Jigsaw",
+            "pic_type": "All",
             "start_date": self.start_date,
             "group_id": 20
         }
 
     # TODO: 请求数据返回数据
-    def request_pic_list_item(self) -> dict:
+    def request_pic_list_item(self):
         '''
          * @name: Tommy
          * @msg: 请求数据返回数据
@@ -57,6 +57,7 @@ class PicCheck():
         '''
         logger.debug("请求开始，请求日期：" + str(self.params['start_date']))
         pic_item = requests.get(self.url, params=self.params)
+        logger.debug("请求url完整路径：" + str(pic_item.url))
         # pic_item = json.dumps(pic_item.json(),
         #                       indent=2,
         #                       sort_keys=False,
@@ -86,7 +87,7 @@ class PicCheck():
             return False
 
     # TODO: 构造关键字提取数据
-    def get_keyword_json(self, list_item: list) -> dict:
+    def get_keyword_json(self, list_item: list):
         '''
          * @name: Tommy
          * @msg: 构造关键字提取数据
@@ -107,7 +108,7 @@ class PicCheck():
         logger.debug("构造数据结束")
 
     # TODO: 数据追加
-    def add_pic_list(self, pic_list: list) -> list:
+    def add_pic_list(self, pic_list: list):
         '''
          * @name: Tommy
          * @msg: 数据追加
@@ -177,7 +178,7 @@ class PicCheck():
             self.main_function()
 
     # TODO: json格式对比验证
-    def json_file_check(self, old_json_item: dict, new_json_item: dict) -> bool:
+    def json_file_check(self, old_json_item: dict, new_json_item: dict):
         '''
          * @name: Tommy
          * @msg:sdf
@@ -200,9 +201,9 @@ class PicCheck():
          * @return {str} old_json, new_json
         '''
         logger.debug("打开相关json文件")
-        with open("工具包/pic_check/old.json", "r", encoding="utf-8") as f:
+        with open(r"C:\Users\xt875\Documents\ToolSuit\工具包\pic_check\old_Animated.json", "r", encoding="utf-8") as f:
             old_json = f.read()
-        with open("工具包/pic_check/new.json", "r", encoding="utf-8") as a:
+        with open(r"C:\Users\xt875\Documents\ToolSuit\工具包\pic_check\new_Animated.json", "r", encoding="utf-8") as a:
             new_json = a.read()
         return eval(old_json), eval(new_json)  # 风险转换 eval自动转换结构str->list[dict]
 
@@ -229,10 +230,13 @@ class PicCheck():
             if len(src_data) != len(dst_data):
                 logger.error("list 长度：旧文件-{} != 新文件-{}".format(
                     len(src_data), len(dst_data)))
-            for src_list, dst_list in zip(
-                    sorted(src_data, key=lambda x: x[con_key]),
-                    sorted(dst_data, key=lambda x: x[con_key])):
-                self.cmp(src_list, dst_list, con_key)
+            # for src_list, dst_list in zip(
+            #         sorted(src_data, key=lambda x: x[con_key]),
+            #         sorted(dst_data, key=lambda x: x[con_key])):
+            # for src_list, dst_list in zip(src_data, dst_data):
+            #     self.cmp(src_list, dst_list, con_key)
+            for index in range(len(dst_data)):
+                self.cmp(src_data[index - flag], dst_data[index], con_key)
         else:
             if str(src_data) != str(dst_data):
                 logger.error("存在不同值：{} 和 {}".format(src_data, dst_data))
@@ -266,22 +270,92 @@ class PicCheck():
             if len(jigsaw_list) % 2 != 0 or len(jigsaw_list) < 4:
                 logger.error("存在拼图数量不够的情况：{}".format(jigsaw_list))
 
+    # TODO: json格式校验
+    def cmp_conkey(self, src_data, dst_data, con_key):
+        '''
+        @name: cmp
+        @msg: 对比关键字并输出
+        @param {验证数据，对比数据, 关键字}
+        @return: none
+        '''
+        if isinstance(src_data, dict):
+            # for key in dst_data:
+            #     if key not in src_data:
+            #         logger.error("旧文件不存在这个key：" + key)
+            # for key in src_data:
+            #     if key in dst_data:
+            #         thiskey = key
+            #         self.cmp(src_data[thiskey], dst_data[thiskey], con_key, flag)
+            #     else:
+            #         logger.error("新文件不存在这个key：" + key)
+            self.cmp_conkey(src_data[con_key], dst_data[con_key], con_key)
+        elif isinstance(src_data, list):
+
+            if len(src_data) != len(dst_data):
+                logger.error("list 长度：旧文件-{} != 新文件-{}".format(
+                    len(src_data), len(dst_data)))
+            # for src_list, dst_list in zip(
+            #         sorted(src_data, key=lambda x: x[con_key]),
+            #         sorted(dst_data, key=lambda x: x[con_key])):
+            # for src_list, dst_list in zip(src_data, dst_data):
+            #     self.cmp(src_list, dst_list, con_key)
+            src_data = sorted(src_data, key=lambda x: x[con_key])
+            dst_data = sorted(dst_data, key=lambda x: x[con_key])
+            for index in range(len(dst_data)):
+                self.cmp_conkey(src_data[index - self.flag], dst_data[index], con_key)
+        else:
+            if str(src_data) != str(dst_data):
+                logger.error("存在不同值：{} 和 {}".format(src_data, dst_data))
+                self.flag += 1
+                self.picname_list.append(dst_data)
+                return False
+
+    def cmp_step_function(self, old_pic_check, new_pic_check):
+        
+        if not old_pic_check.isEnd_check():
+            old_pic_item = old_pic_check.pic_list_item
+            logger.info("老接口数据长度：" + str(len(old_pic_item)))
+            old_pic_item = sorted(old_pic_item, key=lambda x: x["picName"])
+            # old_pic_check.save_json("old_nUser" + str(self.flag))
+
+        if not new_pic_check.isEnd_check():
+            new_pic_item = new_pic_check.pic_list_item
+            logger.error("新接口数据长度：" + str(len(new_pic_item)))
+            new_pic_item = sorted(new_pic_item, key=lambda x: x["picName"])
+            # new_pic_check.save_json("new_nUser" + str(self.flag))
+
+            new_pic_check.cmp_conkey(old_pic_item, new_pic_item, "picName")
+            old_pic_check.time_change()
+            new_pic_check.time_change()
+            self.flag += 1
+            self.cmp_step_function(old_pic_check, new_pic_check)
+
 
 # TODO: main
 if __name__ == "__main__":
     now_time = datetime.datetime.now()
     logger.debug("程序开始时间：" + str(now_time))
-    url = "https://tapcolor.weplayer.cc/"
+    url = "https://lite.tapcolor.net/"
     # url = "https://us-central1-tapcolor-new-debug.cloudfunctions.net/normalApi/"
-    url = ''.join([url, 'normalApi/v1/getGalleryList'])
-    game_ver = "4.7.0"
+    url_old = ''.join([url, 'normalApi/v1/getGalleryList'])
+    url_new = ''.join([url, 'normalApi/v1/getGalleryListNew'])
+    game_ver = "4.2.0"
     os_type = "Android"
-    pic_check = PicCheck(url, game_ver, os_type)
-    pic_check.main_function()
-    pic_check.save_json("new")
-    end_time = datetime.datetime.now()
-    ss = (end_time - now_time).seconds
-    logger.debug("数据获取运行总时间：" + str(ss))
-    pic_check.jigsaw_check()
+    # pic_check = PicCheck(url_old, game_ver, os_type)
+    # pic_check.main_function()
+    # pic_check.save_json("old_Animated")
+    # end_time = datetime.datetime.now()
+    # ss = (end_time - now_time).seconds
+    # logger.debug("数据获取运行总时间：" + str(ss))
+    # pic_check.jigsaw_check()
     # old, new = pic_check.open_json_file()
     # pic_check.cmp(old, new, "picName")
+    # pic_check.cmp_conkey(old, new, "picName")
+    # print(pic_check.picname_list)
+    old_pic_check = PicCheck(url_old, game_ver, os_type)
+    new_pic_check = PicCheck(url_new, game_ver, os_type)
+
+    old_pic_check.cmp_step_function(old_pic_check, new_pic_check)
+    
+    
+        
