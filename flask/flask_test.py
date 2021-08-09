@@ -3,11 +3,11 @@
  * @Author       : Tommy
  * @Date         : 2021-07-09 16:12:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-15 17:19:48
+ * @LastEditTime : 2021-08-04 00:37:31
 '''
 from flask import Flask
 from flask import request
-from flask import send_from_directory, send_file, render_template,jsonify,
+from flask import send_from_directory, send_file, render_template, jsonify
 import json
 
 app = Flask(__name__)
@@ -44,9 +44,9 @@ def getConfig():
     return data
 
 
-@app.route("/report/<file_name>", methods=['GET'])
+@app.route("/report", methods=['GET'])
 def getReport():
-
+    pass
 
 
 if __name__ == "__main__":
