@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-19 18:27:45
+ * @LastEditTime : 2021-09-01 15:34:51
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -135,7 +135,7 @@ class HandleExcel(object):
         return data_list
 
 
-excel = HandleExcel(r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
+excel = HandleExcel(r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
 
 if __name__ == "__main__":
     handle = HandleExcel(

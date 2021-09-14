@@ -3,13 +3,14 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 10:52:32
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-08-02 12:33:18
+ * @LastEditTime : 2021-09-01 15:58:22
 '''
 import requests
 import json
 import sys
 sys.path.append("..")
 from Util.handle_ini import handle_ini
+from loguru import logger
 
 
 class BaseRequest(object):
@@ -32,6 +33,7 @@ class BaseRequest(object):
         '''
         # res = requests.get(url=url, params=data)
         # print(res.url)
+        logger.debug("请求开始，url:" + url)
         res = requests.get(url=url, params=data).text
         return res
 

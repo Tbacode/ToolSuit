@@ -1,10 +1,12 @@
 '''
  * @Descripttion : 
  * @Author       : Tommy
- * @Date         : 2021-08-09 15:43:00
+ * @Date         : 2021-08-23 16:05:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-08-10 11:54:51
+ * @LastEditTime : 2021-09-01 14:34:19
+ * @FilePath     : \ToolSuit\Color_cv2\img_RGB2location.py
 '''
+
 
 import cv2
 
@@ -14,8 +16,6 @@ import numpy as np
 
 
 class RGB2Location(object):
-    
-
     def set_kernel(self, numb):
         return np.ones((numb, numb), np.uint8)
 
@@ -71,7 +71,7 @@ class RGB2Location(object):
         # cv2.imshow("binary", binary)
 
         contours, hierarchy = cv2.findContours(binary, cv2.RETR_EXTERNAL,
-                                            cv2.CHAIN_APPROX_SIMPLE)
+                                               cv2.CHAIN_APPROX_SIMPLE)
 
         # print("++++++++contours", contours)
         p = 0
@@ -83,7 +83,10 @@ class RGB2Location(object):
 
             #在图像上画上矩形(图片、左上角坐标、右下角坐标、颜色、线条宽度)
 
-            cv2.rectangle(Img, (x, y), (x + w, y + h), (0,255,), 3)
+            cv2.rectangle(Img, (x, y), (x + w, y + h), (
+                0,
+                255,
+            ), 3)
 
             # 输出图像矩形中间坐标点
             # print("中心坐标：{0},{1}".format(str(x+w/2), str(y+h/2)))
@@ -116,7 +119,8 @@ class RGB2Location(object):
 
 if __name__ == '__main__':
     rgb = RGB2Location()
-    rgb_node = rgb.run_main(r"C:\Users\xt875\Documents\airtest\Color_airtest.air\screen2.jpg", 4)
+    rgb_node = rgb.run_main(
+        r"C:\Users\xt875\Documents\airtest\Color_airtest.air\screen2.jpg", 4)
     print(rgb_node)
 
     # Img = cv2.imread(

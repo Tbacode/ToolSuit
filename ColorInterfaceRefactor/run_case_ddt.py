@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-26 17:21:20
+ * @LastEditTime : 2021-09-01 16:04:58
 '''
 import ddt
 import unittest
@@ -124,7 +124,7 @@ class TestRunCaseDDT(unittest.TestCase):
 if __name__ == "__main__":
     # unittest.main()
     case_path = r"../"
-    report_path = r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Report\Color\color_interface.html"
+    report_path = r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\Report\Color\color_interface.html"
     discover = unittest.defaultTestLoader.discover(case_path,
                                                    pattern="run_case_*.py")
     with open(report_path, 'wb') as f:

@@ -2,8 +2,8 @@
 @Descripttion: 配置查询窗口化
 @Author: Tommy
 @Date: 2019-04-28 11:41:32
-@LastEditors: Tommy
-@LastEditTime: 2020-07-08 16:00:17
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-09-10 12:01:28
 '''
 
 import tkinter
@@ -31,6 +31,7 @@ def apireturn(platform, packname, visioncode, state, idfa):
                           sort_keys=True,
                           ensure_ascii=False)  # res.json()
     res_dict = json.loads(res_init)
+    
 
     return res_dict
 
