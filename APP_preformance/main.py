@@ -3,11 +3,12 @@
  * @Author       : Tommy
  * @Date         : 2021-10-15 12:07:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-10-20 18:22:50
+ * @LastEditTime : 2021-10-25 15:44:33
 '''
 from logging import log
 from Util_csv import UsingMyCsv
 from Util_db import UsingMysql
+from Util_pyecharts import UsingMyecharts
 import datetime
 from loguru import logger
 
@@ -52,13 +53,38 @@ def insert_db(table_name, table_key1, table_key2, data):
             um.insert_one(sql, item[4], item[-1])
 
 
-cpu_list = test('CPU', m_csv.get_data())
-print("--"*100)
-fps_list = test('FPS', m_csv.get_data())
-# print(cpu_list)
-logger.error("数组长度：" + str(len(cpu_list)))
+# cpu_list = test('CPU', m_csv.get_data())
+# print("--"*100)
+# fps_list = test('FPS', m_csv.get_data())
+# # print(cpu_list)
+# logger.error("数组长度：" + str(len(cpu_list)))
 
 
 # insert_db('test_cpu', 'CPU', 'TIME', cpu_list)
-insert_db('test_fps', 'FPS', 'TIME', fps_list)
+# insert_db('test_fps', 'FPS', 'TIME', fps_list)
 # print(fps_list)
+cpu_x = []
+cpu_y = []
+with UsingMysql(log_time=True) as um:
+    sql = "select * from {}".format("test_cpu")
+    data = um.fetch_all(sql)
+    print(type(data))
+    print(data[0]['TIME'])
+    for data_item in data:
+        cpu_x.append(str(data_item['TIME']))
+        cpu_y.append(int(data_item['CPU']))
+
+fps_x = []
+fps_y = []
+with UsingMysql(log_time=True) as um:
+    sql = "select * from {}".format("test_fps")
+    data = um.fetch_all(sql)
+    print(type(data))
+    print(data[0]['TIME'])
+    for data_item in data:
+        fps_x.append(str(data_item['TIME']))
+        fps_y.append(int(data_item['FPS']))
+
+usecharts = UsingMyecharts(r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\report.html", [
+], [], cpu_x, cpu_y, fps_x, fps_y)
+usecharts.page_simple_layout()

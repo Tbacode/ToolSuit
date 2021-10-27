@@ -100,11 +100,11 @@ def run_test(times):
     hot_time = []
     for i in range(times):
         cold_time.append(get_cold_boot_time(
-            'coloring.color.number.happy.paint.art.drawing.puzzle',
+            'com.pixel.art.coloring.by.number',
             'com.unity3d.player.UnityPlayerActivity'))
         hot_time.append(get_hot_boot_time(
-            'coloring.color.number.happy.paint.art.drawing.puzzle',
-            'com.unity3d.player.UnityPlayerActivity'))
+            'com.pixel.art.coloring.by.number',
+            'com.unity3d.player.UnityPlayerActivity')) # com.meevii.business.splash.SplashActivity PBN
     res_cold_time = 0
     res_hot_time = 0
     print("cold_time = " + str(cold_time))
@@ -118,4 +118,4 @@ def run_test(times):
 
 
 # 执行10次
-run_test(20)
+run_test(10)
