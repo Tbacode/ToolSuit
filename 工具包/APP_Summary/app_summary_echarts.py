@@ -43,7 +43,7 @@ def get_apk_info():
 
 
 # 内存占用情况 com.pixel.art.coloring.by.number com.brick.breaker.ball.shooting.blast
-def get_mem_using(package_name="com.pixel.art.coloring.color.number"):
+def get_mem_using(package_name="com.pixel.art.coloring.by.number"):
     """查看apk的内存占用
     :param package_name:
     :return: 单位KB
@@ -125,21 +125,22 @@ if __name__ == '__main__':
     # driver = webdriver.Chrome(chrome_options=options)
     # driver.get(r'https://192.168.1.1')
 
-    with UsingMysql(log_time=True) as um:
-        sql = "insert into HC_MEM20211026(MEM, TIME) values(%s, %s)"
+    
 
-        while True:
+    while True:
+        with UsingMysql(log_time=True) as um:
+            sql = "insert into tc_mem20211026(MEM, TIME) values(%s, %s)"
             print("写入第 {} 次数据！".format(i))
             dicts = main()
             um.insert_one(sql, int(dicts['TOTAL PSS']) / 1024, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
-            # if i == 1:
-            #     # init_to_excel(dicts)
-            #     pyecharts_set(dicts, i)
-            #     driver.get(
-            #         r'C:\Users\talefun\Documents\ToolSuit\工具包\APP_Summary\APP_Summary.html')  # 这里需要填写绝对路径，相对路径是相对与chromedriver的
-            # else:
-            #     # add_to_excel(dicts, i)
-            #     pyecharts_set(dicts, i)
-            #     driver.refresh()  # 刷新html
-            time.sleep(1)
-            i += 1
+        # if i == 1:
+        #     # init_to_excel(dicts)
+        #     pyecharts_set(dicts, i)
+        #     driver.get(
+        #         r'C:\Users\talefun\Documents\ToolSuit\工具包\APP_Summary\APP_Summary.html')  # 这里需要填写绝对路径，相对路径是相对与chromedriver的
+        # else:
+        #     # add_to_excel(dicts, i)
+        #     pyecharts_set(dicts, i)
+        #     driver.refresh()  # 刷新html
+        time.sleep(1)
+        i += 1

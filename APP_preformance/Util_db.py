@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-10-12 12:02:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-10-12 14:56:38
+ * @LastEditTime : 2021-10-29 15:54:00
 '''
 import pymysql
 from timeit import default_timer
@@ -82,7 +82,7 @@ class DMysqlPoolConn:
 # ========== 在程序的开始初始化一个连接池
 host = 'localhost'
 port = 3306
-db = 'test'
+db = 'preformance_20211026'
 user = 'root'
 password = '3232636521tuot'
 

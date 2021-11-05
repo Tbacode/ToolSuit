@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-10-12 12:02:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-10-26 16:22:01
+ * @LastEditTime : 2021-10-28 18:50:19
 '''
 import pymysql
 from timeit import default_timer
@@ -128,6 +128,7 @@ class UsingMysql(object):
         # 在退出的时候自动关闭连接和cursor
         self._cursor.close()
         self._conn.close()
+        print("数据库链接断开")
 
         if self._log_time is True:
             diff = default_timer() - self._start
@@ -160,6 +161,7 @@ class UsingMysql(object):
     
     def insert_one(self, sql, param1, parma2):
         self.cursor.execute(sql, (param1, parma2))
+        print("写入数据中")
 
     @property
     def cursor(self):
