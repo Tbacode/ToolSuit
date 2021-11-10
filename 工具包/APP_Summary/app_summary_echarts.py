@@ -43,6 +43,7 @@ def get_apk_info():
 
 
 # 内存占用情况 com.pixel.art.coloring.by.number com.brick.breaker.ball.shooting.blast
+# tcl com.pixel.art.coloring.by.number
 def get_mem_using(package_name="com.pixel.art.coloring.by.number"):
     """查看apk的内存占用
     :param package_name:
@@ -129,7 +130,7 @@ if __name__ == '__main__':
 
     while True:
         with UsingMysql(log_time=True) as um:
-            sql = "insert into tc_mem20211026(MEM, TIME) values(%s, %s)"
+            sql = "insert into tcl_mem20211110(MEM, TIME) values(%s, %s)"
             print("写入第 {} 次数据！".format(i))
             dicts = main()
             um.insert_one(sql, int(dicts['TOTAL PSS']) / 1024, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
