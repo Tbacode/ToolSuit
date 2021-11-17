@@ -3,13 +3,14 @@
  * @Author       : Tommy
  * @Date         : 2021-01-07 17:16:12
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-01-20 11:27:06
+ * @LastEditTime : 2021-11-17 11:35:02
 '''
 import os
 import datetime
 from loguru import logger
 from download_tool import DownloadTool
 from excel_operation import Excel_operation
+from handle_excel import excel
 
 
 def downloadtime_statistics(Downobject, filename):
@@ -28,14 +29,15 @@ def remove_suffix(filename):
     return file_name_without_suffix
 
 
-def main(excel_filename, sheet_name, host_url):
-    # 打开excel文件
-    excel_operation = Excel_operation(excel_filename)
-    excel_object = excel_operation.excel_open()
-    # 获取excel表对象
-    table = excel_operation.get_table_by_sheetname(excel_object, sheet_name)
-    # 获取table行数
-    rows = excel_operation.get_table_rows(table)
+def main(excel_filename, sheet_name, host_url, sheet_index):
+    # # 打开excel文件
+    # excel_operation = Excel_operation(excel_filename)
+    # excel_object = excel_operation.excel_open()
+    # # 获取excel表对象
+    # table = excel_operation.get_table_by_sheetname(excel_object, sheet_name)
+    # # 获取table行数
+    # rows = excel_operation.get_table_rows(table)
+    rows = excel.get_rows(sheet_index)
     # 进入循环
     for row in range(1, int(rows)):
         resource_name = excel_operation.excel_celldata_return(row, 0, table)
