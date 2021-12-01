@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-09 16:12:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-08-04 00:37:31
+ * @LastEditTime : 2021-08-23 00:09:36
 '''
 from flask import Flask
 from flask import request
@@ -30,7 +30,7 @@ def login():
 @app.route("/get", methods=['GET'])
 def get_fun():
     data = json.dumps({
-        "username": "叶辉",
+        "username": "了不起的QA",
         "password": "11111"
     },
                       ensure_ascii=False)
