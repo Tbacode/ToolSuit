@@ -3,13 +3,13 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-07-19 18:27:45
+ * @LastEditTime : 2021-10-12 10:32:25
 '''
 import openpyxl
 from openpyxl.styles import Alignment
 
 
-class HandleExcel(object):
+class HandleExcel():
     def __init__(self, filename):
         '''
          * @name: Tommy
@@ -135,7 +135,7 @@ class HandleExcel(object):
         return data_list
 
 
-excel = HandleExcel(r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
+excel = HandleExcel(r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
 
 if __name__ == "__main__":
     handle = HandleExcel(

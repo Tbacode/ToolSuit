@@ -5,6 +5,7 @@
 # @Last Modified time: 2020-07-02 17:02:58
 import subprocess
 import time
+from loguru import logger
 
 
 # 执行shell
@@ -100,13 +101,14 @@ def run_test(times):
     hot_time = []
     for i in range(times):
         cold_time.append(get_cold_boot_time(
-            'coloring.color.number.happy.paint.art.drawing.puzzle',
-            'com.unity3d.player.UnityPlayerActivity'))
+            'paint.by.number.pixel.art.coloring.drawing.puzzle',
+            'com.meevii.business.splash.SplashActivity'))
         hot_time.append(get_hot_boot_time(
-            'coloring.color.number.happy.paint.art.drawing.puzzle',
-            'com.unity3d.player.UnityPlayerActivity'))
+            'paint.by.number.pixel.art.coloring.drawing.puzzle',
+            'com.meevii.business.splash.SplashActivity')) # com.meevii.business.splash.SplashActivity PBN
     res_cold_time = 0
     res_hot_time = 0
+    logger.debug("PBN 项目")
     print("cold_time = " + str(cold_time))
     print("hot_time = " + str(hot_time))
     for i in cold_time:
@@ -118,4 +120,4 @@ def run_test(times):
 
 
 # 执行10次
-run_test(20)
+run_test(10)
