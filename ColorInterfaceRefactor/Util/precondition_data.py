@@ -3,12 +3,12 @@
  * @Author       : Tommy
  * @Date         : 2021-07-01 14:32:09
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-09-01 15:30:12
+ * @LastEditTime : 2021-12-06 16:20:39
 '''
 from Util.handle_excel import excel
 from jsonpath_rw import parse
 # from Cryptodome.Cipher import AES
-import base64
+# import base64
 
 
 def split_data(data):

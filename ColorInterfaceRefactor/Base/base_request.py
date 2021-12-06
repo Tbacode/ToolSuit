@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 10:52:32
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-09-01 15:58:22
+ * @LastEditTime : 2021-12-06 16:05:33
 '''
 import requests
 import json
@@ -33,9 +33,16 @@ class BaseRequest(object):
         '''
         # res = requests.get(url=url, params=data)
         # print(res.url)
-        logger.debug("请求开始，url:" + url)
-        res = requests.get(url=url, params=data).text
-        return res
+        i = 0
+        while i < 5:
+            try:
+                logger.debug("请求开始，url:" + url)
+                res = requests.get(url=url, params=data, timeout=10).text
+                return res
+            except requests.exceptions.RequestException:
+                logger.error("请求超时20s，重试...")
+                i += 1
+        return None
 
     def run_main(self, method, url, data):
         '''
@@ -54,7 +61,8 @@ class BaseRequest(object):
         try:
             res = json.loads(res)
         except Exception:
-            print("这个结果是一个text")
+            logger.error("请求超时，结果为空")
+            return {"errorMsg": "请求超时，结果为空", "errorCode": 555}
         return res
 
 
