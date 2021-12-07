@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-09 16:12:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-07 18:35:12
+ * @LastEditTime : 2021-12-07 18:54:34
 '''
 from flask import Flask
 from flask import request
@@ -14,7 +14,7 @@ app = Flask(__name__)
 
 
 @app.route("/", methods=['POST'])
-def login():
+def login33():
     username = request.form.get("username")
     password = request.form.get("password")
     data = json.dumps(
