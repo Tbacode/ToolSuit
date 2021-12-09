@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-09 16:12:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-08-23 00:09:36
+ * @LastEditTime : 2021-12-02 02:29:33
 '''
 from flask import Flask
 from flask import request
@@ -21,7 +21,6 @@ def login():
         {
             "username": username,
             "password": password,
-            "Msg": "叶辉给了HBB一坨翔吃吃"
         },
         ensure_ascii=False)
     return data
