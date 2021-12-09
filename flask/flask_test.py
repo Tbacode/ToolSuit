@@ -3,11 +3,11 @@
  * @Author       : Tommy
  * @Date         : 2021-07-09 16:12:49
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-07 18:54:34
+ * @LastEditTime : 2021-12-10 02:25:20
 '''
 from flask import Flask
 from flask import request
-from flask import send_from_directory, send_file, render_template, jsonify
+# from flask import send_from_directory, send_file, render_template, jsonify
 import json
 
 app = Flask(__name__)
@@ -33,7 +33,7 @@ def get_fun():
         "username": "了不起的QA",
         "password": "11111"
     },
-        ensure_ascii=False)
+                      ensure_ascii=False)
     return data
 
 
@@ -53,19 +53,40 @@ def getReport():
 def login():
     username = request.form.get("username")
     password = request.form.get("password")
-    if username == "了不起的QA" and password == 123456:
-        return {"errorCode": 200, "errorMsg": "登录成功"}
+    if username == "了不起的QA" and password == "123456":
+        return json.dumps({
+            "errorCode": 200,
+            "errorMsg": "登录成功"
+        },
+                          ensure_ascii=False)
     else:
-        return {"errorCode": 301, "errorMsg": "用户名或密码错误"}
+        return json.dumps({
+            "errorCode": 301,
+            "errorMsg": "用户名或密码错误",
+            "username": username,
+            "password": password
+        },
+                          ensure_ascii=False)
 
 
 @app.route("/userinfo", methods=['GET'])
 def userinfo():
     username = request.args.get("username")
     if username is not None:
-        return {"errorCode": 200, "userinfo": {"username": username}}
+        return json.dumps(
+            {
+                "errorCode": 200,
+                "userinfo": {
+                    "username": username
+                }
+            },
+            ensure_ascii=False)
     else:
-        return {"errorCode": 301, "errorMsg": "用户名非法"}
+        return json.dumps({
+            "errorCode": 301,
+            "errorMsg": "用户名非法"
+        },
+                          ensure_ascii=False)
 
 
 if __name__ == "__main__":
