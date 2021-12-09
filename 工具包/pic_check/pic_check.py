@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-08-06 11:23:37
+ * @LastEditTime : 2021-12-09 14:22:27
 '''
 
 # TODO: 引包
@@ -65,7 +65,6 @@ class PicCheck():
         result = pic_item.json()
         return result
 
-    # TODO: 判断是否isEnd
     def isEnd_check(self):
         '''
          * @name: Tommy
@@ -302,7 +301,8 @@ class PicCheck():
             src_data = sorted(src_data, key=lambda x: x[con_key])
             dst_data = sorted(dst_data, key=lambda x: x[con_key])
             for index in range(len(dst_data)):
-                self.cmp_conkey(src_data[index - self.flag], dst_data[index], con_key)
+                self.cmp_conkey(
+                    src_data[index - self.flag], dst_data[index], con_key)
         else:
             if str(src_data) != str(dst_data):
                 logger.error("存在不同值：{} 和 {}".format(src_data, dst_data))
@@ -311,7 +311,7 @@ class PicCheck():
                 return False
 
     def cmp_step_function(self, old_pic_check, new_pic_check):
-        
+
         if not old_pic_check.isEnd_check():
             old_pic_item = old_pic_check.pic_list_item
             logger.info("老接口数据长度：" + str(len(old_pic_item)))
@@ -356,6 +356,3 @@ if __name__ == "__main__":
     new_pic_check = PicCheck(url_new, game_ver, os_type)
 
     old_pic_check.cmp_step_function(old_pic_check, new_pic_check)
-    
-    
-        

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-10-15 12:07:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-11-15 17:14:13
+ * @LastEditTime : 2021-12-02 17:26:38
 '''
 from logging import log
 from Util_csv import UsingMyCsv
@@ -77,15 +77,16 @@ def get_db_data(db_table_name, y_key, x_key="TIME"):
 # print(fps_list)
 
 
-mem_x, mem_y = get_db_data("tc_mem_debug_20111115", "MEM")
-# cpu_x, cpu_y = get_db_data("hc_cpu20211026", "CPU")
-# fps_x, fps_y = get_db_data("hc_fps20211026", "FPS")
-# mem_old_x, mem_old_y = get_db_data("tc_mem20211110", "MEM")
+mem_x, mem_y = get_db_data("pro_mem20211202_paintad", "MEM")
+# cpu_x, cpu_y = get_db_data("tc_mem20211026", "MEM")
+# fps_x, fps_y = get_db_data("pbn_mem20211026", "MEM")
+# mem_old_x, mem_old_y = get_db_data("hc_mem20211026", "MEM")
 # mem_pro_x, mem_pro_y = get_db_data("tcl_mem20211026", "MEM")
 
 
 
 
 usecharts = UsingMyecharts(
-    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\连续填色50张debug版本.html")
-usecharts.page_simple_layout(mem_x, mem_y, [], [], [], [])
+    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\pro_20211202paintAD.html")
+# usecharts.page_simple_layout(mem_old_x, mem_y,fps_x, fps_y, mem_old_x, mem_old_y)
+usecharts.page_simple_layout2(mem_x, mem_y)

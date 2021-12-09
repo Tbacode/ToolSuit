@@ -3,47 +3,29 @@
  * @Autor        : Tommy
  * @Date         : 2021-08-23 00:39:43
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-02 02:48:26
+ * @LastEditTime : 2021-12-07 19:01:38
 '''
+from _typeshed import Self
 import unittest
 import requests
 
 
 class RequestsTest(unittest.TestCase):
     @classmethod
-    def setUpClass(cls):
-        print("设置url值")
-        cls.url = "http://127.0.0.1:5000"
-        cls.data = {"username": "了不起的QA", "password": 1234}
+    def setUpClass(cls) -> None:
+        cls.url = r"http://127.0.0.1:5000"
 
-    def setUp(self):
-        print("setUp执行")
-        # self.url = "http://127.0.0.1:5000/get"
+    def setUp(self) -> None:
+        self.data = {"username": "了不起的QA", "password": 123456}
 
-    # def test_request_username(self):
-    #     print(self.test_request_username.__name__)  # 获取方法名
+    def test_login_success(self):
+        res = requests.post(url=self.__class__.url, data=self.data)
+        self.assertEqual(200, res['errorCode'])
 
-    #     self.assertEqual("了不起的QA", self.res["username"])
-
-    # def test_request_password(self):
-    #     print(self.test_request_password.__name__)
-    #     self.assertEqual("11111", self.res["password"])
-
-    def test_post_username(self):
-        print(self.test_post_username.__name__)
-        self.__class__.data["password"] = 1111
-        res = requests.post(self.__class__.url, data=self.__class__.data).json()
-        self.assertEqual("1234", res["password"])
-
-    def test_post_username2(self):
-        print(self.test_post_username2.__name__)
-        res = requests.post(self.__class__.url, data=self.__class__.data).json()
-        self.assertEqual("1234", res["password"])
-    
-    def tearDown(self):
-        print("tearDown执行")
-        self.__class__.data = {"username": "了不起的QA", "password": 1234}
-
+    def test_login_fail(self):
+        self.data['username'] = "手动阀手动阀"
+        res = requests.post(url=self.__class__.url, data=self.data)
+        self.assertEqual(301, res['errorCode'])
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-09-01 16:04:58
+ * @LastEditTime : 2021-12-06 16:16:30
 '''
 import ddt
 import unittest
@@ -57,10 +57,10 @@ class TestRunCaseDDT(unittest.TestCase):
                 Data = json.dumps(Data)
 
             # 执行请求，获得返回结果
-            time_str = time.strftime("%Y%m%d", time.localtime())
             if Data:
                 request_data = json.loads(Data)
                 if request_data['game_date'] == "":
+                    time_str = time.strftime("%Y%m%d", time.localtime())
                     request_data['game_date'] = time_str
                 Data = request_data
 
@@ -124,7 +124,7 @@ class TestRunCaseDDT(unittest.TestCase):
 if __name__ == "__main__":
     # unittest.main()
     case_path = r"../"
-    report_path = r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\Report\Color\color_interface.html"
+    report_path = r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\color_interface.html"
     discover = unittest.defaultTestLoader.discover(case_path,
                                                    pattern="run_case_*.py")
     with open(report_path, 'wb') as f:
@@ -133,8 +133,9 @@ if __name__ == "__main__":
                               description="Color API Test Report")
         test_result = runner.run(discover)
     if test_result.failure_count != 0:
-        handle_email.post_file(report_path)
+        handle_email.post_file(report_path, True)
     elif test_result.error_count != 0:
-        handle_email.post_file(report_path)
+        handle_email.post_file(report_path, True)
     else:
+        # handle_email.post_file(report_path, True)
         pass
