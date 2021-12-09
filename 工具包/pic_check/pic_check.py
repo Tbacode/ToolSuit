@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2020-11-05 15:24:58
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-08 13:54:13
+ * @LastEditTime : 2021-12-09 14:22:27
 '''
 
 # TODO: 引包
@@ -65,7 +65,6 @@ class PicCheck():
         result = pic_item.json()
         return result
 
-    # TODO: 判断是否isEnd
     def isEnd_check(self):
         '''
          * @name: Tommy
