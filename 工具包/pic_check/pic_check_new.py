@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-08 14:09:46
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-09 16:26:42
+ * @LastEditTime : 2021-12-10 15:11:56
 '''
 import time
 import datetime
@@ -152,26 +152,12 @@ class PicCheck():
          @return: 
         '''
         if isinstance(src_data, dict):
-            # for key in dst_data:
-            #     if key not in src_data:
-            #         logger.error("旧文件不存在这个key: " + key)
-            # for key in src_data:
-            #     if key in dst_data:
-            #         thiskey = key
-            #         self.cmp(src_data[thiskey], dst_data[thiskey], con_key, flag)
-            #     else:
-            #         logger.error("新文件不存在这个key: " + key)
             self.cmp_conkey(src_data[con_key], dst_data[con_key], con_key)
         elif isinstance(src_data, list):
 
             if len(src_data) != len(dst_data):
                 logger.error("list 长度: 旧文件-{} != 新文件-{}".format(
                     len(src_data), len(dst_data)))
-            # for src_list, dst_list in zip(
-            #         sorted(src_data, key=lambda x: x[con_key]),
-            #         sorted(dst_data, key=lambda x: x[con_key])):
-            # for src_list, dst_list in zip(src_data, dst_data):
-            #     self.cmp(src_list, dst_list, con_key)
             src_data = sorted(src_data, key=lambda x: x[con_key])
             dst_data = sorted(dst_data, key=lambda x: x[con_key])
             for index in range(len(dst_data)):
@@ -213,10 +199,10 @@ class PicCheck():
 
 
 if __name__ == "__main__":
-    base_url = r'https://tapcolor-debug.taplayer.net/normalApi/v1/'
+    base_url = r'https://tapcolor-new-pre.taplayer.net/normalApi/v1/'
     url = r'https://tapcolor.taplayer.net/normalApi/v1/'
-    old_url = ''.join([url, 'getGalleryList/'])
-    new_url = ''.join([base_url, 'gallery/'])
+    old_url = ''.join([url, 'getDailyList/'])
+    new_url = ''.join([base_url, 'daily/'])
     p1 = PicCheck(old_url, "7.5.0", "Android")
     p2 = PicCheck(new_url, "7.5.0", "Android")
     p2.new_api_params()
