@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-13 18:31:19
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-13 18:47:59
+ * @LastEditTime : 2021-12-14 14:55:35
 '''
 import unittest
 
@@ -24,4 +24,8 @@ class TestUserinfo(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
+    suit = unittest.TestSuite()
+    suit.addTest(TestUserinfo("test_userinfo_success"))
+    runner = unittest.TextTestRunner()
+    runner.run(suit)
