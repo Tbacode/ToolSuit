@@ -1,5 +1,6 @@
-requests
-openpyxl
-configparser
-deepdiff
-jsonpath_rw
+requests==2.25.1
+openpyxl==3.0.7
+deepdiff==5.5.0
+jsonpath_rw==1.4.0
+ddt==1.4.2
+loguru==0.5.3
