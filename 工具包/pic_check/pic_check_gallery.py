@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-08 14:09:46
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-13 17:46:55
+ * @LastEditTime : 2022-01-05 11:41:08
 '''
 import time
 import datetime
@@ -37,7 +37,7 @@ class PicCheck():
         self.params = {
             "game_ver": game_ver,
             "os_type": os_type,
-            "register_ver": "7.4.0",
+            "register_ver": "7.5.0",
             "register_date": self.start_date,
             "game_date": self.game_date,
             "game_actDay": 1,
@@ -183,27 +183,43 @@ class PicCheck():
             old_pic_item = old_pic_check.pic_list_item
             logger.info("老接口数据长度:" + str(len(old_pic_item)))
             old_pic_item = sorted(old_pic_item, key=lambda x: x["picName"])
+            # logger.debug("lao {}".format(old_pic_item))
             # old_pic_check.save_json("old_nUser" + str(self.flag))
 
         if not new_pic_check.is_end_check('post'):
             new_pic_item = new_pic_check.pic_list_item
             logger.error("新接口数据长度:" + str(len(new_pic_item)))
             new_pic_item = sorted(new_pic_item, key=lambda x: x["picName"])
+            # logger.debug("xin {}".format(new_pic_item))
+
+            # test
+            # old = []
+            # new = []
+            # for item in old_pic_item:
+            #     old.append(item["picName"])
+            # for item in new_pic_item:
+            #     new.append(item["picName"])
+
+            # # deffnew = [i for i in new if not i in old]
+            # deffold = [i for i in old if not i in new]
+            # print(deffold)
+
             # new_pic_check.save_json("new_nUser" + str(self.flag))
 
             new_pic_check.cmp_conkey(old_pic_item, new_pic_item, "picName")
             old_pic_check.time_change()
             new_pic_check.time_change()
-            # self.flag += 1
+            self.flag += 1
             self.cmp_step_function(old_pic_check, new_pic_check)
 
 
 if __name__ == "__main__":
-    base_url = r'https://tapcolor-new-pre.taplayer.net/normalApi/v1/'
+    base_url = r'https://tapcolor.taplayer.net/normalApi/v1/'
     url = r'https://tapcolor.taplayer.net/normalApi/v1/'
-    old_url = ''.join([url, 'getDailyList/'])
-    new_url = ''.join([base_url, 'daily/'])
+    old_url = ''.join([url, 'getGalleryList/'])
+    new_url = ''.join([base_url, 'gallery/'])
     p1 = PicCheck(old_url, "7.5.0", "Android")
     p2 = PicCheck(new_url, "7.5.0", "Android")
     p2.new_api_params()
+    print(p2.params)
     p1.cmp_step_function(p1, p2)

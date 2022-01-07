@@ -1,7 +1,9 @@
 FROM python:3.9.6-slim
 
-COPY . .
+WORKDIR /src
 
-RUN pip install -r requirements.txt
+COPY . /src/
+
+RUN pip install -r /src/requirements.txt
 
 CMD ["python3", "run_case_ddt.py"]

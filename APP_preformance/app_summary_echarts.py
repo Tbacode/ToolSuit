@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
     while True:
         with UsingMysql(log_time=True) as um:
-            sql = "insert into pro_mem20211202_paintad(MEM, TIME) values(%s, %s)"
+            sql = "insert into PRO_MAX_mem20211224(MEM, TIME) values(%s, %s)"
             print("写入第 {} 次数据！".format(i))
             dicts = main()
             um.insert_one(sql, int(dicts['TOTAL PSS']) / 1024, time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-15 16:42:31
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-15 18:21:50
+ * @LastEditTime : 2022-01-05 11:48:34
 '''
 from logging import log
 import time
@@ -96,19 +96,55 @@ class PicCheck():
         url = r'https://tapcolor.taplayer.net/normalApi/v1/getGalleryList/'
         self.params['pic_type'] = pic_type
         self.params['u_af_status'] = "Organic"
-        del self.params['resolu_width']
-        res = requests.get(url=url, params=self.params).json()
+        # del self.params['resolu_width']
+        res = requests.get(url=url, params=self.params)
+        logger.debug("请求完整路径URL: {}".format(res.url))
+        res = res.json()
+        return res['data']['picList']
 
     def allPicname_Check(self) -> None:
         new_picinfo_dict = self.get_Galleries_Data()
 
         picClass_key_dict = self.get_PicClass_Key(new_picinfo_dict['data']['config']['classic']['tagid'])
-        print(picClass_key_dict)
+        picClass_key_list = new_picinfo_dict['data']['config']['classic']['classification'].split(',')[:10]
+        picClass_key_name_list = [picClass_key_dict[x] for x in picClass_key_list[1:10]]
+        for index, picClass_key_item in enumerate(picClass_key_name_list):
+            new_pic_list = new_picinfo_dict['data']['allClassPicInfo'][index + 1]['picList']
+            old_pic_list = self.get_Oldpicinfo(picClass_key_item)
+            if len(new_pic_list) == len(old_pic_list):
+                new_picName = self.get_picName(new_pic_list)
+                old_picName = self.get_picName(old_pic_list)
+                diff_list = [i for i in new_picName if not i in old_picName]
+                if len(diff_list) != 0:
+                    logger.error("新旧接口{}分类数据异常: {} 图片名老接口不存在".format(picClass_key_item, diff_list))
+            elif len(new_pic_list) > len(old_pic_list):
+                logger.error("新旧接口{}分类数据长度不一致".format(picClass_key_item))
+                new_picName = self.get_picName(new_pic_list)
+                old_picName = self.get_picName(old_pic_list)
+                diff_list = [i for i in new_picName if not i in old_picName]
+                if len(diff_list) != 0:
+                    logger.error("新旧接口{}分类数据异常: {} 图片名老接口不存在".format(picClass_key_item, diff_list))
+            else:
+                logger.error("新旧接口{}分类数据长度不一致".format(picClass_key_item))
+                new_picName = self.get_picName(new_pic_list)
+                old_picName = self.get_picName(old_pic_list)
+                diff_list = [i for i in old_pic_list if not i in new_picName]
+                if len(diff_list) != 0:
+                    logger.error("新旧接口{}分类数据异常: {} 图片名新接口不存在".format(picClass_key_item, diff_list))
+        # print(picClass_key_name_list)
+
+    def get_picName(self, pic_list):
+        pic_name = []
+        for item in pic_list:
+            pic_name.append(item['picName'])
+        pic_name = sorted(pic_name)
+        logger.debug("picName: {}".format(pic_name))
+        return pic_name
 
 
 
 if __name__ == "__main__":
-    base_url = r'https://tapcolor-new-pre.taplayer.net/normalApi/v1/galleries/'
+    base_url = r'https://tapcolor.taplayer.net/normalApi/v1/galleries/'
     p = PicCheck(base_url, "7.5.0", "Android")
     # p.allClassPicinfo_Check()
     p.allPicname_Check()

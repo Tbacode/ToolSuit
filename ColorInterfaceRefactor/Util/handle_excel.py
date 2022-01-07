@@ -2,8 +2,8 @@
  * @Descripttion : 封装excel操作
  * @Author       : Tommy
  * @Date         : 2021-06-17 14:28:30
-LastEditors: Please set LastEditors
-LastEditTime: 2021-12-22 20:30:18
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2021-12-23 11:50:35
 '''
 import openpyxl
 from openpyxl.styles import Alignment
@@ -136,7 +136,7 @@ class HandleExcel():
 
 
 # excel = HandleExcel(r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx")
-excel = HandleExcel(r'Case\Case.xlsx')
+excel = HandleExcel(r'Case/Case.xlsx')
 if __name__ == "__main__":
     handle = HandleExcel(
         r"C:\Users\xt875\Documents\ToolSuit\ColorInterfaceRefactor\Case\Case.xlsx"

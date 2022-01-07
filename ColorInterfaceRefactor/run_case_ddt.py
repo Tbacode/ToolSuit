@@ -2,8 +2,8 @@
  * @Descripttion : 引入ddt的主逻辑方法
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
- * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-06 16:16:30
+LastEditors: Please set LastEditors
+LastEditTime: 2021-12-22 20:45:12
 '''
 import ddt
 import unittest
@@ -124,7 +124,7 @@ class TestRunCaseDDT(unittest.TestCase):
 if __name__ == "__main__":
     # unittest.main()
     case_path = r"../"
-    report_path = r"C:\Users\talefun\Documents\ToolSuit\ColorInterfaceRefactor\color_interface.html"
+    report_path = r"..\color_interface.html"
     discover = unittest.defaultTestLoader.discover(case_path,
                                                    pattern="run_case_*.py")
     with open(report_path, 'wb') as f:

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-08 14:09:46
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-13 18:07:41
+ * @LastEditTime : 2022-01-04 16:55:51
 '''
 import time
 import datetime
@@ -197,7 +197,7 @@ class PicCheck():
 
 
 if __name__ == "__main__":
-    base_url = r'https://tapcolor-new-pre.taplayer.net/normalApi/v1/'
+    base_url = r'https://tapcolor.taplayer.net/normalApi/v1/'
     url = r'https://tapcolor.taplayer.net/normalApi/v1/'
     old_url = ''.join([url, 'getDailyList/'])
     new_url = ''.join([base_url, 'daily/'])
