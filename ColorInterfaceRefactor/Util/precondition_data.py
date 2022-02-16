@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-01 14:32:09
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-06 16:20:39
+ * @LastEditTime : 2022-01-25 16:02:01
 '''
 from Util.handle_excel import excel
 from jsonpath_rw import parse
@@ -21,6 +21,53 @@ def split_data(data):
     case_id = data.split(">")[0]
     rule_data = data.split(">")[1]
     return case_id, rule_data
+
+def split_data_by_ExpectedResult(data):
+    '''
+     * @name: Tommy
+     * @msg: 解析从excel来的预期结果数据
+     * @param {data:excel中Expected Result数据}
+     * @return {返回解析规则数据, 运算符, 预期结果数据}
+    '''
+    rule_data_result, operator, expectedresult = data.split("@")
+    return rule_data_result, operator, expectedresult
+
+def get_result_check(depend_data, operator, expectedresult):
+    '''
+     * @name: Tommy
+     * @msg: 
+     * @param {*} depend_data    依赖规则解析后的依赖数据
+     * @param {*} operator       运算符号
+     * @param {*} expectedresult 预期结果，与以来数据进行运算判定
+     * @return {boolean} 返回真假
+    '''
+    if operator == "!=":
+        if int(depend_data) != int(expectedresult):
+            return True
+    elif operator == "<=":
+        if int(depend_data) <= int(expectedresult):
+            return True
+    elif operator == "=":
+        if int(depend_data) == int(expectedresult):
+            return True
+    elif operator == ">=":
+        if int(depend_data) >= int(expectedresult):
+            return True
+    elif operator == "<":
+        if int(depend_data) < int(expectedresult):
+            return True
+    elif operator == ">":
+        if int(depend_data) > int(expectedresult):
+            return True
+    elif operator == "NotIn":
+        if str(depend_data) not in str(expectedresult):
+            return True
+    elif operator == "In":
+        if str(depend_data) in str(expectedresult):
+            return True
+    else:
+        return False
+    
 
 
 def depend_data(data, key, Response_Result_index, index=None):

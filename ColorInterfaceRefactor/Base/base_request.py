@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-06-17 10:52:32
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-06 16:05:33
+ * @LastEditTime : 2022-01-25 16:14:02
 '''
 import requests
 import json
@@ -21,8 +21,16 @@ class BaseRequest(object):
          * @param {url:请求地址,data:请求参数}
          * @return {请求结果}
         '''
-        res = requests.post(url=url, data=data).text
-        return res
+        i = 0
+        while i<5:
+            try:
+                logger.debug("请求开始，url:" + url)
+                res = requests.post(url=url, data=data).text
+                return res
+            except requests.exceptions.RequestException:
+                logger.error("请求超时20s，重试...")
+                i += 1
+        return None
 
     def __send_get(self, url, data):
         '''

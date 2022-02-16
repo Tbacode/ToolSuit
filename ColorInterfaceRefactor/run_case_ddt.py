@@ -2,16 +2,17 @@
  * @Descripttion : 引入ddt的主逻辑方法
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
-LastEditors: Please set LastEditors
-LastEditTime: 2021-12-22 20:45:12
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2022-01-25 15:24:09
 '''
+from logging import exception
 import ddt
 import unittest
 from Util.handle_excel import excel
 from Base.base_request import request
 # from Util.handle_ini import handle_ini
 from Util.handle_result import handle_result
-from Util.precondition_data import depend_data, get_depend_data
+from Util.precondition_data import depend_data, get_depend_data, split_data_by_ExpectedResult, get_result_check
 from Util.handle_email import handle_email
 import time
 import json
@@ -73,7 +74,10 @@ class TestRunCaseDDT(unittest.TestCase):
             try:
                 result_msg = res['errorMsg']
             except KeyError:
-                result_msg = res['error_msg']
+                try:
+                    result_msg = res['error_msg']
+                except KeyError:
+                    result_msg = None
             # 判断预期结果验证方式
             if Expected_Method == "errorMsg":
                 # 判断文件内errorMsg和返回值errorMsg是否一致
@@ -116,9 +120,21 @@ class TestRunCaseDDT(unittest.TestCase):
                     excel.excel_write_data(i, 11, "FAIL")
                     excel.excel_write_data(i, 12, str(res))
                     raise e
-            else:
-                # 判断返回值是否json格式
-                excel.excel_write_data(i, 12, str(res))
+            elif Expected_Method == "keyWords":
+                # 判断关键字数值是否与预期一致
+                rule_data_result, operator, expectedresult = split_data_by_ExpectedResult(Expected_Result)
+                depend_data_result = get_depend_data(res, rule_data_result)
+                result = get_result_check(depend_data_result, operator, expectedresult)
+                try:
+                    self.assertTrue(result)
+                    excel.excel_write_data(i, 11, "PASS")
+                    excel.excel_write_data(i, 12, str(depend_data_result))
+                except Exception as e:
+                    logger.error("接口预期结果{0}与实际结果{1}不符:".format(expectedresult, depend_data_result))
+                    excel.excel_write_data(i, 11, "FAIL")
+                    excel.excel_write_data(i, 12, str("接口预期结果{0}与实际结果{1}不符:".format(expectedresult, depend_data_result)))
+                    raise e
+                # excel.excel_write_data(i, 12, str(res))
 
 
 if __name__ == "__main__":
