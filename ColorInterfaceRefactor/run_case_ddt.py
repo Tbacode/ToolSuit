@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-01-25 15:24:09
+ * @LastEditTime : 2022-02-28 16:44:00
 '''
 from logging import exception
 import ddt
@@ -14,16 +14,20 @@ from Base.base_request import request
 from Util.handle_result import handle_result
 from Util.precondition_data import depend_data, get_depend_data, split_data_by_ExpectedResult, get_result_check
 from Util.handle_email import handle_email
+from Util.handle_dingding import handle_ding
 import time
 import json
 from loguru import logger
 from BSTestRunner import BSTestRunner
+
 
 data = excel.get_excel_data()
 
 
 @ddt.ddt
 class TestRunCaseDDT(unittest.TestCase):
+    result_str = []
+
     @ddt.data(*data)
     def test_run_main(self, data):
         Case_Id, \
@@ -122,19 +126,36 @@ class TestRunCaseDDT(unittest.TestCase):
                     raise e
             elif Expected_Method == "keyWords":
                 # 判断关键字数值是否与预期一致
-                rule_data_result, operator, expectedresult = split_data_by_ExpectedResult(Expected_Result)
+                rule_data_result, operator, expectedresult = split_data_by_ExpectedResult(
+                    Expected_Result)
                 depend_data_result = get_depend_data(res, rule_data_result)
-                result = get_result_check(depend_data_result, operator, expectedresult)
+                result = get_result_check(
+                    depend_data_result, operator, expectedresult)
                 try:
                     self.assertTrue(result)
                     excel.excel_write_data(i, 11, "PASS")
                     excel.excel_write_data(i, 12, str(depend_data_result))
                 except Exception as e:
-                    logger.error("接口预期结果{0}与实际结果{1}不符:".format(expectedresult, depend_data_result))
+                    logger.error("接口预期结果{0}与实际结果{1}不符:".format(
+                        expectedresult, depend_data_result))
                     excel.excel_write_data(i, 11, "FAIL")
-                    excel.excel_write_data(i, 12, str("接口预期结果{0}与实际结果{1}不符:".format(expectedresult, depend_data_result)))
+                    excel.excel_write_data(i, 12, str(
+                        "接口预期结果{0}与实际结果{1}不符:".format(expectedresult, depend_data_result)))
                     raise e
                 # excel.excel_write_data(i, 12, str(res))
+
+        # return result_str
+
+
+def error_msg():
+    error_str = ""
+    data = excel.get_excel_data()
+    for date_item in data:
+        # logger.debug("dateitem[10]: {}".format(date_item[10]))
+        if date_item[10] == "FAIL":
+            error_str = error_str + "> **{}用例失败:**".format(date_item[1]) + date_item[11] + "\n\n"
+            # error_str[date_item[1] + "用例失败"] = date_item[11]
+    return error_str
 
 
 if __name__ == "__main__":
@@ -148,10 +169,17 @@ if __name__ == "__main__":
                               title="Color API Test Report",
                               description="Color API Test Report")
         test_result = runner.run(discover)
+
+    # logger.debug(TestRunCaseDDT.result_str)
     if test_result.failure_count != 0:
-        handle_email.post_file(report_path, True)
-    elif test_result.error_count != 0:
-        handle_email.post_file(report_path, True)
-    else:
         # handle_email.post_file(report_path, True)
-        pass
+        print(error_msg())
+        handle_ding.dingtalk(error_msg())
+    elif test_result.error_count != 0:
+        # handle_email.post_file(report_path, True)
+        print(error_msg())
+        handle_ding.dingtalk(error_msg())
+    else:
+        # # handle_email.post_file(report_path, True)
+        # print(error_msg())
+        # handle_ding.dingtalk(error_msg())
