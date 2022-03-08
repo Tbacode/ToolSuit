@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-02-28 16:44:00
+ * @LastEditTime : 2022-02-28 16:50:49
 '''
 from logging import exception
 import ddt
@@ -183,3 +183,4 @@ if __name__ == "__main__":
         # # handle_email.post_file(report_path, True)
         # print(error_msg())
         # handle_ding.dingtalk(error_msg())
+        pass

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-10-15 12:07:25
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-02 17:25:54
+ * @LastEditTime : 2022-03-02 18:18:07
 '''
 from pyecharts import charts
 from pyecharts.charts import Line, Page, Tab
@@ -102,7 +102,7 @@ class UsingMyecharts(object):
         )
         return c
 
-    def page_simple_layout(self, mem_x, mem_y, cpu_x, cpu_y, fps_x, fps_y):
+    def page_simple_layout(self, mem1_x, mem1_y, mem2_x, mem2_y, mem3_x, mem3_y):
         '''
          * @name: Tommy
          * @msg: 简单布局多表合并显示
@@ -110,18 +110,18 @@ class UsingMyecharts(object):
          * @return {*}
         '''
         page = Page(layout=Page.SimplePageLayout)  # 简单布局
-        # page.add(
-        #     self.set_line_echarts(mem_x, mem_y,
-        #                           "内存(M)", "debug完成填色50张"),  # 传入内存图标数据，加入page
-        #     self.set_line_echarts(cpu_x, cpu_y,
-        #                           "内存(M)", ""),  # 传入CPU图标数据，加入page
-        #     self.set_line_echarts(fps_x, fps_y,
-        #                           "FPS(帧)", "FPS")   # 传入FPS图标数据，加入page
-        # )
         page.add(
-            self.set_lines_echarts(mem_x, mem_y, "pro_20211202", cpu_y,
-                                   "pbn_20211026", fps_y, "hc_20211026", "内存统计")
+            self.set_line_echarts(mem1_x, mem1_y,
+                                  "FPS(帧)", "TC_FPS"),  # 传入内存图标数据，加入page
+            self.set_line_echarts(mem2_x, mem2_y,
+                                  "FPS(帧)", "TCP_FPS"),  # 传入CPU图标数据，加入page
+            self.set_line_echarts(mem3_x, mem3_y,
+                                  "FPS(帧)", "HC_FPS")   # 传入FPS图标数据，加入page
         )
+        # page.add(
+        #     self.set_lines_echarts(mem_x, mem_y, "pro_20211202", cpu_y,
+        #                            "pbn_20211026", fps_y, "hc_20211026", "内存统计")
+        # )
         page.render(self.report_path)
         # return page
 

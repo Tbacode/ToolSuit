@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-10-15 12:07:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-12-02 17:26:38
+ * @LastEditTime : 2022-03-02 18:18:18
 '''
 from logging import log
 from Util_csv import UsingMyCsv
@@ -13,7 +13,7 @@ import datetime
 from loguru import logger
 
 m_csv = UsingMyCsv(
-    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\20211026HC性能测试.csv")
+    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\TC_FPS.csv")
 
 
 def test(key, data):
@@ -65,19 +65,21 @@ def get_db_data(db_table_name, y_key, x_key="TIME"):
     return data_x, data_y
 
 
-# cpu_list = test('CPU', m_csv.get_data())
+# # cpu_list = test('CPU', m_csv.get_data())
 # print("--"*100)
 # fps_list = test('FPS', m_csv.get_data())
 # # print(cpu_list)
-# logger.error("数组长度：" + str(len(cpu_list)))
+# # logger.error("数组长度：" + str(len(cpu_list)))
 
 
-# insert_db('hc_cpu20211026', 'CPU', 'TIME', cpu_list)
-# insert_db('hc_fps20211026', 'FPS', 'TIME', fps_list)
+# # insert_db('hc_cpu20211026', 'CPU', 'TIME', cpu_list)
+# insert_db('tc_fps20220302', 'FPS', 'TIME', fps_list)
 # print(fps_list)
 
 
-mem_x, mem_y = get_db_data("pro_mem20211202_paintad", "MEM")
+mem1_x, mem1_y = get_db_data("tc_fps20220302", "FPS")
+mem2_x, mem2_y = get_db_data("tcp_fps20220302", "FPS")
+mem3_x, mem3_y = get_db_data("hc_fps20220302", "FPS")
 # cpu_x, cpu_y = get_db_data("tc_mem20211026", "MEM")
 # fps_x, fps_y = get_db_data("pbn_mem20211026", "MEM")
 # mem_old_x, mem_old_y = get_db_data("hc_mem20211026", "MEM")
@@ -87,6 +89,6 @@ mem_x, mem_y = get_db_data("pro_mem20211202_paintad", "MEM")
 
 
 usecharts = UsingMyecharts(
-    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\pro_20211202paintAD.html")
+    r"C:\Users\talefun\Documents\ToolSuit\APP_preformance\FPS_test.html")
 # usecharts.page_simple_layout(mem_old_x, mem_y,fps_x, fps_y, mem_old_x, mem_old_y)
-usecharts.page_simple_layout2(mem_x, mem_y)
+usecharts.page_simple_layout(mem1_x, mem1_y, mem2_x, mem2_y, mem3_x, mem3_y)
