@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-12-13 18:31:19
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-03-08 16:33:10
+ * @LastEditTime : 2022-03-10 16:15:01
 '''
 from functools import wraps
 import unittest
@@ -34,7 +34,7 @@ def depend(depend=''):
                     _mark.extend([skip[0] for skip in _s])
 
                 if depend in str(_mark):
-                    unittest.skipIf(1 > 0, "跳过")(func)(*args, **kwargs)
+                    unittest.skipIf(True, "跳过")(func)(*args, **kwargs)
                 else:
                     func(*args, **kwargs)
 
@@ -51,24 +51,32 @@ class TestUserinfo(unittest.TestCase):
     def setUp(self) -> None:
         print("userinfo接口测试-setup")
 
+    @depend('test_userinfo_fail')
     def test_userinfo_success(self):
         print("test_userinfo_success测试开始")
-        self.assertEqual(1, 3)
+        self.assertEqual(1, 1)
 
-    @depend('test_userinfo_success')
     def test_userinfo_fail(self):
         print("test_userinfo_fail测试开始")
-        self.assertEqual(1, 1)
+        self.assertEqual(1, 3)
 
     def tearDown(self) -> None:
         print("userinfo接口测试-tearDown")
 
 
+# @depend('test_userinfo_fail')
+class Testtest(unittest.TestCase):
+
+    @depend('test_userinfo_fail')
+    def test_t(self):
+        print("test_t测试开始")
+
+
 if __name__ == "__main__":
-    # unittest.main(verbosity=2)
-    suit = unittest.TestSuite()
-    suit.addTest(TestUserinfo("test_userinfo_success"))
-    suit.addTest(TestUserinfo("test_userinfo_fail"))
-    runner = unittest.TextTestRunner()
-    runner.run(suit)
+    unittest.main(verbosity=2)
+    # suit = unittest.TestSuite()
+    # suit.addTest(TestUserinfo("test_userinfo_success"))
+    # suit.addTest(TestUserinfo("test_userinfo_fail"))
+    # runner = unittest.TextTestRunner()
+    # runner.run(suit)
     # print(r.failures)

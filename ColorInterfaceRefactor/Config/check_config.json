@@ -6,6 +6,7 @@
         {
             "666": [
                 "path: game_ver, error: game_ver must have a length between 3 and 9.",
+                "path: game_ver, error: game_ver must have a length between 3 and 18.",
                 "path: os_type, error: os_type must be either Android, Ios, Mac or Windows.",
                 "path: register_date, error: register_date must have a length between 8 and 8.",
                 "path: game_date, error: game_date must have a length between 8 and 8.",

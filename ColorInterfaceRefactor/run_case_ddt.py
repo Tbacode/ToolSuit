@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-02-28 16:50:49
+ * @LastEditTime : 2022-03-24 15:01:23
 '''
 from logging import exception
 import ddt
@@ -43,6 +43,7 @@ class TestRunCaseDDT(unittest.TestCase):
             Execute_Result, \
             ResponseResult = data
 
+        logger.debug("判断用例是否执行：{}".format(Is_Run))
         # 判断是否需要执行case
         if Is_Run == 'yes':
             # 获得index数据i，既：行号

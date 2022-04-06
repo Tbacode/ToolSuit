@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2021-07-01 14:32:09
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-01-25 16:02:01
+ * @LastEditTime : 2022-03-10 17:31:20
 '''
 from Util.handle_excel import excel
 from jsonpath_rw import parse
@@ -81,6 +81,7 @@ def depend_data(data, key, Response_Result_index, index=None):
     row = excel.get_row_number(case_id, key, index)
     cell_data = excel.get_cell_value(row, Response_Result_index + 1, index)
     return eval(cell_data), rule_data
+
 
 
 def get_depend_data(depend_data, depend_rule):
