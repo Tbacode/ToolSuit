@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2022-04-06 15:41:00
- * @LastEditTime: 2022-04-06 18:26:17
+ * @LastEditTime: 2022-04-07 19:30:19
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \APITest\MyApp\templates\home.html
@@ -16,26 +16,66 @@
         <link type="text/css" rel="stylesheet" href="/static/201908059658/assets/css/font-awesome.min.css" />
         <!--include plugin css--> 
         <link type="text/css" rel="stylesheet" href="/static/201908059658/src/jquery-rvnm.css" />
+
+    <style>
+        body {
+            background: url("/static/login.jpg");
+            background-attachment: fixed;
+            background-size: cover;
+        }
+    </style>
 </head>
 
 <body>
 
 
-<div style="background: linear-gradient(to bottom, #585856, #7bb8f1);text-align: center;border-radius: 5px;box-shadow: 4px 4px 10px #181818;margin-left: 250px;margin-right: 30px;">
-    <h1>欢迎 {{ username }} 使用 接口测试平台</h1>
-    <h3>welcome to ApiTestPlatform</h3>
-</div>
+    <div style="background: linear-gradient(to bottom, #f79992, #7bb8f1);
+                text-align: center;
+                border-radius: 5px;box-shadow: 4px 4px 10px #181818;
+                margin-left: 250px;margin-right: 30px;
+                margin: 30px 30px auto 250px;">
+        <h1>欢迎 {{ username }} 使用 接口测试平台</h1>
+        <h3>welcome to ApiTestPlatform</h3>
+        <!-- 传送门 -->
+        <div style="color: white;text-align: left; margin-left: 30px;">
+            <h3>欢迎使用传送门：</h3>
+            <strong>
+                {% for i in hrefs %}
+                    <a href="{{ i.href }}" target="_blank">{{ i.name }}</a> <br>
+                {% endfor %}
+            </strong>
+        </div>
 
-<div style="margin-left: 250px;margin-right: 30px;text-align: center">
-    <h2>使用说明：</h2><br>
-    1.选择项目<br>
-    2.选择待测试接口<br>
-    3.点击测试<br><br>
-</div>
-<!--<div style="text-align: center;background-color: black;width: 1000px; height: 200px;">-->
-<!--<h1>我是home.html</h1>-->
-<!--</div>-->
+
+
+
+
+
+
+
+
+
+        <!-- 吐槽 -->
+        <div style="margin-top:50px;">
+            <textarea id="tucao_input" rows="10" placeholder="匿名吐槽专用，点击 呸 按钮即可怒喷开发者" style="border-radius: 5px;
+                        padding-left: 10px;box-shadow: 4px 4px 9px grey;
+                        color: #181818;opacity:0.4;width: 95%;"></textarea>
+            <br>
+            <button onclick="pei()" style="border-radius: 50px 50px 50px 50px; width: 100px;opacity: 0.8;margin: 10px auto 15px auto;">💦呸！</button>
+        </div>
+    </div>
+    
 
 </body>
+
+<script>
+    function pei(){
+        $.get("/pei/",{
+            "tucao_text": document.getElementById('tucao_input').value,
+        }, function(ret){
+            alert('已经成功吐槽')
+        })
+    }
+</script>
 
 </html>

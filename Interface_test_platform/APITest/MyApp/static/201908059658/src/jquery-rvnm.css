@@ -427,7 +427,7 @@ body,html{
  }
 
 .rvnm-navbar-box.rvnm-minimal.dark-ruby ul li:hover,.rvnm-navbar-box.rvnm-minimal ul li.rvnm-collapseable{
-    background-color: #f0544c ;
+    background-color: #03d6f1;
     border-bottom: 0;
 }
 .rvnm-navbar-box.rvnm-minimal.dark-ruby > ul > li{
@@ -436,7 +436,7 @@ body,html{
 
 .rvnm-navbar-box.rvnm-minimal.dark-ruby .rvnm-minimal-expand > ul{
     top:100%;
-    background-color: #f0544c ;
+    background-color: #03d6f1 ;
     border-left: 0;
     padding-top: 0;
 }
