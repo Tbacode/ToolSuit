@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2022-04-06 14:39:45
+ * @LastEditTime: 2022-04-07 18:48:54
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \APITest\MyApp\templates\welcome.html
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,33 +22,47 @@
 <nav id="navbar" class="">
     <ul>
         <li>
-            <a href="#">  
-                <i class="fa fa-bell-o"></i>
-                项目管理
+            <a href="#">
+                📂 项目列表 
             </a>
-            <ul>
-                <li>
-                    <a href="#">
-                        项目列表
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        接口库
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
-                        用例库
-                    </a>
-                </li>
-
-            </ul>
-
+        </li>
+        <li>
+            <a href="#">
+                🎯 接口调试
+            </a>
+        </li>
+        <li>
+            <a href="/help/">
+                📖 帮助
+            </a>
+        </li>
+        <li>
+            <a href="/admin/" target="_blank">
+                👨‍💻 后台
+            </a>
         </li>
     </ul>
-
 </nav>
+
+<button id="menu_btn" onclick="display_menu()" style="margin-left:220px;
+background-color: #353c48;color: white;
+border-radius: 0px 50px 50px 0px;border-color: transparent;">🙈隐藏</button>
+<div style="float: right;">
+    <a href="/logout/"><button style="float: right;height: 30px;
+        width: 100px;background-color: #353c48;
+        color: white;
+        border-color: transparent;">🚀退出</button>
+    </a>
+    <a href="/home/"><button style="float: right;height: 30px;
+        width: 100px;background-color: #353c48;
+        color: white;
+        border-color: transparent;
+        border-right-color: aliceblue;
+        border-radius: 0px 0px 0px 20px;">🏠主页</button>
+    </a>
+</div>
+
+<!-- 子页面 -->
 <div id="page1"></div>
 
 </body>
@@ -62,11 +84,29 @@
         rvnMenu.setTheme('dark-ruby');
     });
 </script>
-
-
-
 <script>
     $('#page1').load('/child/' + '{{ whichHTML }}/{{ oid }}/')
     console.log('/child/' + '{{ whichHTML }}/{{ oid }}/')
+</script>
+<script>
+    function display_menu(){
+        menu = document.getElementById('navbar');
+        btn = document.getElementById('menu_btn');
+
+        if (btn.innerText == '🙈隐藏'){
+            menu.style.display = 'none';
+            btn.style.marginLeft = '0px';
+            btn.innerText = '🙉显示';
+        }else{
+            menu.style.display = 'block';
+            btn.style.marginLeft = '220px';
+            btn.innerText = '🙈隐藏';
+        }
+    }
+</script>
+<script>
+    if("{{ whichHTML }}" != 'home.html'){
+        document.getElementById('menu_btn').click();
+    }
 </script>
 </html>

@@ -1,3 +1,4 @@
+
 """APITest URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -24,5 +25,12 @@ urlpatterns = [
     path('home/', home),
     # re_path(r'^child/(?P<eid>.+)/(?P<oid>.*)/$', child), 
     # path('child/<str:eid>/<str:oid>/', child),
-    path('child/<str:eid>/<str:oid>/', child)
+    path('child/<str:eid>/<str:oid>/', child),
+    path('login/', login),
+    path('login_action/', login_action),
+    path('register_action/', register_action),
+    path('accounts/login/', login), 
+    path('logout/', logout),
+    path('pei/', pei), # 吐槽
+    path('help/', api_help), # 进入帮助文档
 ]
