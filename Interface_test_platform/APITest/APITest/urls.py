@@ -1,4 +1,3 @@
-
 """APITest URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -15,22 +14,28 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path
+from django.urls import path, re_path
 
 from MyApp.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('welcome/', welcome), # 进入主页
+    path('welcome/', welcome),  # 进入主页
     path('home/', home),
-    # re_path(r'^child/(?P<eid>.+)/(?P<oid>.*)/$', child), 
+    # re_path(r'^child/(?P<eid>.+)/(?P<oid>.*)/$', child),
     # path('child/<str:eid>/<str:oid>/', child),
     path('child/<str:eid>/<str:oid>/', child),
     path('login/', login),
     path('login_action/', login_action),
     path('register_action/', register_action),
-    path('accounts/login/', login), 
+    path('accounts/login/', login),
     path('logout/', logout),
-    path('pei/', pei), # 吐槽
-    path('help/', api_help), # 进入帮助文档
+    path('pei/', pei),  # 吐槽
+    path('help/', api_help),  # 进入帮助文档
+    path('project_list/', project_list),  # 进入项目列表
+    path('delete_project/', delete_project),  # 删除项目
+    path('add_project/', add_project),  # 新增项目
+    path('apis/<str:id>/', open_apis),  # 进入接口库
+    path('cases/<str:id>/', open_cases),  # 进入用例设置
+    path('project_set/<str:id>/', open_project_set),  # 进入项目设置
 ]
