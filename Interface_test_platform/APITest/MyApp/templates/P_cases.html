@@ -2,11 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .navbar-right{
+            margin-right: -165px;
+        }
+    </style>
 </head>
 <body>
-    
+
+    <nav class="navbar navbar-default" role="navigation" style="top:20px;width: 100%;z-index: 1">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span style="font-size: xx-small" class="navbar-brand" >项目名称：{{ project.name }}</span>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/apis/{{ project.id }}/">接口库</a></li>
+                    <li class="active"><a href="/cases/{{ project.id }}/">用例库</a></li>
+                    <li><a href="/project_set/{{ project.id }}/">项目设置</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a style="font-size: small;" class="navbar-brand" href="/project_list/"> <strong>返回项目列表</strong> </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
 </body>
 </html>

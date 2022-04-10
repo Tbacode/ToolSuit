@@ -38,4 +38,9 @@ urlpatterns = [
     path('apis/<str:id>/', open_apis),  # 进入接口库
     path('cases/<str:id>/', open_cases),  # 进入用例设置
     path('project_set/<str:id>/', open_project_set),  # 进入项目设置
+    path('save_project_set/<str:id>/', save_project_set), # 保存项目配置
+    path('project_api_add/<str:Pid>/', project_api_add), # 新增接口
+    path('project_api_del/<str:id>/', project_api_del), # 删除接口
+    path('save_bz/', save_bz), # 备注保存
+    path('get_bz/', get_bz), # 获取备注
 ]
