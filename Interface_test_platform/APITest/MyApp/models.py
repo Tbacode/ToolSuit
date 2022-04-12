@@ -1,6 +1,7 @@
 from email.errors import MalformedHeaderDefect
 from pyexpat import model
 from django.db import models
+from sqlalchemy import null, true
 
 # Create your models here.
 
@@ -48,6 +49,9 @@ class DB_apis(models.Model):
     file_key = models.CharField(max_length=50, null=True)  # 文件key
     file_name = models.CharField(max_length=50, null=True)  # 文件名
     public_header = models.CharField(max_length=1000, null=True)  # 全局变量-请求头
+
+    last_body_method = models.CharField(max_length=20,null=True) # 上次请求体编码格式
+    last_api_body = models.CharField(max_length=1000,null=True) # 上次请求体
 
     def __str__(self):
         return self.name

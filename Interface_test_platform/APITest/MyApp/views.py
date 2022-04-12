@@ -1,7 +1,11 @@
+from imp import load_dynamic
+from django.db import reset_queries
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from MyApp.models import *
+import json
+import requests
 
 # Create your views here.
 
@@ -128,6 +132,7 @@ def project_list(request):
 def delete_project(request):
     id = request.GET['id']
     DB_project.objects.filter(id=id).delete()
+    DB_apis.objects.filter(project_id=id).delete()
     return HttpResponse('')
 
 
@@ -186,7 +191,7 @@ def save_project_set(request, id):
 # 新增接口
 def project_api_add(request, Pid):
     project_id = Pid
-    DB_apis.objects.create(project_id=project_id)
+    DB_apis.objects.create(project_id=project_id, api_method='none')
     return HttpResponseRedirect('/apis/%s/' % project_id)
 
 
@@ -209,6 +214,142 @@ def save_bz(request):
 
 # 获取备注
 def get_bz(request):
+
     api_id = request.GET['api_id']
     bz_value = DB_apis.objects.filter(id=api_id)[0].des
     return HttpResponse(bz_value)
+
+
+# 保存接口
+def Api_save(request):
+    # 提取所有数据
+    api_id = request.GET['api_id']
+    api_name = request.GET['api_name']
+    ts_method = request.GET['ts_method']
+    ts_url = request.GET['ts_url']
+    ts_host = request.GET['ts_host']
+    ts_header = request.GET['ts_header']
+    ts_body_method = request.GET['ts_body_method']
+
+    if ts_body_method == '返回体':
+        api = DB_apis.objects.filter(id=api_id)[0]
+        ts_body_method = api.last_body_method
+        ts_api_body = api.last_api_body
+    else:
+        ts_api_body = request.GET['ts_api_body']
+
+    # 保存数据
+    DB_apis.objects.filter(id=api_id).update(
+        api_method=ts_method,
+        api_url=ts_url,
+        api_header=ts_header,
+        api_host=ts_host,
+        body_method=ts_body_method,
+        api_body=ts_api_body,
+        name=api_name,
+    )
+    # 返回
+    return HttpResponse('success')
+
+
+# 获取接口数据
+def get_api_data(request):
+    api_id = request.GET['api_id']
+    api = DB_apis.objects.filter(id=api_id).values()[0]
+    return HttpResponse(json.dumps(api), content_type='application/json')
+
+
+# 发送请求
+def Api_send(request):
+    # 提取所有数据
+    api_id = request.GET['api_id']
+    api_name = request.GET['api_name']
+    ts_method = request.GET['ts_method']
+    ts_url = request.GET['ts_url']
+    ts_host = request.GET['ts_host']
+    ts_header = request.GET['ts_header']
+    ts_body_method = request.GET['ts_body_method']
+    # ts_api_body = request.GET['ts_api_body']
+    if ts_body_method == '返回体':
+        api = DB_apis.objects.filter(id=api_id)[0]
+        ts_body_method = api.last_body_method
+        ts_api_body = api.last_api_body
+
+        if ts_body_method in ['', None]:
+            return HttpResponse('请先选择好请求体编码格式和请求体内容，再点击Send按钮发送请求！')
+    else:
+        ts_api_body = request.GET['ts_api_body']
+        api = DB_apis.objects.filter(id=api_id)
+        api.update(last_body_method=ts_body_method, last_api_body=ts_api_body)
+
+    # 发送请求获取返回值
+    header = json.loads(ts_header)  # 处理header字符格式
+
+    # 处理拼接URL的异常情况
+    if ts_host[-1] == '/' and ts_url[0] == '/':
+        url = ts_host[:-1] + ts_url
+    elif ts_host[-1] != '/' and ts_url[0] != '/':
+        url = ts_host + '/' + ts_url
+    else:
+        url = ts_host + ts_url
+
+    if ts_body_method == 'none':
+        response = requests.request(
+            ts_method.upper(), url, headers=header, data={})
+    elif ts_body_method == 'form-data':
+        files = {}
+        payload = {}
+        for i in eval(ts_api_body):
+            payload[i[0]] = i[1]
+        response = requests.request(
+            ts_method.upper(), url, headers=header, data=payload, files=files)
+    elif ts_body_method == 'x-www.form-urlencoded':
+        header['Content-Type'] = 'application/x-www/form-urlencoded'
+        payload = {}
+        for i in eval(ts_api_body):
+            payload[i[0]] = i[1]
+        response = requests.request(
+            ts_method.upper(), url, headers=header, data=payload)
+    else:
+        if ts_body_method == 'Text':
+            header['Content-Type'] = 'text/plain'
+        if ts_body_method == 'JavaScript':
+            header['Content-Type'] = 'text/plain'
+        if ts_body_method == 'Json':
+            header['Content-Type'] = 'text/plain'
+        if ts_body_method == 'Html':
+            header['Content-Type'] = 'text/plain'
+        if ts_body_method == 'Xml':
+            header['Content-Type'] = 'text/plain'
+        response = requests.request(
+            ts_method.upper(), url, headers=header, data=ts_api_body.encode('utf-8'))
+
+    # mock返回值
+    return HttpResponse(response)
+
+
+# 复制接口
+def copy_api(request):
+    api_id = request.GET['api_id']
+
+    # 复制
+    old_api = DB_apis.objects.filter(id=api_id)[0]
+
+    DB_apis.objects.create(project_id=old_api.project_id,
+                           name=old_api.name + '副本',
+                           api_method=old_api.api_method,
+                           api_url=old_api.api_url,
+                           api_header=old_api.api_header,
+                           api_login=old_api.api_login,
+                           api_host=old_api.api_host,
+                           des=old_api.des,
+                           body_method=old_api.body_method,
+                           api_body=old_api.api_body,
+                           result=old_api.result,
+                           sign=old_api.sign,
+                           file_key=old_api.file_key,
+                           public_header=old_api.public_header,
+                           last_body_method=old_api.last_body_method,
+                           last_api_body=old_api.last_api_body
+                           )
+    return HttpResponse('')

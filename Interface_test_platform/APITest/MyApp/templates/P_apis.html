@@ -8,8 +8,13 @@
         .navbar-right {
             margin-right: -165px;
         }
-        .btn-group button{
+
+        .btn-group button {
             width: 110px;
+        }
+
+        .nav-tabs>li {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -42,7 +47,8 @@
                 text-align: center;
                 border: 1px solid #e7e7e7;">
         <div class="btn-group">
-            <button type="button" class="btn btn-info" onclick="document.location.href='/project_api_add/{{ project.id }}/'">新增接口</button>
+            <button type="button" class="btn btn-info"
+                onclick="document.location.href='/project_api_add/{{ project.id }}/'">新增接口</button>
             <button type="button" class="btn btn-default">全局请求头</button>
             <button type="button" class="btn btn-default">全局域名</button>
             <button type="button" class="btn btn-default">接口文档导入</button>
@@ -50,7 +56,7 @@
             <button type="button" class="btn btn-default">加密算法</button>
             <button type="button" class="btn btn-default">登录态接口</button>
         </div>
-        
+
 
     </div>
 
@@ -59,10 +65,11 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>接口id</th>
-                <th style="width: 40%">接口名称</th>
+                <th style="width: 10%;">接口id</th>
+                <th style="width: 10%">接口名称</th>
                 <th style="width: 20%">url</th>
-                <th style="width: 350px;">操作</th>
+                <th style="width: 250px;">备注</th>
+                <th style="width: 250px;">操作</th>
             </tr>
         </thead>
         <tbody>
@@ -71,12 +78,14 @@
                 <td>{{ i.id }}</td>
                 <td>{{ i.name }}</td>
                 <td>{{ i.api_url }}</td>
+                <td>{{ i.des }}</td>
                 <td>
-                    <button onclick="" class="btn btn-success">调试</button>
+                    <button onclick="ts_show('{{ i.id }}', '{{ i.name }}')" class="btn btn-success">调试</button>
                     <button onclick="open_bz('{{ i.id }}')" class="btn btn-info">备注</button>
-                    <button class="btn btn-primary">复制</button>
+                    <button onclick="copy_api('{{ i.id }}')" class="btn btn-primary">复制</button>
                     <button class="btn btn-warning">异常值测试</button>
-                    <button onclick="document.location.href='/project_api_del/{{ i.id }}/'" class="btn btn-danger">删除</button>
+                    <button onclick="document.location.href='/project_api_del/{{ i.id }}/'"
+                        class="btn btn-danger">删除</button>
                 </td>
             </tr>
             {% endfor %}
@@ -84,48 +93,498 @@
     </table>
 
     <!-- 备注框 -->
-    <div id="bz" style="display: none;width: 50%; height: 30%; position: fixed;
+    <div id="bz" style="display: none;width: 50%; height: 30%; position: fixed; 
                 left: 25%;top:35%;
-                background-color: #e7e7e7;
+                background-color: rgb(206, 236, 236);
                 box-shadow: 4px 4px 8px grey;">
         <input id="which_api" type="text" style="display: none;">
         <textarea id="bz_value" style="width: 100%;
-                height: 87%;" placeholder="请输入该接口备注"></textarea>
+                height: 85%;" placeholder="请输入该接口备注"></textarea>
         <button onclick="save_bz()" style="width: 49.9%;" class="btn btn-success">保存</button>
-        <button onclick="close_bz()" style="width: 49.6%;" class="btn btn-danger">取消</button>
+        <button onclick="close_bz()" style="width: 49.5%;" class="btn btn-danger">取消</button>
     </div>
-    
 
+    <!-- 调试模块 -->
+    <div id="ts" style="border-radius: 5px; width: 82%;
+            position: absolute;left: 250px; top: 110px; background-color: rgb(206, 236, 236);
+            box-shadow: 4px 4px 8px grey;
+            color: black;padding-left: 20px;
+            display: none;">
+
+        <div class="btn-group" style="float: right;">
+            <button onclick="ts_save()" type="button" class="btn btn-success" style="width: 100px;">保存</button>
+            <button onclick="ts_close()" type="button" class="btn btn-danger" style="width: 100px;">取消</button>
+        </div>
+
+        <h4>接口: <small id="ts_api_id" style="color: #337ab7;"></small>-
+            <input type="text" id="ts_api_name" style="padding-left: 5px;width: 50%;color: #337ab7;"
+                placeholder="请输入接口名称">
+        </h4>
+        <!-- 请求方式选择 -->
+        <ul class="nav navbar-nav" style="width: 98%;margin-top:10px;">
+
+            <li>
+                <select id="ts_method" style="height: 40px;" class="form-control">
+                    <option value="none"> 请求方式</option>
+                    <option value="post"> POST</option>
+                    <option value="get"> GET</option>
+                    <option value="put"> PUT</option>
+                    <option value="delete"> DELETE</option>
+                </select>
+            </li>
+
+            <li style="width: -webkit-calc(100% - 225px)">
+                <input id="ts_url" style="padding-left: 10px;width: 100%;height: 40px;" type="text"
+                    placeholder='url: 如 /abcd/efgh/' value="">
+            </li>
+
+            <li>
+                <button onclick="ts_send()" type="button" style="height: 40px;width: 120px;" class="btn btn-info"><span
+                        style="font-size: large">Send</span></button>
+            </li>
+        </ul>
+        <!-- host输入框 -->
+        <ul class="nav navbar-nav" style="width: 98%;margin-top:20px;">
+            <li style="width: -webkit-calc(100% - 63px);">
+                <input id="ts_host" type="text" id="" style="padding-left: 10px;width: 100%;height: 40px;"
+                    placeholder="host: 如http(s)://xxxx.ccc.com" value="">
+            </li>
+            <li>
+                <button type="button" style="height: 40px;width: 60px;"
+                    class="btn btn-default"><span>Clear</span></button>
+            </li>
+        </ul>
+        <!-- 请求头输入框 -->
+        <ul class="nav navbar-nav" style="width: 98%;margin-top: 20px;">
+            <li style="width: -webkit-calc(100% - 63px);">
+                <input id="ts_header" type="text" id="" style="padding-left: 10px;width: 100%;height: 40px;"
+                    placeholder="header请求头: 如{'Content': 'application/json'}" value="">
+            </li>
+            <li>
+                <button type="button" style="height: 40px;width: 60px;"
+                    class="btn btn-default"><span>Clear</span></button>
+            </li>
+        </ul>
+        <br><br><br>
+
+
+        <!-- 请求体 -->
+        <ul id="myTab" class="nav nav-tabs">
+            <li class="active"><a id="click_none" href="#none" data-toggle="tab">none</a></li>
+            <li><a href="#form-data" data-toggle="tab">form-data</a></li>
+            <li><a href="#x-www-form-urlencoded" data-toggle="tab">x-www-form-urlencoded</a></li>
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">raw <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="myTabDrop1">
+                    <li><a href="#Text" tabindex="-1" data-toggle="tab">Text</a></li>
+                    <li><a href="#JavaScript" tabindex="-1" data-toggle="tab">JavaScript</a></li>
+                    <li><a href="#Json" tabindex="-1" data-toggle="tab">Json</a></li>
+                    <li><a href="#Html" tabindex="-1" data-toggle="tab">Html</a></li>
+                    <li><a href="#Xml" tabindex="-1" data-toggle="tab">Xml</a></li>
+
+                </ul>
+            </li>
+            <li><a href="#response" data-toggle="tab">返回体</a></li>
+        </ul>
+        <!-- 请求体分页块结构 -->
+        <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade in active" id="none" style="text-align: center;color: gray;">
+                <h3>这个请求将不会携带任何请求体</h3>
+                <h5>This request will not carry any request-body</h5>
+            </div>
+            <div class="tab-pane fade" id="form-data">
+                <div class="table-responsive" style="width: 98%;color: black">
+                    <table class="table table-bordered table-striped" id="mytable" style="background-color:white">
+                        <thead style="color: #337ab7;font-size: x-small">
+                            <tr>
+                                <td style="width: 30%">Key</td>
+                                <td style="width: 50%">Value</td>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-default" id="add"><i class="fa fa-plus"></i> 添加新参数</button>
+                <script>window.jQuery || document.write('<script src="/static/201801271505/js/jquery-1.11.0.min.js"><\/script>')</script>
+                <script type="text/javascript" src="/static/201801271505/js/bootstable.js"></script>
+            </div>
+            <div class="tab-pane fade" id="x-www-form-urlencoded">
+                <div class="table-responsive" style="width: 98%;color: black">
+                    <table class="table table-bordered table-striped" id="mytable2" style="background-color:white">
+                        <thead style="color: #337ab7;font-size: x-small">
+                            <tr>
+                                <td style="width: 30%">Key</td>
+                                <td style="width: 50%">Value</td>
+                            </tr>
+                        </thead>
+                        <tbody id="mytbody2">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-default" id="add2"><i class="fa fa-plus"></i> 添加新参数</button>
+                <script>window.jQuery || document.write('<script src="/static/201801271505/js/jquery-1.11.0.min.js"><\/script>')</script>
+                <script type="text/javascript" src="/static/201801271505/js/bootstable.js"></script>
+            </div>
+            <div class="tab-pane fade" id="Text">
+                <textarea name="" id="raw_Text" style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+            <div class="tab-pane fade" id="JavaScript">
+                <textarea name="" id="raw_JavaScript" style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+            <div class="tab-pane fade" id="Json">
+                <textarea name="" id="raw_Json" style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+            <div class="tab-pane fade" id="Html">
+                <textarea name="" id="raw_Html" style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+            <div class="tab-pane fade" id="Xml">
+                <textarea name="" id="raw_Xml" style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+            <div class="tab-pane fade" id="response">
+                <textarea name="" id="ts_response_body" disabled="disabled"
+                    style="color: black;width: 98%;height: 300px;"></textarea>
+            </div>
+        </div>
+        <br>
+
+
+    </div>
+    <!-- 调试模块脚本函数 -->
+    <script>
+        function clear_ts_api() {
+            document.getElementById('ts_api_id').innerText = '';
+            document.getElementById('ts_api_name').value = '';
+            // document.getElementById('ts_method').innerText = '';
+            document.getElementById('ts_url').innerText = '';
+            document.getElementById('ts_host').innerText = '';
+            document.getElementById('ts_header').innerText = '';
+
+            //开始初始化请求体编码格式部分：
+            document.getElementById('click_none').click(); // 点击none子标签
+            document.getElementById('mytbody').innerHTML = '<tr><td></td><td></td></tr>';
+            document.getElementById('mytbody2').innerHTML = '<tr><td></td><td></td></tr>';
+            document.getElementById('raw_Text').innerText = '';
+            document.getElementById('raw_JavaScript').innerText = '';
+            document.getElementById('raw_Json').innerText = '';
+            document.getElementById('raw_Html').innerText = '';
+            document.getElementById('raw_Xml').innerText = '';
+            // 返回体清空
+            document.getElementById('ts_response_body').innerText = '';
+
+            // 运行第三方表格插件
+            $('#mytable').SetEditable({
+                $addButton: $('#add'),
+            });
+
+            $('#mytable2').SetEditable({
+                $addButton: $('#add2'),
+            });
+        }
+
+        function ts_show(id, name) {
+            clear_ts_api();
+            document.getElementById('ts').style.display = 'block';
+            document.getElementById('ts_api_id').innerText = id;
+            document.getElementById('ts_api_name').value = name;
+
+            $.get('/get_api_data/', {
+                'api_id': id,
+            }, function (ret) {
+                //接收数据后的动作
+                document.getElementById('ts_api_name').value = ret.name;
+                document.getElementById('ts_method').value = ret.api_method;
+                document.getElementById('ts_url').value = ret.api_url;
+                document.getElementById('ts_host').value = ret.api_host;
+                document.getElementById('ts_header').value = ret.api_header;
+
+                //请求体内编码格式
+                var body_method = '#' + ret.body_method;
+                $("li a[href=" + body_method + "]").click();
+                // 请求体显示
+                if (ret.body_method == 'Text') {
+                    document.getElementById('raw_Text').value = ret.api_body;
+                }
+                if (ret.body_method == 'JavaScript') {
+                    document.getElementById('raw_JavaScript').value = ret.api_body;
+                }
+                if (ret.body_method == 'Json') {
+                    document.getElementById('raw_Json').value = ret.api_body;
+                }
+                if (ret.body_method == 'Html') {
+                    document.getElementById('raw_Html').value = ret.api_body;
+                }
+                if (ret.body_method == 'Xml') {
+                    document.getElementById('raw_Xml').value = ret.api_body;
+                }
+
+
+                if (ret.body_method == 'form-data') {
+                    var tbody = document.getElementById('mytbody'); // 定位表格中的tbody部分
+                    body = eval(ret.api_body); //把这个像列表的字符串请求体变成真正的列表
+                    for (var i = 0; i < body.length; i++) { // 遍历这个请求体列表
+                        key = body[i][0]; //拿出每一个键值对的key
+                        value = body[i][1];//拿出每一个键值对的value
+                        var childs_tr = tbody.children;//获取到这个表格下面所有的tr组成的大列表
+                        // 每个tr下的children得到的是 td列表，只有俩个。
+                        childs_tr[i].children[0].innerText = key; //第一个td放key
+                        childs_tr[i].children[1].innerText = value;//第二个td放value
+                        //判断是否是最后一次遍历，来决定是否点击新增参数按钮
+                        if (i < body.length - 1) {
+                            document.getElementById('add').click()
+                        }
+                    }
+                }
+
+                if (ret.body_method == 'x-www-form-urlencoded') {
+                    var tbody = document.getElementById('mytbody2'); // 定位表格中的tbody部分
+                    body = eval(ret.api_body); //把这个像列表的字符串请求体变成真正的列表
+                    for (var i = 0; i < body.length; i++) { // 遍历这个请求体列表
+                        key = body[i][0]; //拿出每一个键值对的key
+                        value = body[i][1];//拿出每一个键值对的value
+                        var childs_tr = tbody.children;//获取到这个表格下面所有的tr组成的大列表
+                        // 每个tr下的children得到的是 td列表，只有俩个。
+                        childs_tr[i].children[0].innerText = key; //第一个td放key
+                        childs_tr[i].children[1].innerText = value;//第二个td放value
+                        //判断是否是最后一次遍历，来决定是否点击新增参数按钮
+                        if (i < body.length - 1) {
+                            document.getElementById('add2').click()
+                        }
+                    }
+                }
+            })
+
+        }
+
+        function ts_close() {
+            document.location.reload();
+        }
+
+        function ts_save() {
+            // 获取所有接口设置数据
+            var api_name = document.getElementById('ts_api_name').value;
+            var ts_method = document.getElementById('ts_method').value;
+            var ts_url = document.getElementById('ts_url').value;
+            var ts_host = document.getElementById('ts_host').value;
+            var ts_header = document.getElementById('ts_header').value;
+
+            // 判断顶部的数据是否填充完
+            if (api_name == '') { alert('请输入接口名字！'); return }
+            if (ts_method == 'none') { alert('请选择请求方式！'); return }
+            if (ts_url == '') { alert('请输入url！'); return }
+            if (ts_host == '') { alert('请输入host！'); return }
+
+            // 判断关键数据是否符合规则
+            if (ts_host.slice(0, 7) != 'http://' && ts_host.slice(0, 8) != 'https://') {
+                alert('host必须以 "http(s)://" 开头！'); return
+            }
+
+            if (ts_header != '') {
+                try {
+                    JSON.parse(ts_header)
+                } catch (e) {
+                    alert('header请求头不符合JSON规范！')
+                }
+            }
+
+            var ts_body_method = $('ul#myTab li[class="active"]')[0].innerText;
+            if (ts_body_method == 'none') {
+                var ts_api_body = ''
+            }
+            if (ts_body_method == 'form-data') {
+                var ts_api_body = []; // 新建这个空列表用来存放后续数据
+                var tbody_ = $("table#mytable tbody")[0]; // 获取该表格的内容部分
+                var trlist = tbody_.children;
+                for (var i = 0; i < trlist.length; i++) {
+                    var tdarr = trlist[i].children; // 获取tr下的俩个td
+                    var key = tdarr[0].innerText; // 获取key
+                    var value = tdarr[1].innerText; // 获取value
+                    ts_api_body.push([key, value]);// 作为一个数组，存放到这个大数组里。
+                }
+                ts_api_body = JSON.stringify(ts_api_body);
+            }
+            if (ts_body_method == 'x-www-form-urlencoded') {
+                var ts_api_body = []; // 新建这个空列表用来存放后续数据
+                var tbody_ = $("table#mytable2 tbody")[0]; // 获取该表格的内容部分
+                var trlist = tbody_.children;
+                for (var i = 0; i < trlist.length; i++) {
+                    var tdarr = trlist[i].children; // 获取tr下的俩个td
+                    var key = tdarr[0].innerText; // 获取key
+                    var value = tdarr[1].innerText; // 获取value
+                    ts_api_body.push([key, value]);// 作为一个数组，存放到这个大数组里。
+                }
+                ts_api_body = JSON.stringify(ts_api_body);
+            }
+            if (ts_body_method == 'Text') {
+                var ts_api_body = document.getElementById('raw_Text').value;
+            }
+            if (ts_body_method == 'JavaScript') {
+                var ts_api_body = document.getElementById('raw_JavaScript').value;
+            }
+            if (ts_body_method == 'Json') {
+                var ts_api_body = document.getElementById('raw_Json').value;
+            }
+            if (ts_body_method == 'Html') {
+                var ts_api_body = document.getElementById('raw_Html').value;
+            }
+            if (ts_body_method == 'Xml') {
+                var ts_api_body = document.getElementById('raw_Xml').value;
+            }
+
+            var api_id = document.getElementById('ts_api_id').innerText; //获取接口ID
+
+            $.get('/Api_save/', {
+                'api_id': api_id,
+                'api_name': api_name,
+                'ts_method': ts_method,
+                'ts_url': ts_url,
+                'ts_host': ts_host,
+                'ts_header': ts_header,
+                'ts_body_method': ts_body_method,
+                'ts_api_body': ts_api_body
+            }, function (ret) {
+                document.location.reload();
+
+            })
+
+        }
+    </script>
 </body>
 
 <script>
-    function open_bz(api_id){
+    function open_bz(api_id) {
         document.getElementById('bz_value').value = '';
 
-        $.get('/get_bz/',{
+        $.get('/get_bz/', {
             'api_id': api_id,
-        },function(ret){
+        }, function (ret) {
             document.getElementById('bz').style.display = 'block';
             document.getElementById('which_api').value = api_id;
             document.getElementById('bz_value').value = ret;
-        })  
+        })
     }
 
-    function close_bz(){
+    function close_bz() {
         document.getElementById('bz').style.display = 'none';
     }
 
-    function save_bz(){
+    function save_bz() {
         api_id = document.getElementById('which_api').value;
         bz_value = document.getElementById('bz_value').value;
 
-        $.get('/save_bz/',{
-            'api_id':api_id,
-            'bz_value':bz_value,
-        }, function(ret){
+        $.get('/save_bz/', {
+            'api_id': api_id,
+            'bz_value': bz_value,
+        }, function (ret) {
             document.getElementById('bz').style.display = 'none';
+            document.location.reload();
         })
     }
+
+    function ts_send() {
+        // 获取所有接口设置数据
+        var api_name = document.getElementById('ts_api_name').value;
+        var ts_method = document.getElementById('ts_method').value;
+        var ts_url = document.getElementById('ts_url').value;
+        var ts_host = document.getElementById('ts_host').value;
+        var ts_header = document.getElementById('ts_header').value;
+
+        // 判断顶部的数据是否填充完
+        if (ts_method == 'none') { alert('请选择请求方式！'); return }
+        if (ts_url == '') { alert('请输入url！'); return }
+        if (ts_host == '') { alert('请输入host！'); return }
+
+        // 判断关键数据是否符合规则
+        if (ts_host.slice(0, 7) != 'http://' && ts_host.slice(0, 8) != 'https://') {
+            alert('host必须以 "http(s)://" 开头！'); return
+        }
+
+        if (ts_header != '') {
+            try {
+                JSON.parse(ts_header)
+            } catch (e) {
+                alert('header请求头不符合JSON规范！')
+            }
+        }
+
+        var ts_body_method = $('ul#myTab li[class="active"]')[0].innerText;
+
+        if (ts_body_method == 'none') {
+            var ts_api_body = ''
+        }
+        if (ts_body_method == 'form-data') {
+            var ts_api_body = []; // 新建这个空列表用来存放后续数据
+            var tbody_ = $("table#mytable tbody")[0]; // 获取该表格的内容部分
+            var trlist = tbody_.children;
+            for (var i = 0; i < trlist.length; i++) {
+                var tdarr = trlist[i].children; // 获取tr下的俩个td
+                var key = tdarr[0].innerText; // 获取key
+                var value = tdarr[1].innerText; // 获取value
+                ts_api_body.push([key, value]);// 作为一个数组，存放到这个大数组里。
+            }
+            ts_api_body = JSON.stringify(ts_api_body);
+        }
+        if (ts_body_method == 'x-www-form-urlencoded') {
+            var ts_api_body = []; // 新建这个空列表用来存放后续数据
+            var tbody_ = $("table#mytable2 tbody")[0]; // 获取该表格的内容部分
+            var trlist = tbody_.children;
+            for (var i = 0; i < trlist.length; i++) {
+                var tdarr = trlist[i].children; // 获取tr下的俩个td
+                var key = tdarr[0].innerText; // 获取key
+                var value = tdarr[1].innerText; // 获取value
+                ts_api_body.push([key, value]);// 作为一个数组，存放到这个大数组里。
+            }
+            ts_api_body = JSON.stringify(ts_api_body);
+        }
+        if (ts_body_method == 'Text') {
+            var ts_api_body = document.getElementById('raw_Text').value;
+        }
+        if (ts_body_method == 'JavaScript') {
+            var ts_api_body = document.getElementById('raw_JavaScript').value;
+        }
+        if (ts_body_method == 'Json') {
+            var ts_api_body = document.getElementById('raw_Json').value;
+        }
+        if (ts_body_method == 'Html') {
+            var ts_api_body = document.getElementById('raw_Html').value;
+        }
+        if (ts_body_method == 'Xml') {
+            var ts_api_body = document.getElementById('raw_Xml').value;
+        }
+
+        var api_id = document.getElementById('ts_api_id').innerText; //获取接口ID
+
+        $.get('/Api_send/', {
+            'api_id': api_id,
+            'api_name': api_name,
+            'ts_method': ts_method,
+            'ts_url': ts_url,
+            'ts_host': ts_host,
+            'ts_header': ts_header,
+            'ts_body_method': ts_body_method,
+            'ts_api_body': ts_api_body
+        }, function (ret) {
+            $("li a[href=#response]").click();
+            document.getElementById('ts_response_body').value = ret;
+        })
+    }
+
+    function copy_api(api_id){
+        $.get('/copy_api/',{
+            'api_id': api_id,
+        }, function(ret){
+            document.location.reload()
+        })
+    }
+
 </script>
 
 </html>

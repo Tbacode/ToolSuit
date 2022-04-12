@@ -43,4 +43,8 @@ urlpatterns = [
     path('project_api_del/<str:id>/', project_api_del), # 删除接口
     path('save_bz/', save_bz), # 备注保存
     path('get_bz/', get_bz), # 获取备注
+    path('Api_save/', Api_save), # 保存接口
+    path('get_api_data/', get_api_data), # 获取接口数据
+    path('Api_send/', Api_send), # 发送请求
+    path('copy_api/', copy_api), # 复制接口
 ]
