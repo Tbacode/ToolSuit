@@ -269,6 +269,8 @@ def Api_send(request):
     ts_host = request.GET['ts_host']
     ts_header = request.GET['ts_header']
     ts_body_method = request.GET['ts_body_method']
+    print("****" * 10)
+    print(ts_body_method)
     # ts_api_body = request.GET['ts_api_body']
     if ts_body_method == '返回体':
         api = DB_apis.objects.filter(id=api_id)[0]
@@ -303,11 +305,14 @@ def Api_send(request):
             payload[i[0]] = i[1]
         response = requests.request(
             ts_method.upper(), url, headers=header, data=payload, files=files)
-    elif ts_body_method == 'x-www.form-urlencoded':
-        header['Content-Type'] = 'application/x-www/form-urlencoded'
+    elif ts_body_method == 'x-www-form-urlencoded':
+        header['Content-Type'] = 'application/x-www-form-urlencoded'
         payload = {}
         for i in eval(ts_api_body):
             payload[i[0]] = i[1]
+        print("****" * 10)
+        print(payload)
+        print("****" * 10)
         response = requests.request(
             ts_method.upper(), url, headers=header, data=payload)
     else:
@@ -323,6 +328,10 @@ def Api_send(request):
             header['Content-Type'] = 'text/plain'
         response = requests.request(
             ts_method.upper(), url, headers=header, data=ts_api_body.encode('utf-8'))
+    # print(response)
+    response = json.loads(response.text)
+    response = json.dumps(response,indent=2)
+    # print(type(response))
 
     # mock返回值
     return HttpResponse(response)

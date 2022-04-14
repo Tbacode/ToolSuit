@@ -1,5 +1,3 @@
-from email.errors import MalformedHeaderDefect
-from pyexpat import model
 from django.db import models
 from sqlalchemy import null, true
 
