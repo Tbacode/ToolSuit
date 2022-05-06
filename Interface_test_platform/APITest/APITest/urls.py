@@ -1,3 +1,10 @@
+'''
+ * @Descripttion : 
+ * @Author       : Tommy
+ * @Date         : 2022-04-06 11:10:49
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2022-04-29 18:55:48
+'''
 """APITest URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -47,4 +54,5 @@ urlpatterns = [
     path('get_api_data/', get_api_data), # 获取接口数据
     path('Api_send/', Api_send), # 发送请求
     path('copy_api/', copy_api), # 复制接口
+    path('logintest/', logintest)
 ]

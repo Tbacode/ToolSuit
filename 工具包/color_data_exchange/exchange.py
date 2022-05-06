@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-02-12 17:19:16
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-02-12 18:02:19
+ * @LastEditTime : 2022-04-22 11:25:04
 '''
 
 import requests
@@ -35,7 +35,7 @@ if __name__ == "__main__":
         "register_ver": "5.5.0",
         "register_date": "20220212",
         "game_date": "20220212",
-        "game_actDay": 1,
+        "game_actDay": 30,
         "u_af_status": "Organic",
         "pic_type": "All",
         "start_date": "20220212",
@@ -45,5 +45,6 @@ if __name__ == "__main__":
     }
     res = request_function(url_gallery, params)
     res = galleryData_exchange(res['data']['picList'])
-    print(len(list(res)))
+    print(res)
+    print(len(eval(res)))
 

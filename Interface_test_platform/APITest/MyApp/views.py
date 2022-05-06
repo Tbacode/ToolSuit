@@ -330,7 +330,7 @@ def Api_send(request):
             ts_method.upper(), url, headers=header, data=ts_api_body.encode('utf-8'))
     # print(response)
     response = json.loads(response.text)
-    response = json.dumps(response,indent=2)
+    response = json.dumps(response, indent=2)
     # print(type(response))
 
     # mock返回值
@@ -362,3 +362,10 @@ def copy_api(request):
                            last_api_body=old_api.last_api_body
                            )
     return HttpResponse('')
+
+
+def logintest(request):
+    if request.method == 'GET':
+        return render(request, 'login_test.html')
+    else:
+        return HttpResponse("success")
