@@ -368,4 +368,5 @@ def logintest(request):
     if request.method == 'GET':
         return render(request, 'login_test.html')
     else:
-        return HttpResponse("success")
+        username = request.POST['user']
+        return HttpResponse(username)
