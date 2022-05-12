@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-05-10 12:29:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-05-11 18:23:17
+ * @LastEditTime : 2022-05-12 14:02:33
 '''
 from django.db import models
 
@@ -51,3 +51,25 @@ class UserInfo(models.Model):
     )
     gender = models.SmallIntegerField(
         verbose_name="性别", choices=gender_choices)
+
+
+class PhoneNumber(models.Model):
+    ''' 靓号表 '''
+    # mobile = models.PhoneNumberField(_(""))
+    mobile = models.CharField(verbose_name="靓号", max_length=11)
+    price = models.IntegerField(verbose_name="价格", default=0)
+
+    level_choices = (
+        (1, "SVIP"),
+        (2, "VIP"),
+        (3, "NORMAL")
+    )
+    level = models.SmallIntegerField(
+        verbose_name="级别", choices=level_choices, default=3)
+
+    status_choices = (
+        (1, "已占用"),
+        (0, "未占用")
+    )
+    status = models.SmallIntegerField(
+        verbose_name="状态", choices=status_choices, default=0)

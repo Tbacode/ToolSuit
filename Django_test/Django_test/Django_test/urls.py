@@ -29,5 +29,11 @@ urlpatterns = [
     path('user/list/', views.user_list),
     path('user/add/', views.user_add),
     path('user/<int:nid>/edit/', views.user_edit),
-    path('user/<int:nid>/delete/', views.user_delete)
+    path('user/<int:nid>/delete/', views.user_delete),
+
+    # 靓号管理
+    path('phone/list/', views.phone_list),
+    path('phone/<int:nid>/edit/', views.phone_edit),
+    path('phone/<int:nid>/delete/', views.phone_delete),
+    path('phone/add/', views.phone_add),
 ]

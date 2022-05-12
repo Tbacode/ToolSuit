@@ -1,10 +1,5 @@
-'''
- * @Descripttion : 
- * @Author       : Tommy
- * @Date         : 2022-05-10 12:29:28
- * @LastEditors  : Tommy
- * @LastEditTime : 2022-05-11 18:31:44
-'''
+from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
 from django import forms
 from django.shortcuts import redirect, render
 from Test_App.models import *
@@ -134,9 +129,122 @@ def user_delete(request, nid):
     return redirect('/user/list/')
 
 
+def phone_list(request):
+    ''' 靓号列表 '''
+    data_dict = {}
+    value = request.GET.get('q', "")
+    if value:
+        data_dict['mobile__contains'] = value
+
+    # 分页数据
+    page = int(request.GET.get('page', 1))
+    start = (page - 1) * 10
+    end = page * 10
+
+    # 当字典为空的时候，就相当于注释内容的all()，不为空就是筛选查找
+    queryset = PhoneNumber.objects.filter(
+        **data_dict).order_by("level")[start:end]
+    # print(res)
+    # queryset = PhoneNumber.objects.all().order_by("level")
+    return render(request, 'phone_list.html', {"queryset": queryset, "value": value})
 
 
+# ****************** PhoneModelForm ******************
+class PhoneModelForm(forms.ModelForm):
+    mobile = forms.CharField(
+        label="手机号",
+        validators=[RegexValidator(r'^1[3-9]\d{9}', '手机号格式错误'), ])
+
+    class Meta:
+        model = PhoneNumber
+        # fields = ["mobile", "price", "level", "status"]
+        fields = "__all__"
+
+    # 这里统一为展示的标签增加class属性，保留统一的样式
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # if name == 'password':
+            #     field.widget.attrs = {"type": "password"}
+            # elif name == "creat_time":
+            #     field.widget.attrs = {"type": "Date"}
+            field.widget.attrs = {"class": "form-control"}
+    # 钩子方法，字段验证
+
+    def clean_mobile(self):
+        txt_mobile = self.cleaned_data['mobile']
+        exist_mobile = PhoneNumber.objects.filter(mobile=txt_mobile).exists()
+        if exist_mobile:
+            raise ValidationError("手机号已经存在")
+        return txt_mobile
+# ****************** end PhoneModelForm ******************
 
 
+# ****************** PhoneEditModelForm ******************
+class PhoneEditModelForm(forms.ModelForm):
+    mobile = forms.CharField(disabled=True)  # 显示但是不可编辑
+
+    class Meta:
+        model = PhoneNumber
+        # fields = ["mobile", "price", "level", "status"]
+        fields = "__all__"
+
+    # 这里统一为展示的标签增加class属性，保留统一的样式
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        for name, field in self.fields.items():
+            # if name == 'password':
+            #     field.widget.attrs = {"type": "password"}
+            # elif name == "creat_time":
+            #     field.widget.attrs = {"type": "Date"}
+            field.widget.attrs = {"class": "form-control"}
+
+    # 钩子方法：在编辑时，排除自身去验证字段重复
+    def clean_mobile(self):
+        # 当前编辑的那一行的ID ，其实就是该对象的主键pk。
+        # 因为实例化该类时，传入了instance，代表的row_obj对象
+        pk_id = self.instance.pk
+        txt_mobile = self.cleaned_data['mobile']
+        # 判断是不是当前修改ID，但是号码相同的数据，是否存在
+        exist_mobile = PhoneNumber.objects.exclude(
+            id=pk_id).filter(mobile=txt_mobile).exists()
+        if exist_mobile:
+            raise ValidationError("手机号已经存在")
+        return txt_mobile
+# ****************** end PhoneEditModelForm ******************
 
 
+def phone_add(request):
+    ''' 靓号添加 '''
+    if request.method == "GET":
+        form = PhoneModelForm()
+        return render(request, 'phone_add.html', {"form": form})
+    form = PhoneModelForm(data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/phone/list/')
+    else:
+        return render(request, 'phone_add.html', {"form": form})
+
+
+def phone_edit(request, nid):
+    ''' 靓号编辑 '''
+    row_obj = PhoneNumber.objects.filter(id=nid).first()
+    if request.method == "GET":
+        form = PhoneEditModelForm(instance=row_obj)
+        return render(request, 'phone_edit.html', {"form": form})
+
+    form = PhoneEditModelForm(instance=row_obj, data=request.POST)
+    if form.is_valid():
+        form.save()
+        return redirect('/phone/list')
+    else:
+        return render(request, 'phone_edit.html', {"form": form})
+
+
+def phone_delete(request, nid):
+    ''' 靓号删除 '''
+    PhoneNumber.objects.filter(id=nid).delete()
+    return redirect('/phone/list/')
