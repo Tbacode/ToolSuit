@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4ebb8e4e-57ad-4574-89fc-e7f5613aaa30" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/20211026HC性能测试.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/HC_20211026.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/PBN_20211026.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/TCL_20211026.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/TC_20211026.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/TC_20211026.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/mem_all.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/pbn_20211026.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/report.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/table1.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../APP_preformance/tcl_20211024.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ColorInterfaceRefactor/Case/Case.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/../ColorInterfaceRefactor/Case/Case.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ColorInterfaceRefactor/Config/check_config.json" beforeDir="false" afterPath="$PROJECT_DIR$/../ColorInterfaceRefactor/Config/check_config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ColorInterfaceRefactor/Util/precondition_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ColorInterfaceRefactor/Util/precondition_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ColorInterfaceRefactor/run_case_ddt.py" beforeDir="false" afterPath="$PROJECT_DIR$/../ColorInterfaceRefactor/run_case_ddt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask/case/test_demo2.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flask/case/test_demo2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask/flask_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask/form.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask/start.py" beforeDir="false" afterPath="$PROJECT_DIR$/../flask/start.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../flask/unittest_test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../html.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notebook/airtestAPI.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../notebook/airtestAPI.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../notebook/test.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../notebook/test.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../selenium_project/index.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../selenium_project/test/test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/cc/son.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/father.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/handle_excel.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/picID.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/test3/doc.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test3/doc.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/test3/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test3/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/test3/test_login.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test3/test_login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../test/test3/test_userinfo.py" beforeDir="false" afterPath="$PROJECT_DIR$/../test/test3/test_userinfo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../工具包/APP_Summary/debug.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../工具包/pic_check/pic_check_new.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="27PN5nIIscKD0NtnYkpjdAtkGFb" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4ebb8e4e-57ad-4574-89fc-e7f5613aaa30" name="Changes" comment="" />
+      <created>1649217579601</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649217579601</updated>
+    </task>
+    <servers />
+  </component>
+</project>
