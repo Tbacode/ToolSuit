@@ -3,13 +3,15 @@
  * @Author       : Tommy
  * @Date         : 2021-01-07 17:15:33
  * @LastEditors  : Tommy
- * @LastEditTime : 2021-06-17 14:37:50
+ * @LastEditTime : 2022-05-16 13:41:29
 '''
 import openpyxl
 from openpyxl.styles import Alignment
 
 
-class HandleExcel(object):
+class HandleExcel():
+    ''' 封装对于excel的操作 '''
+
     def __init__(self, filename):
         '''
          * @name: Tommy

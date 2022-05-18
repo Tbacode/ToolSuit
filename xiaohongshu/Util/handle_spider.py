@@ -3,16 +3,16 @@
  * @Author       : Tommy
  * @Date         : 2021-05-12 17:17:39
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-01-26 18:41:19
+ * @LastEditTime : 2022-05-16 13:46:18
 '''
 # from fake_useragent import UserAgent
 # from threading import Thread, Lock
 # from queue import Queue
-from lxml import etree
+import random
 import requests
+from lxml import etree
 from bs4 import BeautifulSoup
 import time
-import random
 from loguru import logger
 
 

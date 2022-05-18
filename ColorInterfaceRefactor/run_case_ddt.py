@@ -3,9 +3,11 @@
  * @Author       : Tommy
  * @Date         : 2021-07-02 14:41:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-03-24 15:01:23
+ * @LastEditTime : 2022-05-16 14:16:58
 '''
-from logging import exception
+import time
+import json
+# from logging import exception
 import ddt
 import unittest
 from Util.handle_excel import excel
@@ -15,8 +17,6 @@ from Util.handle_result import handle_result
 from Util.precondition_data import depend_data, get_depend_data, split_data_by_ExpectedResult, get_result_check
 from Util.handle_email import handle_email
 from Util.handle_dingding import handle_ding
-import time
-import json
 from loguru import logger
 from BSTestRunner import BSTestRunner
 
@@ -175,11 +175,11 @@ if __name__ == "__main__":
     if test_result.failure_count != 0:
         # handle_email.post_file(report_path, True)
         print(error_msg())
-        handle_ding.dingtalk(error_msg())
+        # handle_ding.dingtalk(error_msg())
     elif test_result.error_count != 0:
         # handle_email.post_file(report_path, True)
         print(error_msg())
-        handle_ding.dingtalk(error_msg())
+        # handle_ding.dingtalk(error_msg())
     else:
         # # handle_email.post_file(report_path, True)
         # print(error_msg())
