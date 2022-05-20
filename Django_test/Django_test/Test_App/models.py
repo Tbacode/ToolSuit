@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-05-10 12:29:28
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-05-12 14:02:33
+ * @LastEditTime : 2022-05-20 17:13:44
 '''
 from django.db import models
 
@@ -51,6 +51,9 @@ class UserInfo(models.Model):
     )
     gender = models.SmallIntegerField(
         verbose_name="性别", choices=gender_choices)
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class PhoneNumber(models.Model):
