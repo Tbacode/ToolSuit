@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-05-16 11:38:45
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-06-01 14:34:16
+ * @LastEditTime : 2022-06-01 15:32:37
 -->
 # 冰火岛
 ## Microsoft Service
@@ -24,10 +24,16 @@
   - 红包币余额
 - DrawState
   - 提现记录，1则提现成功过。用于测试无法提现手机的提现标记，完成好友任务
+  - 格式：DrawState:userid_openid 1
   - 
     ```redis
     > SET DrawState:820201_okdX355JY3m6q0rFoSpEMcMZMA2Q 1 
     ```
+- InviterDrawVideoListMapV1
+  - 好友任务标记领取/标记完成
+  - 协同次数检查库
+- VideoCount
+  - 视频观看次数，连同上面的库，检查好友任务的完成进度。
   
 
 
@@ -101,7 +107,8 @@ def function():
   - 奖励由只奖励红包币，调整为可奖励现金
     - 调整均为现金，可提现
   - 二级奖励查看列表，展示到好友主界面
-    - 
+  - 通过动态ecpm获取好友奖励，符合配置内容，低ecpm用户获取奖励为红包币
+  
 - 4、主线提现引导 - 每次都引导：
   - 3000档位提现引导 
     - 主线内，奖励达到档位后，触发引导弹窗
