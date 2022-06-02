@@ -3,8 +3,9 @@
  * @Author       : Tommy
  * @Date         : 2022-05-30 16:37:12
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-05-30 17:34:23
+ * @LastEditTime : 2022-06-02 13:48:14
 '''
+from time import sleep
 from redis_baseconnection import BaseConnection
 
 class TestHash(BaseConnection):
@@ -33,13 +34,30 @@ class TestHash(BaseConnection):
         print(res)
         keys = self.connection.hkeys('stu:0002')
         print('keys:', keys)
+
+    def set_user_info(self, username, password, nickname):
+        user_info = {
+            'username': username,
+            'password': password,
+            'nickname': nickname,
+        }
+        key = f'user:{username}'
+        self.connection.hset(key, mapping=user_info)
+
+    def get_user_info(self, username):
+        key = f'user:{username}'
+        user = self.connection.hmget(key, 'username', 'password', 'nickname')
+        print(user)
+        print('username:', user[0])
         
 
 def main():
     obj_hash = TestHash()
     # obj_hash.test_hset()
     # obj_hash.test_hmset()
-    obj_hash.test_hdel()
+    # obj_hash.test_hdel()
+    obj_hash.set_user_info("xutuo", "123", "tt")
+    obj_hash.get_user_info("xutuo")
 
 
 if __name__ == "__main__":

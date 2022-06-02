@@ -270,5 +270,54 @@
   - 使用Hash模拟用户注册&登录，区别于之前String的实战
   
     ```python
+    def set_user_info(self, username, password, nickname):
+        user_info = {
+            'username': username,
+            'password': password,
+            'nickname': nickname,
+        }
+        key = f'user:{username}'
+        self.connection.hset(key, mapping=user_info)
 
+    def get_user_info(self, username):
+        key = f'user:{username}'
+        user = self.connection.hmget(key, 'username', 'password', 'nickname')
+        print(user)
+        print('username:', user[0])
+    ```
+> 区别于String的注册和登录，存入数据库的内容是不同的，String里，存入的是json，Hash里是key ： value。
+  - 存入形式：
+    - string:
+      - ```json
+        {
+            username: tuotuo,
+            password: 123,
+            nickname: tt
+        }
+        ```
+    - Hash
+      - | ID | key | value |
+        | -- | --- | ----- |
+        |1 | username | tuotuo|
+        |2 | password | 123|
+        |3 | nickname | tt|
+
+
+- ## python 操作 Set
+  - 
+    ```python
+    class TestSet(BaseConnection):
+
+        def test_sadd(self):
+            res = self.connection.sadd("zoo1", "Dog", "Cat", "Monkey")
+            print(res)
+            animals = ['Monkey', "Panda", "Dog"]
+            res = self.connection.sadd("zoo2", *animals)
+            print(res)
+            members = self.connection.smembers("zoo2")
+            print(members)
+
+        def test_srem(self):
+            self.connection.srem("zoo1", "Dog")
+            print(self.connection.smembers("zoo1"))
     ```

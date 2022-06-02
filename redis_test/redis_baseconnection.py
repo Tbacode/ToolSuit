@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-05-30 14:01:35
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-05-30 15:05:38
+ * @LastEditTime : 2022-06-02 16:36:51
 '''
 import redis
 
@@ -27,3 +27,6 @@ class BaseConnection():
             self.connection.close()
         except Exception as ex:
             print(ex)
+
+    def delete(self, key):
+        return self.connection.delete(key)
