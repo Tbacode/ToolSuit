@@ -36,4 +36,7 @@ urlpatterns = [
     path('phone/<int:nid>/edit/', views.phone_edit),
     path('phone/<int:nid>/delete/', views.phone_delete),
     path('phone/add/', views.phone_add),
+
+    # iframe
+    path('iframe/panel', views.panel),
 ]

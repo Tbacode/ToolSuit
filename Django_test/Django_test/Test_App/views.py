@@ -248,3 +248,7 @@ def phone_delete(request, nid):
     ''' 靓号删除 '''
     PhoneNumber.objects.filter(id=nid).delete()
     return redirect('/phone/list/')
+
+def panel(request):
+    # return redirect('http://127.0.0.1:3000/d/5iilUVjnz/grafana_test?orgId=1&from=1654768800000&to=now&refresh=1s&kiosk')
+    return render(request, 'iframe.html')
