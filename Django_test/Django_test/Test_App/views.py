@@ -65,10 +65,13 @@ def user_list(request):
 
 # ****************** UserModelForm ******************
 class UserModelForm(forms.ModelForm):
+
     class Meta:
         model = UserInfo
-        fields = ["name", "password", "age", "account",
-                  "creat_time", "depart", "gender"]
+        fields = [
+            "name", "password", "age", "account", "creat_time", "depart",
+            "gender"
+        ]
 
     # 这里统一为展示的标签增加class属性，保留统一的样式
     def __init__(self, *args, **kwargs) -> None:
@@ -80,6 +83,8 @@ class UserModelForm(forms.ModelForm):
             # elif name == "creat_time":
             #     field.widget.attrs = {"type": "Date"}
             field.widget.attrs = {"class": "form-control"}
+
+
 # ****************** end UserModelForm ******************
 
 
@@ -132,7 +137,7 @@ def user_delete(request, nid):
 def phone_list(request):
     ''' 靓号列表 '''
     data_dict = {}
-    value = request.GET.get('q', "")
+    value = request.GET.get('q', "")  # 空字符串意思为，有q的值就拿，没有就是空
     if value:
         data_dict['mobile__contains'] = value
 
@@ -146,14 +151,18 @@ def phone_list(request):
         **data_dict).order_by("level")[start:end]
     # print(res)
     # queryset = PhoneNumber.objects.all().order_by("level")
-    return render(request, 'phone_list.html', {"queryset": queryset, "value": value})
+    return render(request, 'phone_list.html', {
+        "queryset": queryset,
+        "value": value
+    })
 
 
 # ****************** PhoneModelForm ******************
 class PhoneModelForm(forms.ModelForm):
-    mobile = forms.CharField(
-        label="手机号",
-        validators=[RegexValidator(r'^1[3-9]\d{9}', '手机号格式错误'), ])
+    mobile = forms.CharField(label="手机号",
+                             validators=[
+                                 RegexValidator(r'^1[3-9]\d{9}', '手机号格式错误'),
+                             ])
 
     class Meta:
         model = PhoneNumber
@@ -170,6 +179,7 @@ class PhoneModelForm(forms.ModelForm):
             # elif name == "creat_time":
             #     field.widget.attrs = {"type": "Date"}
             field.widget.attrs = {"class": "form-control"}
+
     # 钩子方法，字段验证
 
     def clean_mobile(self):
@@ -178,6 +188,8 @@ class PhoneModelForm(forms.ModelForm):
         if exist_mobile:
             raise ValidationError("手机号已经存在")
         return txt_mobile
+
+
 # ****************** end PhoneModelForm ******************
 
 
@@ -208,11 +220,13 @@ class PhoneEditModelForm(forms.ModelForm):
         pk_id = self.instance.pk
         txt_mobile = self.cleaned_data['mobile']
         # 判断是不是当前修改ID，但是号码相同的数据，是否存在
-        exist_mobile = PhoneNumber.objects.exclude(
-            id=pk_id).filter(mobile=txt_mobile).exists()
+        exist_mobile = PhoneNumber.objects.exclude(id=pk_id).filter(
+            mobile=txt_mobile).exists()
         if exist_mobile:
             raise ValidationError("手机号已经存在")
         return txt_mobile
+
+
 # ****************** end PhoneEditModelForm ******************
 
 
@@ -249,6 +263,12 @@ def phone_delete(request, nid):
     PhoneNumber.objects.filter(id=nid).delete()
     return redirect('/phone/list/')
 
+
 def panel(request):
     # return redirect('http://127.0.0.1:3000/d/5iilUVjnz/grafana_test?orgId=1&from=1654768800000&to=now&refresh=1s&kiosk')
     return render(request, 'iframe.html')
+
+
+
+
+
