@@ -17,7 +17,7 @@
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                     </button>
                 </div>
-        </form>
+            </form>
         </div>
     </div>
     
@@ -42,7 +42,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for obj in queryset %}
+                {% for obj in page_queryset %}
                     <tr>
                         <td scope="row">{{ obj.id }}</th>
                         <td>{{ obj.mobile }}</td>
@@ -60,6 +60,12 @@
                 
         </table>
     </div>
+
+    <ul class="pagination" style="float: right;">
+        {{ page_string }}
+        
+    </ul>
+
 </div>
 
 {% endblock content %}

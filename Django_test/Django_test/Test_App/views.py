@@ -1,8 +1,12 @@
+from itertools import count
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django import forms
 from django.shortcuts import redirect, render
 from Test_App.models import *
+
+
+from Test_App.utils.pagenation import PageNation
 
 # Create your views here.
 
@@ -141,19 +145,25 @@ def phone_list(request):
     if value:
         data_dict['mobile__contains'] = value
 
+    queryset = PhoneNumber.objects.filter(**data_dict).order_by("level")
+
     # 分页数据
-    page = int(request.GET.get('page', 1))
-    start = (page - 1) * 10
-    end = page * 10
+    
+    pageNationObject = PageNation(request, queryset)
+    # page = int(request.GET.get('page', 1))  # 获取页面传入的page，没有，默认为1
+    # start = (page - 1) * 15
+    # end = page * 15
 
     # 当字典为空的时候，就相当于注释内容的all()，不为空就是筛选查找
-    queryset = PhoneNumber.objects.filter(
-        **data_dict).order_by("level")[start:end]
+    # queryset = PhoneNumber.objects.filter(**data_dict).order_by(
+    #     "level")[start:.end]
     # print(res)
     # queryset = PhoneNumber.objects.all().order_by("level")
+
     return render(request, 'phone_list.html', {
-        "queryset": queryset,
-        "value": value
+        "page_queryset": pageNationObject.page_queryset,
+        "value": value,
+        "page_string": pageNationObject.html()
     })
 
 
@@ -267,8 +277,3 @@ def phone_delete(request, nid):
 def panel(request):
     # return redirect('http://127.0.0.1:3000/d/5iilUVjnz/grafana_test?orgId=1&from=1654768800000&to=now&refresh=1s&kiosk')
     return render(request, 'iframe.html')
-
-
-
-
-
