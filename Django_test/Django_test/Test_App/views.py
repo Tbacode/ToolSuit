@@ -1,8 +1,9 @@
+import json
 from itertools import count
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
 from django import forms
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, HttpResponse
 from Test_App.models import *
 
 
@@ -277,3 +278,7 @@ def phone_delete(request, nid):
 def panel(request):
     # return redirect('http://127.0.0.1:3000/d/5iilUVjnz/grafana_test?orgId=1&from=1654768800000&to=now&refresh=1s&kiosk')
     return render(request, 'iframe.html')
+
+def test_interface(request):
+    data = {"data": {"errorCode": 1, "errorMsg": "Error"}}
+    return HttpResponse(json.dumps(data))

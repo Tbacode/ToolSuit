@@ -39,4 +39,7 @@ urlpatterns = [
 
     # iframe
     path('iframe/panel', views.panel),
+
+    # interface
+    path('mock/interface/', views.test_interface)
 ]
