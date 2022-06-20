@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block content %}
+    {% for obj in queryset %}
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h4>
+                    {{ obj.interface_name }}<small>{{ obj.project }}</small>
+                </h4>
+            </div>
+            <!-- Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>url</th>
+                        <th>请求方式</th>
+                        <th>是否开启</th>
+                        <th>操作</th>
+                        <th>详情</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr >
+                        <td>{{ obj.id }}</td>
+                        <td>{{ obj.interface_url }}</td>
+                        <td>{{ obj.method }}</td>
+                        <td>{{ obj.get_is_open_display }}</td>
+                        <td>
+                            <a href="/platform/{{ obj.id}}/edit" class="btn btn-primary btn-xs">编辑</a>
+                            <a href="/platform/{{ obj.id}}/delete" class="btn btn-danger btn-xs">删除</a>
+                        </td>
+                        <td role="tab" id="collapseListGroupHeading1">
+                            <a class="btn btn-success btn-xs"
+                               data-toggle="collapse"
+                               href="#collapseinfo{{ obj.id }}"
+                               aria-expanded="true"
+                               aria-controls="#collapseinfo">详情</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="collapseinfo{{ obj.id }}"
+                 class="panel-collapse collapse in"
+                 role="tabpanel"
+                 aria-labelledby="collapseListGroupHeading1"
+                 aria-expanded="true">
+                <table class="table">
+                    <thead>
+                        <tr style="border-top: 2px solid #ddd;background-color: rgb(218, 237, 246)">
+                            <th>请求参数</th>
+                            <th>返回值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="width:50%;">{{ obj.request_parms }}</td>
+                            <td style="width:50%;">{{ obj.response }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

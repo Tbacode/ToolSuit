@@ -14,6 +14,7 @@ class MockInterface(models.Model):
     ''' Mock接口信息表 '''
     interface_name = models.CharField(verbose_name="接口名称", max_length=50)
     interface_url = models.CharField(verbose_name="接口地址", max_length=64)
+    request_parms = models.CharField(verbose_name="请求参数", max_length=200, default="")
     # 约束条件
     is_open_choices = ((1, "开"), (0, "关"))
     is_open = models.SmallIntegerField(verbose_name="是否打开",
