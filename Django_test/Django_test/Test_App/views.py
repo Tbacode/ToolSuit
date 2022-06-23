@@ -236,8 +236,6 @@ class PhoneEditModelForm(forms.ModelForm):
         if exist_mobile:
             raise ValidationError("手机号已经存在")
         return txt_mobile
-
-
 # ****************** end PhoneEditModelForm ******************
 
 

@@ -3,7 +3,7 @@
  * @Author       : Tommy
  * @Date         : 2022-06-17 18:04:33
  * @LastEditors  : Tommy
- * @LastEditTime : 2022-06-17 18:04:33
+ * @LastEditTime : 2022-06-23 16:21:18
 '''
 '''
  * @Descripttion : 
@@ -41,14 +41,14 @@ from django.utils.safestring import mark_safe
 class PageNation():
     """ 自定义分页组件 """
 
-    def __init__(self, request, queryset, page_size=15) -> None:
+    def __init__(self, request, queryset, page_size=5) -> None:
         self.page = int(request.GET.get("page", 1))
         self.page_size = page_size
-        self.start = (self.page - 1) * 15
-        self.end = self.page * 15
+        self.start = (self.page - 1) * self.page_size
+        self.end = self.page * self.page_size
         self.page_queryset = queryset[self.start:self.end]
         total_count = queryset.count()
-        total_page_count, div = divmod(total_count, 15)
+        total_page_count, div = divmod(total_count, self.page_size)
         if div:
             total_page_count += 1
         self.total_page_count = total_page_count

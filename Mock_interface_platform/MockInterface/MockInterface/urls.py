@@ -1,3 +1,10 @@
+'''
+ * @Descripttion : 
+ * @Author       : Tommy
+ * @Date         : 2022-06-17 16:36:36
+ * @LastEditors  : Tommy
+ * @LastEditTime : 2022-06-23 15:11:03
+'''
 """MockInterface URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -24,4 +31,5 @@ urlpatterns = [
     path('platform/list/', views.mocklist),
     path('platform/<str:nid>/delete/', views.deleteinterface),
     path('platform/<str:nid>/edit/', views.editinterface),
+    path('platform/add/', views.addinterface),
 ]
